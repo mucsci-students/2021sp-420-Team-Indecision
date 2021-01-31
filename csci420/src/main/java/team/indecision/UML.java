@@ -4,13 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.TreeMap;
+import java.util.SortedMap;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class UML {
-	static Map<String, Class> classes = new HashMap<String, Class>();
+	static SortedMap<String, Class> classes = new TreeMap<String, Class>();
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		System.out.println("UML Tool");
@@ -49,6 +50,9 @@ public class UML {
 			}
 			else if (selection == 12) {
 				   load();
+			}
+			else if (selection == 14) {
+				  break;
 			}
 			else {
 				System.out.println("Please enter a valid selection: ");
@@ -89,13 +93,14 @@ public class UML {
 			System.out.println("File name: ");
 			String name = br.readLine();
 			ObjectMapper objectMapper = new ObjectMapper();
-			classes = objectMapper.readValue(Paths.get(name).toFile(), new TypeReference<Map<String, Class>>() {});
+			classes = objectMapper.readValue(Paths.get(name).toFile(), new TypeReference<SortedMap<String, Class>>() {});
 			classes.forEach((key,value) -> System.out.println(value.getName()));
 		} catch (Exception ex) {
 			System.out.println("Not valid json or file does not exist.");
 		}
 	}
 	
+	/* IN PROGRESS 
 	public static void addAttribute() throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Choose class: ");
@@ -103,4 +108,6 @@ public class UML {
 		System.out.println("Enter a new Attribute:");
 		String aname = br.readLine();
 	}
+	*/
+	
 }
