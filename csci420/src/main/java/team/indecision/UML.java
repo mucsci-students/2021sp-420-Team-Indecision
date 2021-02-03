@@ -6,14 +6,21 @@ import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.TreeMap;
 import java.util.SortedMap;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/** A text-based REPL program for creating UML models.
+ * @author Connor Nissley
+ * @version 1.0
+ * @since 1.0
+ */
 public class UML {
-	static SortedMap<String, Class> classes = new TreeMap<String, Class>();
+
+	// Stores the Class objects for the UML.
+	private static SortedMap<String, Class> classes = new TreeMap<String, Class>();
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
+		//Print out of the available menu options for the REPL.
 		System.out.println("UML Tool");
 		System.out.println("1. Add Class");
 		System.out.println("2. Delete Class");
@@ -30,17 +37,13 @@ public class UML {
 		System.out.println("13. Help");
 		System.out.println("14. Exit");
 		
-		
 		System.out.print("Choose one of the above menu items: ");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int selection = Integer.parseInt(br.readLine());
+		int selection = Integer.parseInt(br.readLine()); //Store user menu selection. Still needs validation etc..
 		boolean x = true;
 		while (x) {
 			if (selection == 1) {
 				addClass();	
-			}
-			else if (selection == 4) {
-				listClasses();
 			}
 			else if (selection == 9) {
 				listClasses();
@@ -62,6 +65,8 @@ public class UML {
 		} 
 	}
 	
+	/** Adds a Class object to the classes SortedMap field. Still needs work, junit tests etc...
+	 */
 	public static void addClass() throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Enter the Class Name:");
@@ -71,22 +76,33 @@ public class UML {
 		System.out.println("You have created a new class named: " + name);
 	}
 	
+	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
+	 */
 	public static void listClasses() {
-			classes.forEach((key,value) -> System.out.println(value.getName()));
+			classes.forEach((key,value) -> System.out.println(value.getName() + " Attributes: " + value.printAttributes() ));
 	}
 	
-	public static void save() {
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("File name: ");
-			String name = br.readLine();
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.writeValue(Paths.get(name).toFile(), classes);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}	
+	/** Saves the classes SortedMap to a specified .json file. Still needs work, junit tests etc...
+	 */
+	public static void save() throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("File name: ");
+		String name = br.readLine();
+		if (name.endsWith(".json")) {
+			try {
+				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.writeValue(Paths.get(name).toFile(), classes);
+			} catch (Exception ex) {
+				System.out.println("Not a valid file name.");
+			}	
+		}
+		else {
+			System.out.println("Not a valid file type.");
+		}
 	}
 	
+	/** Loads a specified valid .json file into the classes SortedMap. Still needs work, junit tests etc...
+	 */
 	public static void load() {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -94,20 +110,10 @@ public class UML {
 			String name = br.readLine();
 			ObjectMapper objectMapper = new ObjectMapper();
 			classes = objectMapper.readValue(Paths.get(name).toFile(), new TypeReference<SortedMap<String, Class>>() {});
-			classes.forEach((key,value) -> System.out.println(value.getName()));
+			classes.forEach((key,value) -> System.out.println(value.getName() + " Attributes: " + value.printAttributes() ));
 		} catch (Exception ex) {
 			System.out.println("Not valid json or file does not exist.");
 		}
 	}
-	
-	/* IN PROGRESS 
-	public static void addAttribute() throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("Choose class: ");
-		String cname = br.readLine();
-		System.out.println("Enter a new Attribute:");
-		String aname = br.readLine();
-	}
-	*/
 	
 }
