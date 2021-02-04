@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.TreeMap;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.SortedMap;
+import java.util.Scanner;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -39,38 +43,44 @@ public class UML {
 		
 		System.out.print("Choose one of the above menu items: ");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int selection = Integer.parseInt(br.readLine()); //Store user menu selection. Still needs validation etc..
+	
+		String choice = br.readLine();
+		
+		String seperator = " ";
+		String[] parsedChoice = StringUtils.split(choice, seperator);
+		
 		boolean x = true;
+
 		while (x) {
-			if (selection == 1) {
-				addClass();	
+			if (parsedChoice[0].equals("add") && (parsedChoice[1].equals("class"))) {
+				addClass(parsedChoice[2]);
 			}
-			else if (selection == 9) {
+			else if (parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
 				listClasses();
 			}
-			else if (selection == 11) {
-				   save();
+			else if (parsedChoice[0].equals("quit")) {
+				   break;
 			}
-			else if (selection == 12) {
-				   load();
+			else if (parsedChoice[0].equals("save")) {
+				   save(parsedChoice[1]);
 			}
-			else if (selection == 14) {
-				  break;
+			else if (parsedChoice[0].equals("load")) {
+				   load(parsedChoice[1]);
 			}
+
 			else {
-				System.out.println("Please enter a valid selection: ");
+				System.out.println("Please enter a valid selection: ");			
 			}
 			System.out.print("Choose another menu item: ");
-			selection = Integer.parseInt(br.readLine());
-		} 
+			choice = br.readLine();
+			parsedChoice = StringUtils.split(choice, seperator);
+		}
+
 	}
 	
 	/** Adds a Class object to the classes SortedMap field. Still needs work, junit tests etc...
 	 */
-	public static void addClass() throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("Enter the Class Name:");
-		String name = br.readLine();
+	public static void addClass(String name) throws IOException {
 		Class c = new Class(name);
 		classes.put(name, c);
 		System.out.println("You have created a new class named: " + name);
@@ -78,36 +88,30 @@ public class UML {
 	
 	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
 	 */
-	public static void listClasses() {
+	public static void listClasses()
+	{
 			classes.forEach((key,value) -> System.out.println(value.getName() + " Attributes: " + value.printAttributes() ));
 	}
 	
 	/** Saves the classes SortedMap to a specified .json file. Still needs work, junit tests etc...
 	 */
-	public static void save() throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("File name: ");
-		String name = br.readLine();
-		if (name.endsWith(".json")) {
-			try {
-				ObjectMapper objectMapper = new ObjectMapper();
-				objectMapper.writeValue(Paths.get(name).toFile(), classes);
-			} catch (Exception ex) {
-				System.out.println("Not a valid file name.");
-			}	
+	public static void save(String name) throws IOException {
+		name = name.concat(".json");
+		
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.writeValue(Paths.get(name).toFile(), classes);
+		} catch (Exception ex) {
+			System.out.println("Not a valid file name.");
 		}
-		else {
-			System.out.println("Not a valid file type.");
-		}
+		
 	}
 	
 	/** Loads a specified valid .json file into the classes SortedMap. Still needs work, junit tests etc...
 	 */
-	public static void load() {
+	public static void load(String name) {
+		name = name.concat(".json");
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("File name: ");
-			String name = br.readLine();
 			ObjectMapper objectMapper = new ObjectMapper();
 			classes = objectMapper.readValue(Paths.get(name).toFile(), new TypeReference<SortedMap<String, Class>>() {});
 			classes.forEach((key,value) -> System.out.println(value.getName() + " Attributes: " + value.printAttributes() ));
