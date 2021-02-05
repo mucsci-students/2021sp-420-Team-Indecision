@@ -14,7 +14,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /** A text-based REPL program for creating UML models.
- * @author Connor Nissley
+ * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
  * @version 1.0
  * @since 1.0
  */
@@ -25,23 +25,11 @@ public class UML {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		//Print out of the available menu options for the REPL.
-		System.out.println("UML Tool");
-		System.out.println("1. Add Class");
-		System.out.println("2. Delete Class");
-		System.out.println("3. Rename Class");
-		System.out.println("4. Add Attribute");
-		System.out.println("5. Delete Attribute");
-		System.out.println("6. Rename Attribute");
-		System.out.println("7. Add Relationship");
-		System.out.println("8. Delete Relationship");
-		System.out.println("9. List Classes");
-		System.out.println("10. List Class");
-		System.out.println("11. Save");
-		System.out.println("12. Load");
-		System.out.println("13. Help");
-		System.out.println("14. Exit");
+		System.out.println("Welcome to Team Indecision's UML Tool");
+		System.out.println("Type 'help' to see a list of commands or 'exit' to close the program.");
+
 		
-		System.out.print("Choose one of the above menu items: ");
+		System.out.print("\nChoose one of the above menu items: ");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	
 		String choice = br.readLine();
@@ -58,8 +46,11 @@ public class UML {
 			else if (parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
 				listClasses();
 			}
-			else if (parsedChoice[0].equals("quit")) {
+			else if (parsedChoice[0].equals("exit")){
 				   break;
+			}
+			else if (parsedChoice[0].equals("help")) {
+				   help();
 			}
 			else if (parsedChoice[0].equals("save")) {
 				   save(parsedChoice[1]);
@@ -69,7 +60,7 @@ public class UML {
 			}
 
 			else {
-				System.out.println("Please enter a valid selection: ");			
+				System.out.println("\nPlease enter a valid selection: ");			
 			}
 			System.out.print("Choose another menu item: ");
 			choice = br.readLine();
@@ -118,6 +109,29 @@ public class UML {
 		} catch (Exception ex) {
 			System.out.println("Not valid json or file does not exist.");
 		}
+	}
+	
+	public static void help() {
+		System.out.println("\nADD");
+		System.out.println("add class class_name - adds a class");
+		System.out.println("add attr class_name attr_name - adds attribute to a desired class");
+		System.out.println("add rel class1 class2 - adds a relationship between classes\n");
+		System.out.println("DELETE");
+		System.out.println("del class class_name - deletes given class");
+		System.out.println("del attr class_name attr_name - deletes given attribute in specified class");
+		System.out.println("del rel class1 class2 - deletes the relationship between given classes\n");
+		System.out.println("RENAME");
+		System.out.println("rename class class_name new_class_name - renames the specified class");
+		System.out.println("rename attr class_name attr_name new_attr_name - renames desired attribute given its class\n");
+		System.out.println("LIST");
+		System.out.println("list class class_name - list single class and all its components");
+		System.out.println("list classes - list all classes");
+		System.out.println("list rel - lists all relationships between classes\n");
+		System.out.println("SAVE/LOAD");
+		System.out.println("save file_name - saves a file to x-destination with the given file name in .json format");
+		System.out.println("load file_name - loads file with given file name\n");
+		System.out.println("'exit'- will exit the program");
+		
 	}
 	
 }
