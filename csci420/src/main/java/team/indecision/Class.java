@@ -106,15 +106,22 @@ public class Class {
 	 * @param type A Strings that represents the type of the relationship.
 	 */
 	public void addRelationship(String name, String type) {
-		/*Needs to be implemented*/
+		relationships.put(name, type);
 	}
 	
 	/** Prints the relationships for this class.
 	 * @return A String containing the class's relationships.
 	 */
-	public String printRelationships() {
+	public void listRelationships() {
 		/*Needs to be implemented*/
-		return "placeholder";
+		if (relationships == null) {
+			System.out.println("Relationship does not exist");
+		}
+		relationships.forEach((key,value) -> System.out.println(key + ":" + value));
+	}
+	
+	public void deleteRelationship(String name) {
+		relationships.remove(name);
 	}
 	
 	/** Represents this class as a String.
