@@ -40,27 +40,60 @@ public class UML {
 		boolean x = true;
 
 		while (x) {
+			// add
 			if (parsedChoice[0].equals("add") && (parsedChoice[1].equals("class"))) {
 				addClass(parsedChoice[2]);
 			}
+			if (parsedChoice[0].equals("add") && (parsedChoice[1].equals("attr"))) {
+//				addAttribute(parsedChoice[2], parsedChoice[3]);
+			}
+			if (parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
+//				addRelationship(parsedChoice[2], parsedChoice[3]);
+			}
+			// delete
+			if (parsedChoice[0].equals("del") && (parsedChoice[1].equals("class"))) {
+				deleteClass(parsedChoice[2]);
+			}
+			if (parsedChoice[0].equals("del") && (parsedChoice[1].equals("attr"))) {
+//				deleteAttribute(parsedChoice[2], parsedChoice[3]);
+			}
+			if (parsedChoice[0].equals("del") && (parsedChoice[1].equals("rel"))) {
+//				deleteRelationship(parsedChoice[2], parsedChoice[3]);
+			}
+			// rename
+			if (parsedChoice[0].equals("ren") && (parsedChoice[1].equals("class"))) {
+//				renameClass(parsedChoice[2], parsedChoice[3]);
+			}
+			if (parsedChoice[0].equals("ren") && (parsedChoice[1].equals("attr"))) {
+//				renameAttribute(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
+			}
+			// list
 			else if (parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
 				listClasses();
 			}
-			else if (parsedChoice[0].equals("exit")){
-				   break;
+			else if (parsedChoice[0].equals("list") && (parsedChoice[1].equals("class"))) {
+//				listClass(parsedChoice[0]);
 			}
-			else if (parsedChoice[0].equals("help")) {
-				   help();
+			else if (parsedChoice[0].equals("list") && (parsedChoice[1].equals("rel"))) {
+//				listRelationships();
 			}
+			// save / load
 			else if (parsedChoice[0].equals("save")) {
 				   save(parsedChoice[1]);
 			}
 			else if (parsedChoice[0].equals("load")) {
 				   load(parsedChoice[1]);
 			}
+			// misc.
+			else if (parsedChoice[0].equals("help")) {
+				   help();
+			}
+			else if (parsedChoice[0].equals("exit")){
+				   break;
+			}
 
 			else {
-				System.out.println("\nPlease enter a valid selection: ");			
+				System.out.println("Please enter a valid selection");			
 			}
 			System.out.print("Choose another menu item: ");
 			choice = br.readLine();
@@ -77,6 +110,22 @@ public class UML {
 		System.out.println("You have created a new class named: " + name);
 	}
 	
+	public static void deleteClass(String name) throws IOException {
+		if(classes.containsKey(name)) {
+			classes.remove(name);
+		}else {
+			System.out.println("Invalid class name");
+		}
+	}
+	
+/*	public static void renameClass(String name, String newName) throws IOException {
+		if(classes.containsKey(name)) {
+			
+			classes.replace(newName, null)
+		}else {
+			System.out.println("Invalid class name");
+		}
+	}*/
 	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
 	 */
 	public static void listClasses()
