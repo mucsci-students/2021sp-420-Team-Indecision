@@ -5,11 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.TreeMap;
-
 import org.apache.commons.lang3.StringUtils;
-
 import java.util.SortedMap;
-import java.util.Scanner;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -51,20 +48,20 @@ public class UML {
 //				addRelationship(parsedChoice[2], parsedChoice[3]);
 			}
 			// delete
-			if (parsedChoice[0].equals("del") && (parsedChoice[1].equals("class"))) {
+			if (parsedChoice[0].equals("delete") && (parsedChoice[1].equals("class"))) {
 				deleteClass(parsedChoice[2]);
 			}
-			if (parsedChoice[0].equals("del") && (parsedChoice[1].equals("attr"))) {
+			if (parsedChoice[0].equals("delete") && (parsedChoice[1].equals("attr"))) {
 //				deleteAttribute(parsedChoice[2], parsedChoice[3]);
 			}
-			if (parsedChoice[0].equals("del") && (parsedChoice[1].equals("rel"))) {
+			if (parsedChoice[0].equals("delete") && (parsedChoice[1].equals("rel"))) {
 //				deleteRelationship(parsedChoice[2], parsedChoice[3]);
 			}
 			// rename
-			if (parsedChoice[0].equals("ren") && (parsedChoice[1].equals("class"))) {
-//				renameClass(parsedChoice[2], parsedChoice[3]);
+			if (parsedChoice[0].equals("rename") && (parsedChoice[1].equals("class"))) {
+				renameClass(parsedChoice[2], parsedChoice[3]);
 			}
-			if (parsedChoice[0].equals("ren") && (parsedChoice[1].equals("attr"))) {
+			if (parsedChoice[0].equals("rename") && (parsedChoice[1].equals("attr"))) {
 //				renameAttribute(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// list
@@ -118,14 +115,14 @@ public class UML {
 		}
 	}
 	
-/*	public static void renameClass(String name, String newName) throws IOException {
-		if(classes.containsKey(name)) {
-			
-			classes.replace(newName, null)
+	public static void renameClass(String className, String newClassName) throws IOException {
+		if(classes.containsKey(className)) {
+			Class c = classes.get(className);
+			c.setName(newClassName);
 		}else {
-			System.out.println("Invalid class name");
+			System.out.println("This class does not exist.");
 		}
-	}*/
+	}
 	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
 	 */
 	public static void listClasses()
