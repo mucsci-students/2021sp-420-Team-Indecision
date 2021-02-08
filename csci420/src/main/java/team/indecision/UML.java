@@ -163,9 +163,9 @@ public class UML {
 		System.out.println("add attr class_name attr_name - adds attribute to a desired class");
 		System.out.println("add rel class1 class2 - adds a relationship between classes\n");
 		System.out.println("DELETE");
-		System.out.println("del class class_name - deletes given class");
-		System.out.println("del attr class_name attr_name - deletes given attribute in specified class");
-		System.out.println("del rel class1 class2 - deletes the relationship between given classes\n");
+		System.out.println("delete class class_name - deletes given class");
+		System.out.println("delete attr class_name attr_name - deletes given attribute in specified class");
+		System.out.println("delete rel class1 class2 - deletes the relationship between given classes\n");
 		System.out.println("RENAME");
 		System.out.println("rename class class_name new_class_name - renames the specified class");
 		System.out.println("rename attr class_name attr_name new_attr_name - renames desired attribute given its class\n");
