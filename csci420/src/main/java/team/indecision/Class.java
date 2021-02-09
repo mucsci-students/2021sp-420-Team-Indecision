@@ -113,10 +113,6 @@ public class Class {
 	 * @return A String containing the class's relationships.
 	 */
 	public String listRelationships() {
-		/*Needs to be implemented*/
-		if (relationships == null) {
-			System.out.println("Relationship does not exist");
-		}
 		return relationships.toString();
 	}
 	
@@ -134,8 +130,8 @@ public class Class {
 	 * @return A String containing this class.
 	 */
 	public String toString() {
-		/*Needs to be implemented*/
-		return "placeholder";
-	}
+        String result = this.getName() + " " + this.printAttributes() + " " + this.listRelationships(); 
+        return result;
+    }
 	
 }

@@ -77,7 +77,7 @@ public class UML {
 					removeRelationship(parsedChoice[3]);
 			}
 			else if (parsedChoice[0].equals("list") && parsedChoice[1].equals("class")) {
-					listClassProperties(parsedChoice[2]);
+					listClass(parsedChoice[2]);
 			}
 			else {
 				System.out.println("Please enter a valid selection: ");			
@@ -89,12 +89,31 @@ public class UML {
 
 	}
 	
+	
 	/** Adds a Class object to the classes SortedMap field. Still needs work, junit tests etc...
 	 */
-	public static void addClass(String name) throws IOException {
+	public static void addClass(String name) {
 		Class c = new Class(name);
 		classes.put(name, c);
 		System.out.println("You have created a new class named: " + name);
+	}
+	
+	/** Lists the class.
+	 * 
+	 * @param className This represents the class we are going to list.
+	 */
+	public static String listClass(String className) 
+	{
+		String result = "";
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			System.out.println(c.toString());
+			result = c.toString();
+		}
+		else {
+			System.out.println("This class does not exist.");
+		}
+		return result;
 	}
 	
 	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...

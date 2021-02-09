@@ -71,4 +71,13 @@ public class ClassTest {
 		assertEquals(attributes.toString(), c.printAttributes());
 	}
 	
+	@Test
+	public void toStringTest() {
+		Class c = new Class ("test");
+		c.addAttribute("attr1");
+		c.addAttribute("attr2");
+		//c.addRelationship("rela", "rt");
+		System.out.println(c.toString());
+	}
+	
 }
