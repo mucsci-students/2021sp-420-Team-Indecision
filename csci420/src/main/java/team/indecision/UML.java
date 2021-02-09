@@ -67,7 +67,18 @@ public class UML {
 			else if (parsedChoice[0].equals("load")) {
 				   load(parsedChoice[1]);
 			}
-
+			else if (parsedChoice[0].equals("list") && parsedChoice[1].equals("relationships")) {
+					printRelationships();
+			}
+			else if (parsedChoice[0].equals("add") && parsedChoice[1].equals("relationship")) {
+					createRelationship(parsedChoice[2], parsedChoice[3]);
+			}
+			else if (parsedChoice[0].equals("delete") && parsedChoice[1].equals("relationship")) {
+					removeRelationship(parsedChoice[3]);
+			}
+			else if (parsedChoice[0].equals("list") && parsedChoice[1].equals("class")) {
+					listClassProperties(parsedChoice[2]);
+			}
 			else {
 				System.out.println("Please enter a valid selection: ");			
 			}
@@ -91,6 +102,10 @@ public class UML {
 	public static void listClasses()
 	{
 			classes.forEach((key,value) -> System.out.println(value.getName() + " Attributes: " + value.printAttributes() ));
+	}
+	
+	public static void printRelationships() {
+		classes.forEach((key,value) -> System.out.println(value.listRelationships()));
 	}
 	
 	/** Saves the classes SortedMap to a specified .json file. Still needs work, junit tests etc...
@@ -120,4 +135,17 @@ public class UML {
 		}
 	}
 	
+	public static void createRelationship(String name, String type) {
+		
+		((Class) classes).addRelationship(name, type);
+	}
+	
+	public static void removeRelationship(String name) {
+		((Class) classes).deleteRelationship(name);
+	}
+	
+
+	
+	
+
 }

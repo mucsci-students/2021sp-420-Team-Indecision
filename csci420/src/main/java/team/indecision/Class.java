@@ -112,16 +112,22 @@ public class Class {
 	/** Prints the relationships for this class.
 	 * @return A String containing the class's relationships.
 	 */
-	public void listRelationships() {
+	public String listRelationships() {
 		/*Needs to be implemented*/
 		if (relationships == null) {
 			System.out.println("Relationship does not exist");
 		}
-		relationships.forEach((key,value) -> System.out.println(key + ":" + value));
+		return relationships.toString();
 	}
 	
 	public void deleteRelationship(String name) {
 		relationships.remove(name);
+	}
+	
+	public void listSingleClass (){
+		getName();
+		printAttributes();
+		listRelationships();
 	}
 	
 	/** Represents this class as a String.
