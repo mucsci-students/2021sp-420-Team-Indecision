@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @version 1.0
  * @since 1.0
  */
-public class UML {
+public final class UML {
 
 	// Stores the Class objects for the UML.
 	private static SortedMap<String, Class> classes = new TreeMap<String, Class>();
@@ -77,7 +77,7 @@ public class UML {
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("class"))) {
 //				listClass(parsedChoice[0]);
 			}
-			else if (parsedChoice[0].equals("list") && (parsedChoice[1].equals("rel"))) {
+			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("rel"))) {
 //				listRelationships();
 			}
 			// save / load
@@ -110,11 +110,13 @@ public class UML {
 	 */
 	public static void addClass(String name) {
 		Class c = new Class(name); 
-		if (classes.put(name, c) == null) {
+		if (classes.put(name, c) == null) //.put will return null if there is no mapping for the key.
+		{
 			System.out.println("You have created a new class named: " + name);
 		}
-		else {
-			System.out.println("Class already Exists.");
+		else 
+		{
+			System.out.println("The class " + name + " already exists.");
 		} 
 	}
 	
@@ -122,11 +124,13 @@ public class UML {
 	 * @param name A string that represents the class name.
 	 */
 	public static void deleteClass(String name) {
-		if (classes.remove(name) != null) {
+		if (classes.remove(name) != null) //.remove will return null if there was no mapping for the key.
+		{
 			System.out.println("The class " + name + " has been deleted.");
 		}
-		else {
-			System.out.println("Class does not exist.");
+		else 
+		{
+			System.out.println("The class " + name + " does not exist.");
 		}
 	}
 	
@@ -135,20 +139,30 @@ public class UML {
 	 * @param newClassName A string that represents the new class name.
 	 */
 	public static void renameClass(String className, String newClassName) {
-		if (classes.containsKey(className) && !classes.containsKey(newClassName)) {
+		if (classes.containsKey(className) && !classes.containsKey(newClassName))
+		{
 			Class c = classes.get(className);
 			c.setName(newClassName);
 			System.out.println("You have renamed the class " + className + " to " + newClassName);
 		}
-		else {
-			System.out.println("This class does not exist or the new class name alreay exists.");
+		else 
+		{
+			if (!classes.containsKey(className))
+			{
+				System.out.println("The class " + className + " does not exist.");
+			}
+			else 
+			{
+				System.out.println("The new class name " + newClassName + " already exists.");
+			} 	
 		}
 	}
+	
 	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
 	 */
 	public static void listClasses()
 	{
-			classes.forEach((key,value) -> System.out.println(value.getName() + " Attributes: " + value.printAttributes() ));
+			classes.forEach((key,value) -> System.out.println(value.toString()));
 	}
 	
 	/** Saves the classes SortedMap to a specified .json file. Still needs work, junit tests etc...
@@ -171,7 +185,7 @@ public class UML {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			classes = objectMapper.readValue(Paths.get(name).toFile(), new TypeReference<SortedMap<String, Class>>() {});
-			classes.forEach((key,value) -> System.out.println(value.getName() + " Attributes: " + value.printAttributes() ));
+			listClasses();
 		} catch (Exception ex) {
 			System.out.println("Not valid json or file does not exist.");
 		}

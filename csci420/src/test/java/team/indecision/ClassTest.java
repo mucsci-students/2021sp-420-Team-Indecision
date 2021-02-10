@@ -10,15 +10,6 @@ import org.junit.Test;
 public class ClassTest {
 	
 	@Test
-	public void testToString() {
-		String test = "test [attr2, attr1] {}";
-		Class c = new Class ("test");
-		c.addAttribute("attr1");
-		c.addAttribute("attr2");
-		assertEquals(c.toString(), test);
-	}
-	
-	@Test
 	public void testNameConstructorAndGetName() {
 		Class c = new Class ("nameTest");
 		assertEquals("nameTest", c.getName());
@@ -104,6 +95,15 @@ public class ClassTest {
 		c.addRelationship("class2","type2");
 		c.addRelationship("class3","type3");
 		assertEquals(relationships.toString(), c.printRelationships());
+	}
+	
+	@Test
+	public void testToString() {
+		String test = "test [attr2, attr1] {}";
+		Class c = new Class ("test");
+		c.addAttribute("attr1");
+		c.addAttribute("attr2");
+		assertEquals(c.toString(), test);
 	}
 	
 	@Test
