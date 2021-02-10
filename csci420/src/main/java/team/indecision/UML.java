@@ -143,6 +143,8 @@ public final class UML {
 		{
 			Class c = classes.get(className);
 			c.setName(newClassName);
+			classes.remove(className, c); //We need to change the key value to do this we have to remove the mapping and then re-add it with then new name.
+			classes.put(newClassName, c);
 			System.out.println("You have renamed the class " + className + " to " + newClassName);
 		}
 		else 
@@ -195,7 +197,7 @@ public final class UML {
 		if(classes.containsKey(className)) {
 			Class c = classes.get(className);
 			if(c.addAttribute(attrName)) {
-				// classes.replace(className, c); You do not need this line. We are making changes to the object that is in the collection.
+				//classes.replace(className, c); You do not need this line. We are making changes to the object that is in the collection.
 				System.out.println("You have created a new attribute named: " + attrName);
 			}
 			else {
