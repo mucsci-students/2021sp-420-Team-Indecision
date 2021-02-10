@@ -10,15 +10,6 @@ import org.junit.Test;
 public class ClassTest {
 	
 	@Test
-	public void testToString() {
-		String test = "test [attr2, attr1] {}";
-		Class c = new Class ("test");
-		c.addAttribute("attr1");
-		c.addAttribute("attr2");
-		assertEquals(c.toString(), test);
-	}
-	
-	@Test
 	public void testNameConstructorAndGetName() {
 		Class c = new Class ("nameTest");
 		assertEquals("nameTest", c.getName());
@@ -107,6 +98,15 @@ public class ClassTest {
 	}
 	
 	@Test
+	public void testToString() {
+		String test = "test [attr2, attr1] {}";
+		Class c = new Class ("test");
+		c.addAttribute("attr1");
+		c.addAttribute("attr2");
+		assertEquals(c.toString(), test);
+	}
+	
+	@Test
 	public void testEquals() {
 		String name = "nameTest";
 		Set<String> attributes = new HashSet<String>();
@@ -133,5 +133,5 @@ public class ClassTest {
 		assertTrue(a.equals(b));
 		assertFalse(a.equals(c));
 	}
-	
 }
+

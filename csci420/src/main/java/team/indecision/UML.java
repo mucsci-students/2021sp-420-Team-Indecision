@@ -15,10 +15,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @version 1.0
  * @since 1.0
  */
-public class UML {
+public final class UML {
 
 	// Stores the Class objects for the UML.
 	private static SortedMap<String, Class> classes = new TreeMap<String, Class>();
+	
+	public static SortedMap<String, Class> getClasses() {
+		return classes;
+	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		//Print out of the available menu options for the REPL.
@@ -38,57 +42,57 @@ public class UML {
 
 		while (x) {
 			// add
-			if (parsedChoice[0].equals("add") && (parsedChoice[1].equals("class"))) {
+
+			if (parsedChoice.length == 3 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("class"))) {
 				addClass(parsedChoice[2]);
 			}
-			if (parsedChoice[0].equals("add") && (parsedChoice[1].equals("attr"))) {
-//				addAttribute(parsedChoice[2], parsedChoice[3]);
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("attr"))) {
+				addAttribute(parsedChoice[2], parsedChoice[3]);
 			}
-			if (parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
 //				addRelationship(parsedChoice[2], parsedChoice[3]);
 			}
 			// delete
-			if (parsedChoice[0].equals("delete") && (parsedChoice[1].equals("class"))) {
+			else if (parsedChoice.length == 3 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("class"))) {
 				deleteClass(parsedChoice[2]);
 			}
-			if (parsedChoice[0].equals("delete") && (parsedChoice[1].equals("attr"))) {
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("attr"))) {
 //				deleteAttribute(parsedChoice[2], parsedChoice[3]);
 			}
-			if (parsedChoice[0].equals("delete") && (parsedChoice[1].equals("rel"))) {
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("rel"))) {
 //				deleteRelationship(parsedChoice[2], parsedChoice[3]);
 			}
 			// rename
-			if (parsedChoice[0].equals("rename") && (parsedChoice[1].equals("class"))) {
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("rename") && (parsedChoice[1].equals("class"))) {
 				renameClass(parsedChoice[2], parsedChoice[3]);
 			}
-			if (parsedChoice[0].equals("rename") && (parsedChoice[1].equals("attr"))) {
+			else if (parsedChoice.length == 5 && parsedChoice[0].equals("rename") && (parsedChoice[1].equals("attr"))) {
 //				renameAttribute(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// list
-			else if (parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
+			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
 				listClasses();
 			}
-			else if (parsedChoice[0].equals("list") && (parsedChoice[1].equals("class"))) {
+			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("class"))) {
 //				listClass(parsedChoice[0]);
 			}
-			else if (parsedChoice[0].equals("list") && (parsedChoice[1].equals("rel"))) {
+			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("rel"))) {
 //				listRelationships();
 			}
 			// save / load
-			else if (parsedChoice[0].equals("save")) {
+			else if (parsedChoice.length == 2 && parsedChoice[0].equals("save")) {
 				   save(parsedChoice[1]);
 			}
-			else if (parsedChoice[0].equals("load")) {
+			else if (parsedChoice.length == 2 && parsedChoice[0].equals("load")) {
 				   load(parsedChoice[1]);
 			}
-			// misc.
-			else if (parsedChoice[0].equals("help")) {
+      //misc
+			else if (parsedChoice.length == 1 && parsedChoice[0].equals("help")) {
 				   help();
 			}
-			else if (parsedChoice[0].equals("exit")){
+			else if (parsedChoice.length == 1 && parsedChoice[0].equals("exit")){
 				   break;
 			}
-
 			else {
 				System.out.println("Please enter a valid selection");			
 			}
@@ -99,12 +103,59 @@ public class UML {
 
 	}
 	
-	/** Adds a Class object to the classes SortedMap field. Still needs work, junit tests etc...
+	/** Adds a class to to the classes field. If the class name already exists it does not add the class and instead displays a message.
+	 * @param name A string that represents the class name.
 	 */
-	public static void addClass(String name) throws IOException {
-		Class c = new Class(name);
-		classes.put(name, c);
-		System.out.println("You have created a new class named: " + name);
+	public static void addClass(String name) {
+		Class c = new Class(name); 
+		if (classes.put(name, c) == null) //.put will return null if there is no mapping for the key.
+		{
+			System.out.println("You have created a new class named: " + name);
+		}
+		else 
+		{
+			System.out.println("The class " + name + " already exists.");
+		} 
+	}
+	
+	/** Deletes a class from the classes field. If the class does not exists it does not delete the class and instead displays a message.
+	 * @param name A string that represents the class name.
+	 */
+	public static void deleteClass(String name) {
+		if (classes.remove(name) != null) //.remove will return null if there was no mapping for the key.
+		{
+			System.out.println("The class " + name + " has been deleted.");
+		}
+		else 
+		{
+			System.out.println("The class " + name + " does not exist.");
+		}
+	}
+	
+	/** Renames a class from the classes field. If the class name does not exist or the newClassName exists it does not rename the class and instead displays a message.
+	 * @param className A string that represents the class name.
+	 * @param newClassName A string that represents the new class name.
+	 */
+	public static void renameClass(String className, String newClassName) {
+		if (classes.containsKey(className) && !classes.containsKey(newClassName))
+		{
+			Class c = classes.get(className);
+			c.setName(newClassName);
+			classes.remove(className, c); //We need to change the key value to do this we have to remove the mapping and then re-add it with then new name.
+			classes.put(newClassName, c);
+			System.out.println("You have renamed the class " + className + " to " + newClassName);
+		}
+		else 
+		{
+			if (!classes.containsKey(className))
+			{
+				System.out.println("The class " + className + " does not exist.");
+			}
+			else 
+			{
+				System.out.println("The new class name " + newClassName + " already exists.");
+			} 	
+		}
 	}
 	
 	public static void deleteClass(String name) throws IOException {
@@ -127,14 +178,13 @@ public class UML {
 	 */
 	public static void listClasses()
 	{
-			classes.forEach((key,value) -> System.out.println(value.getName() + " Attributes: " + value.printAttributes() ));
+			classes.forEach((key,value) -> System.out.println(value.toString()));
 	}
 	
 	/** Saves the classes SortedMap to a specified .json file. Still needs work, junit tests etc...
 	 */
-	public static void save(String name) throws IOException {
+	public static void save(String name) {
 		name = name.concat(".json");
-		
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.writeValue(Paths.get(name).toFile(), classes);
@@ -151,12 +201,28 @@ public class UML {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			classes = objectMapper.readValue(Paths.get(name).toFile(), new TypeReference<SortedMap<String, Class>>() {});
-			classes.forEach((key,value) -> System.out.println(value.getName() + " Attributes: " + value.printAttributes() ));
+			listClasses();
 		} catch (Exception ex) {
 			System.out.println("Not valid json or file does not exist.");
 		}
 	}
 	
+	public static void addAttribute(String className, String attrName) {	
+		if(classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if(c.addAttribute(attrName)) {
+				//classes.replace(className, c); You do not need this line. We are making changes to the object that is in the collection.
+				System.out.println("You have created a new attribute named: " + attrName);
+			}
+			else {
+				System.out.println("The attribute already exists");
+			}
+		}
+		else {
+			System.out.println("The class does not exist.");
+		}
+	}
+  
 	public static void help() {
 		System.out.println("\nADD");
 		System.out.println("add class class_name - adds a class");
