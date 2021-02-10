@@ -74,9 +74,10 @@ public class Class {
 	
 	/** Adds a new attribute to the class.
 	 * @param newAttribute A Strings containing the class attribute.
+	 * @return 
 	 */
-	public void addAttribute(String newAttribute) {
-		attributes.add(newAttribute);
+	public boolean addAttribute(String newAttribute) {
+		return attributes.add(newAttribute);
 	}
 	
 	/** Prints the attributes for this class.
@@ -121,8 +122,21 @@ public class Class {
 	 * @return A String containing this class.
 	 */
 	public String toString() {
-		/*Needs to be implemented*/
-		return "placeholder";
+        String result = this.getName() + " " + this.printAttributes(); 
+        return result;
 	}
+	
+	/** Compares this class with another class object.
+	 * @param c A class object to compare with.
+	 * @return A boolean true if they are the same false if not.
+	 */
+	public boolean equals(Class c) {
+        boolean result = false;
+        if (c.getName().equals(name) && c.getAttributes().equals(attributes)) {
+        	result = true;
+        }
+        return result;
+	}
+	
 	
 }

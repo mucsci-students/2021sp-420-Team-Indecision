@@ -19,6 +19,10 @@ public class UML {
 
 	// Stores the Class objects for the UML.
 	private static SortedMap<String, Class> classes = new TreeMap<String, Class>();
+	
+	public static SortedMap<String, Class> getClasses() {
+		return classes;
+	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		//Print out of the available menu options for the REPL.
@@ -99,28 +103,43 @@ public class UML {
 
 	}
 	
-	/** Adds a Class object to the classes SortedMap field. Still needs work, junit tests etc...
+	/** Adds a class to to the classes field. If the class name already exists it does not add the class and instead displays a message.
+	 * @param name A string that represents the class name.
 	 */
-	public static void addClass(String name) throws IOException {
-		Class c = new Class(name);
-		classes.put(name, c);
-		System.out.println("You have created a new class named: " + name);
+	public static void addClass(String name) {
+		Class c = new Class(name); 
+		if (classes.put(name, c) == null) {
+			System.out.println("You have created a new class named: " + name);
+		}
+		else {
+			System.out.println("Class already Exists.");
+		} 
 	}
 	
-	public static void deleteClass(String name) throws IOException {
-		if(classes.containsKey(name)) {
-			classes.remove(name);
-		}else {
-			System.out.println("Invalid class name");
+	/** Deletes a class from the classes field. If the class does not exists it does not delete the class and instead displays a message.
+	 * @param name A string that represents the class name.
+	 */
+	public static void deleteClass(String name) {
+		if (classes.remove(name) != null) {
+			System.out.println("The class " + name + " has been deleted.");
+		}
+		else {
+			System.out.println("Class does not exist.");
 		}
 	}
 	
-	public static void renameClass(String className, String newClassName) throws IOException {
-		if(classes.containsKey(className)) {
+	/** Renames a class from the classes field. If the class name does not exist or the newClassName exists it does not rename the class and instead displays a message.
+	 * @param className A string that represents the class name.
+	 * @param newClassName A string that represents the new class name.
+	 */
+	public static void renameClass(String className, String newClassName) {
+		if (classes.containsKey(className) && !classes.containsKey(newClassName)) {
 			Class c = classes.get(className);
 			c.setName(newClassName);
-		}else {
-			System.out.println("This class does not exist.");
+			System.out.println("You have renamed the class " + className + " to " + newClassName);
+		}
+		else {
+			System.out.println("This class does not exist or the new class name alreay exists.");
 		}
 	}
 	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
@@ -154,6 +173,22 @@ public class UML {
 			classes.forEach((key,value) -> System.out.println(value.getName() + " Attributes: " + value.printAttributes() ));
 		} catch (Exception ex) {
 			System.out.println("Not valid json or file does not exist.");
+		}
+	}
+	
+	public static void addAttribute(String className, String attrName) {	
+		if(classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if(c.addAttribute(attrName)) {
+				// classes.replace(className, c); You do not need this line. We are making changes to the object that is in the collection.
+				System.out.println("You have created a new attribute named: " + attrName);
+			}
+			else {
+				System.out.println("The attribute already exists");
+			}
+		}
+		else {
+			System.out.println("The class does not exist.");
 		}
 	}
 	

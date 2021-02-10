@@ -1,6 +1,8 @@
 package team.indecision;
 
 import static org.junit.Assert.*;
+
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedMap;
@@ -71,4 +73,17 @@ public class ClassTest {
 		assertEquals(attributes.toString(), c.printAttributes());
 	}
 	
+	@Test
+		public void testSingleAddAttribute()  {         
+		Class test = new Class("class1");         
+		test.addAttribute("attribute1");                  
+		UML.addClass("class1");        
+        UML.addAttribute("class1", "attribute1");
+        System.out.println(test.getName());
+        System.out.println(test.getAttributes());
+        System.out.println(UML.getClasses().get("class1").getName());
+        System.out.println(UML.getClasses().get("class1").getAttributes());
+        System.out.println(UML.getClasses().get("class1").equals(test));
+        assertTrue(UML.getClasses().get("class1").equals(test));              
+        }
 }
