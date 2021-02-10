@@ -133,5 +133,5 @@ public class ClassTest {
 		assertTrue(a.equals(b));
 		assertFalse(a.equals(c));
 	}
-	
 }
+

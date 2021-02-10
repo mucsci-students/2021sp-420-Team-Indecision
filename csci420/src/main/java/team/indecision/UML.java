@@ -42,6 +42,7 @@ public final class UML {
 
 		while (x) {
 			// add
+
 			if (parsedChoice.length == 3 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("class"))) {
 				addClass(parsedChoice[2]);
 			}
@@ -85,14 +86,13 @@ public final class UML {
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("load")) {
 				   load(parsedChoice[1]);
 			}
-			// misc.
+      //misc
 			else if (parsedChoice.length == 1 && parsedChoice[0].equals("help")) {
 				   help();
 			}
 			else if (parsedChoice.length == 1 && parsedChoice[0].equals("exit")){
 				   break;
 			}
-
 			else {
 				System.out.println("Please enter a valid selection");			
 			}
@@ -158,6 +158,22 @@ public final class UML {
 		}
 	}
 	
+	public static void deleteClass(String name) throws IOException {
+		if(classes.containsKey(name)) {
+			classes.remove(name);
+		}else {
+			System.out.println("Invalid class name");
+		}
+	}
+	
+	public static void renameClass(String className, String newClassName) throws IOException {
+		if(classes.containsKey(className)) {
+			Class c = classes.get(className);
+			c.setName(newClassName);
+		}else {
+			System.out.println("This class does not exist.");
+		}
+	}
 	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
 	 */
 	public static void listClasses()
@@ -206,7 +222,7 @@ public final class UML {
 			System.out.println("The class does not exist.");
 		}
 	}
-	
+  
 	public static void help() {
 		System.out.println("\nADD");
 		System.out.println("add class class_name - adds a class");
