@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 /** Represents a Class in the UML model.
  * @author Connor Nissley
- * @version 2.0
+ * @version 1.0
  * @since 1.0
  */
 public class Class {
