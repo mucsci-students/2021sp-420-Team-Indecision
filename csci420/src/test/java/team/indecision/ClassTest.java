@@ -10,6 +10,15 @@ import org.junit.Test;
 public class ClassTest {
 	
 	@Test
+	public void testToString() {
+		String test = "test [attr2, attr1] {}";
+		Class c = new Class ("test");
+		c.addAttribute("attr1");
+		c.addAttribute("attr2");
+		assertEquals(c.toString(), test);
+	}
+	
+	@Test
 	public void testNameConstructorAndGetName() {
 		Class c = new Class ("nameTest");
 		assertEquals("nameTest", c.getName());
@@ -69,6 +78,60 @@ public class ClassTest {
 		Class c = new Class ();
 		c.setAttributes(attributes);
 		assertEquals(attributes.toString(), c.printAttributes());
+	}
+	
+	@Test
+	public void testAddRelationship() {
+		SortedMap<String, String> relationships = new TreeMap<String, String>();
+		relationships.put("class1","type1");
+		relationships.put("class2","type2");
+		relationships.put("class3","type3");
+		Class c = new Class ();
+		c.addRelationship("class1","type1");
+		c.addRelationship("class2","type2");
+		c.addRelationship("class3","type3");
+		assertEquals(c.getRelationships().toString(), relationships.toString());
+	}
+	
+	@Test
+	public void testPrintRelationships() {
+		SortedMap<String, String> relationships = new TreeMap<String, String>();
+		relationships.put("class1","type1");
+		relationships.put("class2","type2");
+		relationships.put("class3","type3");
+		Class c = new Class ();
+		c.addRelationship("class1","type1");
+		c.addRelationship("class2","type2");
+		c.addRelationship("class3","type3");
+		assertEquals(relationships.toString(), c.printRelationships());
+	}
+	
+	@Test
+	public void testEquals() {
+		String name = "nameTest";
+		Set<String> attributes = new HashSet<String>();
+		attributes.add("attribute1");
+		attributes.add("attribute2");
+		attributes.add("attribute3");
+		SortedMap<String, String> relationships = new TreeMap<String, String>();
+		relationships.put("class1","type1");
+		relationships.put("class2","type2");
+		relationships.put("class3","type3");
+		Class a = new Class (name, attributes, relationships);
+		Class b = new Class (name, attributes, relationships);
+		String name1 = "nameTest";
+		Set<String> attributes1 = new HashSet<String>();
+		attributes.add("attribute1");
+		attributes.add("attribute2");
+		attributes.add("attribute3");
+		SortedMap<String, String> relationships1 = new TreeMap<String, String>();
+		relationships.put("class1","type1");
+		relationships.put("class2","type2");
+		relationships.put("class3","type3");
+		Class c = new Class (name1, attributes1, relationships1);
+		assertTrue(a.equals(a));
+		assertTrue(a.equals(b));
+		assertFalse(a.equals(c));
 	}
 	
 }

@@ -75,15 +75,14 @@ public class Class {
 	/** Adds a new attribute to the class.
 	 * @param newAttribute A Strings containing the class attribute.
 	 */
-	public void addAttribute(String newAttribute) {
-		attributes.add(newAttribute);
+	public boolean addAttribute(String newAttribute) {
+		return attributes.add(newAttribute);
 	}
 	
 	/** Prints the attributes for this class.
 	 * @return A String containing the class's attributes.
 	 */
 	public String printAttributes() {
-		/*Probably should be updated/formatted differently.*/
 		return attributes.toString();
 	}
 	
@@ -106,23 +105,33 @@ public class Class {
 	 * @param type A Strings that represents the type of the relationship.
 	 */
 	public void addRelationship(String name, String type) {
-		/*Needs to be implemented*/
+		relationships.put(name, type);
 	}
 	
 	/** Prints the relationships for this class.
 	 * @return A String containing the class's relationships.
 	 */
 	public String printRelationships() {
-		/*Needs to be implemented*/
-		return "placeholder";
+		return relationships.toString();
 	}
 	
 	/** Represents this class as a String.
 	 * @return A String containing this class.
 	 */
 	public String toString() {
-		/*Needs to be implemented*/
-		return "placeholder";
+		String result = this.getName() + " " + this.printAttributes() + " " + this.printRelationships(); 
+        return result;
 	}
 	
+	/** Compares two class objects for equality.
+	 * @param classObject A Class that will be compared to this class. 
+	 * @return A boolean if the classes equal each other false if not.
+	 */
+	public boolean equals(Class classObject) {
+        boolean result = false;
+        if (classObject.getName().equals(this.getName()) && classObject.getAttributes().equals(this.getAttributes()) && classObject.getRelationships().equals(this.getRelationships()) ) {
+            result = true;
+        }
+        return result;
+    }
 }
