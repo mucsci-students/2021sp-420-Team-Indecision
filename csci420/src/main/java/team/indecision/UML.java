@@ -45,14 +45,12 @@ public final class UML {
 			if (parsedChoice.length == 3 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("class"))) {
 				addClass(parsedChoice[2]);
 			}
-			
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("attr"))) {
 				addAttribute(parsedChoice[2], parsedChoice[3]);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
 //				addRelationship(parsedChoice[2], parsedChoice[3]);
 			}
-			
 			// delete
 			else if (parsedChoice.length == 3 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("class"))) {
 				deleteClass(parsedChoice[2]);
