@@ -42,54 +42,56 @@ public class UML {
 
 		while (x) {
 			// add
-			if (parsedChoice[0].equals("add") && (parsedChoice[1].equals("class"))) {
+			if (parsedChoice.length == 3 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("class"))) {
 				addClass(parsedChoice[2]);
 			}
-			if (parsedChoice[0].equals("add") && (parsedChoice[1].equals("attr"))) {
-//				addAttribute(parsedChoice[2], parsedChoice[3]);
+			
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("attr"))) {
+				addAttribute(parsedChoice[2], parsedChoice[3]);
 			}
-			if (parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
 //				addRelationship(parsedChoice[2], parsedChoice[3]);
 			}
+			
 			// delete
-			if (parsedChoice[0].equals("delete") && (parsedChoice[1].equals("class"))) {
+			else if (parsedChoice.length == 3 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("class"))) {
 				deleteClass(parsedChoice[2]);
 			}
-			if (parsedChoice[0].equals("delete") && (parsedChoice[1].equals("attr"))) {
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("attr"))) {
 //				deleteAttribute(parsedChoice[2], parsedChoice[3]);
 			}
-			if (parsedChoice[0].equals("delete") && (parsedChoice[1].equals("rel"))) {
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("rel"))) {
 //				deleteRelationship(parsedChoice[2], parsedChoice[3]);
 			}
 			// rename
-			if (parsedChoice[0].equals("rename") && (parsedChoice[1].equals("class"))) {
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("rename") && (parsedChoice[1].equals("class"))) {
 				renameClass(parsedChoice[2], parsedChoice[3]);
 			}
-			if (parsedChoice[0].equals("rename") && (parsedChoice[1].equals("attr"))) {
+			else if (parsedChoice.length == 5 && parsedChoice[0].equals("rename") && (parsedChoice[1].equals("attr"))) {
 //				renameAttribute(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// list
-			else if (parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
+			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
 				listClasses();
 			}
-			else if (parsedChoice[0].equals("list") && (parsedChoice[1].equals("class"))) {
+			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("class"))) {
 //				listClass(parsedChoice[0]);
 			}
 			else if (parsedChoice[0].equals("list") && (parsedChoice[1].equals("rel"))) {
 //				listRelationships();
 			}
 			// save / load
-			else if (parsedChoice[0].equals("save")) {
+			else if (parsedChoice.length == 2 && parsedChoice[0].equals("save")) {
 				   save(parsedChoice[1]);
 			}
-			else if (parsedChoice[0].equals("load")) {
+			else if (parsedChoice.length == 2 && parsedChoice[0].equals("load")) {
 				   load(parsedChoice[1]);
 			}
 			// misc.
-			else if (parsedChoice[0].equals("help")) {
+			else if (parsedChoice.length == 1 && parsedChoice[0].equals("help")) {
 				   help();
 			}
-			else if (parsedChoice[0].equals("exit")){
+			else if (parsedChoice.length == 1 && parsedChoice[0].equals("exit")){
 				   break;
 			}
 
@@ -151,9 +153,8 @@ public class UML {
 	
 	/** Saves the classes SortedMap to a specified .json file. Still needs work, junit tests etc...
 	 */
-	public static void save(String name) throws IOException {
+	public static void save(String name) {
 		name = name.concat(".json");
-		
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.writeValue(Paths.get(name).toFile(), classes);
