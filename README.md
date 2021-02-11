@@ -22,7 +22,7 @@ Once in the main directory of your command line, enter:
   
   ```java -jar target\csci420-0.0.1-SNAPSHOT-jar-with-dependencies.jar```
   
-  ## Authors
+  ## Authors:
     -Araselli Morales
     -Rohama Getachew
     -Ian Reger
