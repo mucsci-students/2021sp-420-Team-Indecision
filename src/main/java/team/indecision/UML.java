@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.TreeMap;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Set;
 import java.util.SortedMap;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -157,6 +159,68 @@ public final class UML {
 			} 	
 		}
 	}
+	/** Adds an attribute to the attribute field. If the class does not exist or the attribute already exists it prints an error.
+	 * @param className A string that represents the class name.
+	 * @param attrName A string that represents the new attributes name.
+	 */
+	public static void addAttribute(String className, String attrName) throws IOException {	
+		if(classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if(c.addAttribute(attrName)) {
+				System.out.println("You have created a new attribute named: " + attrName);
+			}
+			else {
+				System.out.println("Error: That attribute already exists.");
+			}
+		}
+		else {
+			System.out.println("Error: That class does not exist.");
+		}
+	}
+	
+	/** Deletes an attribute from the attribute field. If the class does not exist or the attribute does not exist it prints an error.
+	 * @param className A string that represents the class name.
+	 * @param attrName A string that represents the attribute being deleted.
+	 */
+	public static void deleteAttribute(String className, String attrName) throws IOException {	
+		if(classes.containsKey(className)) {
+			Class c = classes.get(className);
+			Set<String> attr = c.getAttributes();
+			if(attr.contains(attrName)) {
+				attr.remove(attrName);
+				System.out.println("You have deleted the attribute named: " + attrName);
+			}	
+			else {
+				System.out.println("Error: Attribute does not exist.");
+			}
+		}
+		else {
+			System.out.println("Error: That class does not exist.");
+		}
+	}
+	
+	/** Renames an attribute from the attribute field. If the class does not exist or the attribute does not exist it prints an error.
+	 * @param className A string that represents the class name.
+	 * @param attrName A string that represents the attribute being renamed.
+	 * @param newAttrName A string that represents the new attribute name.
+	 */
+	public static void renameAttribute(String className, String oldAttrName, String newAttrName) throws IOException {	
+		if(classes.containsKey(className)) {
+			Class c = classes.get(className);
+			Set<String> attr = c.getAttributes();
+			if(attr.contains(oldAttrName) && !(attr.contains(newAttrName))) {
+				attr.remove(oldAttrName);
+				attr.add(newAttrName);	
+				System.out.println("You have renamed " + oldAttrName + " to " + newAttrName);
+			}	
+			else {
+				System.out.println("Error: Conflicting attribute names.");
+			}
+		}
+		else {
+			System.out.println("That class does not exist.");
+		}
+	}
 	
 	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
 	 */
@@ -191,21 +255,6 @@ public final class UML {
 		}
 	}
 	
-	public static void addAttribute(String className, String attrName) {	
-		if(classes.containsKey(className)) {
-			Class c = classes.get(className);
-			if(c.addAttribute(attrName)) {
-				//classes.replace(className, c); You do not need this line. We are making changes to the object that is in the collection.
-				System.out.println("You have created a new attribute named: " + attrName);
-			}
-			else {
-				System.out.println("The attribute already exists");
-			}
-		}
-		else {
-			System.out.println("The class does not exist.");
-		}
-	}
   
 	public static void help() {
 		System.out.println("\nADD");

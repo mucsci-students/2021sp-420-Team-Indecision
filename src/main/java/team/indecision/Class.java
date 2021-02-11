@@ -6,7 +6,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /** Represents a Class in the UML model.
- * @author Connor Nissley
+ * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
  * @version 1.0
  * @since 1.0
  */
