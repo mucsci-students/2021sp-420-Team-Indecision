@@ -15,6 +15,7 @@
 	delete class class_name - deletes given class");
 	delete attr class_name attr_name - deletes given attribute in specified class
 	delete rel class1 class2 - deletes the relationship between given classes
+	
 	RENAME
 	rename class class_name new_class_name - renames the specified class
 	rename attr class_name attr_name new_attr_name - renames desired attribute given its class
