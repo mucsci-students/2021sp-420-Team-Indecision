@@ -1,9 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
   <modelVersion>4.0.0</modelVersion>
   <groupId>team.indecision</groupId>
   <artifactId>csci420</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <dependencies>
+ 
+ <dependencies>
   	
 	<dependency>
 	    <groupId>junit</groupId>
@@ -12,93 +14,136 @@
 	    <scope>test</scope>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-<dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-databind</artifactId>
-    <version>2.12.0</version>
-</dependency>
-	
-	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-<dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-core</artifactId>
-    <version>2.12.0</version>
-</dependency>
-	
-	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
-<dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-annotations</artifactId>
-    <version>2.12.0</version>
-</dependency>
-	
-<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-lang3</artifactId>
-    <version>3.11</version>
-</dependency>
-	
-	
-  </dependencies>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>2.12.0</version>
+	</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-core</artifactId>
+	    <version>2.12.0</version>
+	</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-annotations</artifactId>
+	    <version>2.12.0</version>
+	</dependency>
+		
+	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-lang3</artifactId>
+	    <version>3.11</version>
+	</dependency>
+			
+</dependencies>
   
   
   
-  <properties>
-  	<maven.compiler.source>1.8</maven.compiler.source>
-  	<maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
-  <build>    <plugins>
+<properties>
+ 	<maven.compiler.source>1.8</maven.compiler.source>
+ 	<maven.compiler.target>1.8</maven.compiler.target>
+</properties>
+  
+<build>    
+	<plugins>
+		<plugin>
+			<artifactId>maven-jar-plugin</artifactId>
+			<version>3.0.2</version>
+			<configuration>
+			    <archive>
+			        <manifest>
+			            <addClasspath>true</addClasspath>
+			            <mainClass>
+			                <!--Replace with the class that contains the main function-->
+			                            team.indecision.UML
+			                        </mainClass>
+			                    </manifest>
+			                </archive>
+			            </configuration>
+			        </plugin>   
+			        
+			        <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-assembly-plugin</artifactId>
+			    <executions>
+			        <execution>
+			            <phase>package</phase>
+			            <goals>
+			                <goal>single</goal>
+			            </goals>
+			            <configuration>
+			                <archive>
+			                <manifest>
+			                    <mainClass>
+			                        team.indecision.UML
+			                    </mainClass>
+			                </manifest>
+			                </archive>
+			                <descriptorRefs>
+			                    <descriptorRef>jar-with-dependencies</descriptorRef>
+			                </descriptorRefs>
+			            </configuration>
+			        </execution>
+			    </executions>
+		</plugin>
+		
         <plugin>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>3.0.2</version>
-            <configuration>
-                <archive>
-                    <manifest>
-                        <addClasspath>true</addClasspath>
-                        <mainClass>
-                            <!--Replace with the class that contains the main function-->
-                            team.indecision.UML
-                        </mainClass>
-                    </manifest>
-                </archive>
-            </configuration>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-javadoc-plugin</artifactId>
+	        <version>3.2.0</version>
         </plugin>
         
-        <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-assembly-plugin</artifactId>
-    <executions>
-        <execution>
-            <phase>package</phase>
-            <goals>
-                <goal>single</goal>
-            </goals>
-            <configuration>
-                <archive>
-                <manifest>
-                    <mainClass>
-                        team.indecision.UML
-                    </mainClass>
-                </manifest>
-                </archive>
-                <descriptorRefs>
-                    <descriptorRef>jar-with-dependencies</descriptorRef>
-                </descriptorRefs>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
-        <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
-      </plugin>
-        
-        
-    </plugins>
-    </build>
+		        <plugin>
+			<groupId>com.akathist.maven.plugins.launch4j</groupId>
+			<artifactId>launch4j-maven-plugin</artifactId>
+			<version>1.7.16</version>
+			<executions>
+				<execution>
+					<id>l4j-clui</id>
+					<phase>package</phase>
+					<goals><goal>launch4j</goal></goals>
+					<configuration>
+						<headerType>console</headerType>
+						<outfile>target/UMLapp.exe</outfile>
+						<jar>target/csci420-0.0.1-SNAPSHOT-jar-with-dependencies.jar</jar>
+						<errTitle>encc</errTitle>
+						<classPath>
+							<mainClass>team.indecision.UML</mainClass>
+							<addDependencies>true</addDependencies>
+							<preCp>anything</preCp>
+						</classPath>
+						<jre>
+							<minVersion>1.8.0</minVersion>
+							<jdkPreference>preferJre</jdkPreference>
+							<opts>
+								<opt>-Djava.endorsed.dirs=./endorsed</opt>
+							</opts>
+						</jre>
+						<versionInfo>
+							<fileVersion>1.0.0.0</fileVersion>
+							<txtFileVersion>${project.version}</txtFileVersion>
+							<fileDescription>${project.name}</fileDescription>
+							<copyright>Tindi</copyright>
+							<productVersion>1.0.0.0</productVersion>
+							<txtProductVersion>1.0.0.0</txtProductVersion>
+							<productName>${project.name}</productName>
+							<originalFilename>UMLapp.exe</originalFilename>
+							<!-- internalName is mandatory -->
+							<internalName>UMLapp</internalName>
+						</versionInfo>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
+</build>
 
   
 </project>
