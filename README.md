@@ -8,7 +8,7 @@ off.
 
 ## Requirements:
 
-Java 15
+Java 1.8.0
 
 Maven
 
