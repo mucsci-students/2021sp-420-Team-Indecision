@@ -14,8 +14,11 @@ Maven
 ## Getting Started:
 
 Once in the main directory of your command line, enter:
+
   ```mvn clean```
+  
   ```mvn package```
+  
   ```java -jar target\csci420-0.0.1-SNAPSHOT-jar-with-dependencies.jar```
   
   ## Authors
