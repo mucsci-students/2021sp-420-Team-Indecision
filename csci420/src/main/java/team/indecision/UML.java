@@ -158,22 +158,6 @@ public final class UML {
 		}
 	}
 	
-	public static void deleteClass(String name) throws IOException {
-		if(classes.containsKey(name)) {
-			classes.remove(name);
-		}else {
-			System.out.println("Invalid class name");
-		}
-	}
-	
-	public static void renameClass(String className, String newClassName) throws IOException {
-		if(classes.containsKey(className)) {
-			Class c = classes.get(className);
-			c.setName(newClassName);
-		}else {
-			System.out.println("This class does not exist.");
-		}
-	}
 	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
 	 */
 	public static void listClasses()
