@@ -77,7 +77,7 @@ public final class UML {
 //				listClass(parsedChoice[0]);
 			}
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("rel"))) {
-//				listRelationships();
+				listRelationships();
 			}
 			// save / load
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("save")) {
@@ -163,6 +163,11 @@ public final class UML {
 	public static void listClasses()
 	{
 			classes.forEach((key,value) -> System.out.println(value.toString()));
+	}
+	
+	public static void listRelationships()
+	{
+			classes.forEach((key,value) -> System.out.println(value.getName() + ": " + value.printRelationships()));
 	}
 	
 	/** Saves the classes SortedMap to a specified .json file. Still needs work, junit tests etc...
