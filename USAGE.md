@@ -3,6 +3,7 @@
 	1. Using a command prompt, find your way to the main directory of the program
 	2. mvn clean
 	3. mvn package
+	4. java -jar target\csci420-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 # Commands
 
