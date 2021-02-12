@@ -186,8 +186,7 @@ public final class UML {
 		if(classes.containsKey(className)) {
 			Class c = classes.get(className);
 			Set<String> attr = c.getAttributes();
-			if(attr.contains(attrName)) {
-				attr.remove(attrName);
+			if(attr.remove(attrName)) {
 				System.out.println("You have deleted the attribute named: " + attrName);
 			}	
 			else {
@@ -208,8 +207,7 @@ public final class UML {
 		if(classes.containsKey(className)) {
 			Class c = classes.get(className);
 			Set<String> attr = c.getAttributes();
-			if(attr.contains(oldAttrName) && !(attr.contains(newAttrName))) {
-				attr.remove(oldAttrName);
+			if(attr.remove(oldAttrName) && !(attr.contains(newAttrName))) {
 				attr.add(newAttrName);	
 				System.out.println("You have renamed " + oldAttrName + " to " + newAttrName);
 			}	
