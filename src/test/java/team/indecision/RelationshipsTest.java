@@ -46,7 +46,6 @@ public class RelationshipsTest {
         attributes.add("attribute3");
         SortedMap<String, String> relationships = new TreeMap<String, String>();
         relationships.put("class1","type1");
-        Class c = new Class (name, attributes, relationships);
         UML.addClass(name);
         UML.addRelationship("nameTest", "class1", "type1");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
