@@ -49,8 +49,8 @@ public final class UML {
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("attr"))) {
 				addAttribute(parsedChoice[2], parsedChoice[3]);
 			}
-			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
-//				addRelationship(parsedChoice[2], parsedChoice[3]);
+			else if (parsedChoice.length == 5 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
+				addRelationship(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// delete
 			else if (parsedChoice.length == 3 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("class"))) {
@@ -210,6 +210,57 @@ public final class UML {
 		else {
 			System.out.println("The class does not exist.");
 		}
+	}
+	
+	public static void addRelationship(String className, String relationshipClass, String realtionshipType) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			SortedMap<String, String> r = c.getRelationships();
+			if (!r.containsKey(relationshipClass)) {
+				r.put(relationshipClass, realtionshipType);
+				System.out.println("You have created a new relationship with class: " + relationshipClass + "of type " + realtionshipType);
+			}
+			else {
+				System.out.println("A relationship with this class already exists.");
+			}
+		}
+		else {
+			System.out.println("The class does not exist.");
+		}
+	}
+	
+	public static void deleteRelationship(String className, String relationshipClass, String realtionshipType) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			SortedMap<String, String> r = c.getRelationships();
+			if (r.containsKey(relationshipClass)) {
+				r.put(relationshipClass, realtionshipType);
+				System.out.println("You have created a new relationship with class: " + relationshipClass + "of type " + realtionshipType);
+			}
+			else {
+				System.out.println("A relationship with this class already exists.");
+			}
+		}
+		else {
+			System.out.println("The class does not exist.");
+		}
+	}
+	
+	public static void removeRelationship(String className, String relationshipClass) {
+        if (classes.containsKey(className)) {
+            Class c = classes.get(className);
+            SortedMap<String, String> r = c.getRelationships();
+            if (r.containsKey(relationshipClass)) {
+                r.remove(relationshipClass);
+                System.out.println("You have deleted a relationship with class: " + className + "of" + relationshipClass);
+            }
+            else {
+                System.out.println("The relationship doesn't exist");
+            }
+        }
+        else {
+            System.out.println("The class does not exist.");
+        }
 	}
   
 	public static void help() {
