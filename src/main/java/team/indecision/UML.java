@@ -49,7 +49,7 @@ public final class UML {
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("attr"))) {
 				addAttribute(parsedChoice[2], parsedChoice[3]);
 			}
-			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
+			else if (parsedChoice.length == 5 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
 				addRelationship(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// delete
