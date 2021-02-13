@@ -73,11 +73,11 @@ public final class UML {
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
 				listClasses();
 			}
-			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("class"))) {
-//				listClass(parsedChoice[0]);
+			else if (parsedChoice.length == 3 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("class"))) {
+				listClass(parsedChoice[2]);
 			}
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("rel"))) {
-//				listRelationships();
+				listRelationships();
 			}
 			// save / load
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("save")) {
@@ -165,6 +165,20 @@ public final class UML {
 			classes.forEach((key,value) -> System.out.println(value.toString()));
 	}
 	
+	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
+	 */
+	public static void listClass(String className)
+	{
+        if(classes.containsKey(className)) {
+            Class c = classes.get(className);
+            System.out.println(c.toString());
+        }
+        else {
+            System.out.println("This class does not exist");
+        }
+	}
+	
+	
 	/** Saves the classes SortedMap to a specified .json file. Still needs work, junit tests etc...
 	 */
 	public static void save(String name) {
@@ -216,11 +230,11 @@ public final class UML {
                 System.out.println("You have created a new relationship with class: " + relationshipClass + "of type " + realtionshipType);
             }
             else {
-                System.out.println("A relationship with this class already exists.");
+                System.out.println("A relationship with this class " + className + " already exists.");
             }
         }
         else {
-            System.out.println("The class does not exist.");
+            System.out.println("The class "  +  className + " does not exist.");
         }
     }
 	
@@ -245,6 +259,8 @@ public final class UML {
 	{
 			classes.forEach((key,value) -> System.out.println(value.getName() + " " + value.printRelationships()));
 	}
+	
+	
   
 	public static void help() {
 		System.out.println("\nADD");
