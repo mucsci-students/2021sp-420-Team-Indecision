@@ -12,10 +12,26 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.apache.commons.io.FileUtils;
+import org.junit.Before;
 import org.junit.Test;
 
 public class SaveLoadTest {
 
+	
+	@Before
+	public void createTestFile() {
+		UML.addClass("test");
+		UML.addAttribute("test", "attr");
+		UML.addAttribute("test", "attr1");
+		UML.addRelationship("test", "rel", "type");
+		UML.addRelationship("test", "rel1", "type");
+		UML.addClass("test1");
+		UML.addClass("test2");
+		UML.addRelationship("test2", "rel", "type");
+		UML.addAttribute("test2", "attr");
+		UML.save("classesTest");
+	}
+	
 	@Test
 	public void testSave() throws IOException {
 		UML.addClass("test");
