@@ -10,7 +10,7 @@
 	ADD
 	add class class_name - adds a class
 	add attr class_name attr_name - adds attribute to a desired class
-	add rel class1 class2 - adds a relationship between classes
+	add rel sourceClass destClass relationshipType - adds a relationship between classes
 	
 	DELETE
 	delete class class_name - deletes given class");
