@@ -71,7 +71,7 @@ public class SaveLoadTest {
 		System.out.println(classesTest.getPath());
 		UML.load(classesTest);
 		
-		/*
+		
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
 		UML.load(classesTest);
@@ -79,7 +79,7 @@ public class SaveLoadTest {
 				"test1 [] {}\r\n" + 
 				"test2 [attr] {rel=type}", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
-		*/
+		
 		
 	}
 	
