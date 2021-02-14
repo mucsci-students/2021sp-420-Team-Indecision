@@ -321,7 +321,7 @@ public final class UML {
 		System.out.println("\nADD");
 		System.out.println("add class class_name - adds a class");
 		System.out.println("add attr class_name attr_name - adds attribute to a desired class");
-		System.out.println("add rel class1 class2 - adds a relationship between classes\n");
+		System.out.println("add rel sourceClass destClass relationshipType - adds a relationship between classes\n");
 		System.out.println("DELETE");
 		System.out.println("delete class class_name - deletes given class");
 		System.out.println("delete attr class_name attr_name - deletes given attribute in specified class");
