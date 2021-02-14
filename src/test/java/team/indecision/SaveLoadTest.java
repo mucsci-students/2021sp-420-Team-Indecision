@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
+
 import org.junit.Test;
 
 public class SaveLoadTest {
@@ -30,7 +30,6 @@ public class SaveLoadTest {
 		UML.addRelationship("test2", "rel", "type");
 		UML.addAttribute("test2", "attr");
 		UML.save("classes");
-		UML.save("classesTest");
 		UML.listClasses();
 		File classes = Paths.get("classes").toFile();
 		File classesTest = Paths.get("classesTest").toFile();
@@ -68,12 +67,29 @@ public class SaveLoadTest {
 		classes.put(name1, c1);
 		classes.put(name2, c2);
 		
+		File classesTest = Paths.get("classesTest").toFile();
+		System.out.println(classesTest.getPath());
+		UML.load(classesTest);
+		
+		/*
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		UML.load("classesTest");
+		UML.load(classesTest);
 		assertEquals("test [attr, attr1] {rel=type, rel1=type}\r\n" + 
 				"test1 [] {}\r\n" + 
 				"test2 [attr] {rel=type}", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+		*/
+		
+	}
+	
+	@Test
+	public void testLoadWhenFileDoesNotExist() {
+		
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		UML.load("classesasdhc[");
+		assertEquals("Not valid json or file does not exist.", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 		
 	}

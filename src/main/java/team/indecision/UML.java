@@ -1,6 +1,7 @@
 package team.indecision;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
@@ -309,6 +310,19 @@ public final class UML {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			classes = objectMapper.readValue(Paths.get(fileName).toFile(), new TypeReference<SortedMap<String, Class>>() {});
+			listClasses();
+		} catch (Exception ex) {
+			System.out.println("Not valid json or file does not exist.");
+		}
+	}
+	
+	/** Loads a specified valid .json file into the classes SortedMap. Primarily for testing.
+	 * @param file A file that contains a class objects as json.
+	 */
+	public static void load(File f) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			classes = objectMapper.readValue(f, new TypeReference<SortedMap<String, Class>>() {});
 			listClasses();
 		} catch (Exception ex) {
 			System.out.println("Not valid json or file does not exist.");
