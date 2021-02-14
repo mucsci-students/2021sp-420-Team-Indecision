@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.TreeMap;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Set;
 import java.util.SortedMap;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,18 +51,18 @@ public final class UML {
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("attr"))) {
 				addAttribute(parsedChoice[2], parsedChoice[3]);
 			}
-			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
-//				addRelationship(parsedChoice[2], parsedChoice[3]);
+			else if (parsedChoice.length == 5 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
+				addRelationship(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// delete
 			else if (parsedChoice.length == 3 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("class"))) {
 				deleteClass(parsedChoice[2]);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("attr"))) {
-//				deleteAttribute(parsedChoice[2], parsedChoice[3]);
+	//			deleteAttribute(parsedChoice[2], parsedChoice[3]);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("rel"))) {
-//				deleteRelationship(parsedChoice[2], parsedChoice[3]);
+				deleteRelationship(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// rename
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("rename") && (parsedChoice[1].equals("class"))) {
@@ -73,11 +75,11 @@ public final class UML {
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
 				listClasses();
 			}
-			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("class"))) {
-//				listClass(parsedChoice[0]);
+			else if (parsedChoice.length == 3 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("class"))) {
+				listClass(parsedChoice[2]);
 			}
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("rel"))) {
-//				listRelationships();
+				listRelationships();
 			}
 			// save / load
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("save")) {
@@ -157,6 +159,66 @@ public final class UML {
 			} 	
 		}
 	}
+	/** Adds an attribute to the attribute field. If the class does not exist or the attribute already exists it prints an error.
+	 * @param className A string that represents the class name.
+	 * @param attrName A string that represents the new attributes name.
+	 */
+	public static void addAttribute(String className, String attrName) throws IOException {	
+		if(classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if(c.addAttribute(attrName)) {
+				System.out.println("You have created a new attribute named: " + attrName);
+			}
+			else {
+				System.out.println("Error: That attribute already exists.");
+			}
+		}
+		else {
+			System.out.println("Error: That class does not exist.");
+		}
+	}
+	
+	/** Deletes an attribute from the attribute field. If the class does not exist or the attribute does not exist it prints an error.
+	 * @param className A string that represents the class name.
+	 * @param attrName A string that represents the attribute being deleted.
+	 */
+	public static void deleteAttribute(String className, String attrName) throws IOException {	
+		if(classes.containsKey(className)) {
+			Class c = classes.get(className);
+			Set<String> attr = c.getAttributes();
+			if(attr.remove(attrName)) {
+				System.out.println("You have deleted the attribute named: " + attrName);
+			}	
+			else {
+				System.out.println("Error: Attribute does not exist.");
+			}
+		}
+		else {
+			System.out.println("Error: That class does not exist.");
+		}
+	}
+	
+	/** Renames an attribute from the attribute field. If the class does not exist or the attribute does not exist it prints an error.
+	 * @param className A string that represents the class name.
+	 * @param attrName A string that represents the attribute being renamed.
+	 * @param newAttrName A string that represents the new attribute name.
+	 */
+	public static void renameAttribute(String className, String oldAttrName, String newAttrName) throws IOException {	
+		if(classes.containsKey(className)) {
+			Class c = classes.get(className);
+			Set<String> attr = c.getAttributes();
+			if(attr.remove(oldAttrName) && !(attr.contains(newAttrName))) {
+				attr.add(newAttrName);	
+				System.out.println("You have renamed " + oldAttrName + " to " + newAttrName);
+			}	
+			else {
+				System.out.println("Error: Conflicting attribute names.");
+			}
+		}
+		else {
+			System.out.println("That class does not exist.");
+		}
+	}
 	
 	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
 	 */
@@ -164,6 +226,20 @@ public final class UML {
 	{
 			classes.forEach((key,value) -> System.out.println(value.toString()));
 	}
+	
+	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
+	 */
+	public static void listClass(String className)
+	{
+        if(classes.containsKey(className)) {
+            Class c = classes.get(className);
+            System.out.println(c.toString());
+        }
+        else {
+            System.out.println("This class does not exist");
+        }
+	}
+	
 	
 	/** Saves the classes SortedMap to a specified .json file. Still needs work, junit tests etc...
 	 */
@@ -191,21 +267,49 @@ public final class UML {
 		}
 	}
 	
-	public static void addAttribute(String className, String attrName) {	
-		if(classes.containsKey(className)) {
-			Class c = classes.get(className);
-			if(c.addAttribute(attrName)) {
-				//classes.replace(className, c); You do not need this line. We are making changes to the object that is in the collection.
-				System.out.println("You have created a new attribute named: " + attrName);
-			}
-			else {
-				System.out.println("The attribute already exists");
-			}
-		}
-		else {
-			System.out.println("The class does not exist.");
-		}
+
 	}
+	
+	public static void addRelationship(String className, String relationshipClass, String relationshipType) {
+        if (classes.containsKey(className)) {
+            Class c = classes.get(className);
+            SortedMap<String, String> r = c.getRelationships();
+            if (!r.containsKey(relationshipClass)) {
+                r.put(relationshipClass, relationshipType);
+                System.out.println("You have created a new relationship with class: " + relationshipClass + "of type " + relationshipType);
+            }
+            else {
+                System.out.println("A relationship with this class " + className + " already exists.");
+            }
+        }
+        else {
+            System.out.println("The class "  +  className + " does not exist.");
+        }
+    }
+	
+	public static void deleteRelationship(String className, String relationshipClass, String relationshipType) {
+        if (classes.containsKey(className)) {
+            Class c = classes.get(className);
+            SortedMap<String, String> r = c.getRelationships();
+            if (r.containsKey(relationshipClass)) {
+                r.remove(relationshipClass, relationshipType);
+                System.out.println("You have deleted a relationship with class: " + className + "of" + relationshipClass + "with relationship type" + relationshipType);
+            }
+            else {
+                System.out.println("The relationship does not exist.");
+            }
+        }
+        else {
+            System.out.println("The class does not exist.");
+        }
+	}
+	
+	public static void listRelationships()
+	{
+			classes.forEach((key,value) -> System.out.println(value.getName() + " " + value.printRelationships()));
+	}
+	
+	
   
 	public static void help() {
 		System.out.println("\nADD");
