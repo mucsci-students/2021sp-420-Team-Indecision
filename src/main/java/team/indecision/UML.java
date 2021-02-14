@@ -59,7 +59,7 @@ public final class UML {
 				deleteClass(parsedChoice[2]);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("attr"))) {
-	//			deleteAttribute(parsedChoice[2], parsedChoice[3]);
+				deleteAttribute(parsedChoice[2], parsedChoice[3]);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("rel"))) {
 				deleteRelationship(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
@@ -69,7 +69,7 @@ public final class UML {
 				renameClass(parsedChoice[2], parsedChoice[3]);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("rename") && (parsedChoice[1].equals("attr"))) {
-//				renameAttribute(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
+				renameAttribute(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// list
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
@@ -163,7 +163,7 @@ public final class UML {
 	 * @param className A string that represents the class name.
 	 * @param attrName A string that represents the new attributes name.
 	 */
-	public static void addAttribute(String className, String attrName) throws IOException {	
+	public static void addAttribute(String className, String attrName) {	
 		if(classes.containsKey(className)) {
 			Class c = classes.get(className);
 			if(c.addAttribute(attrName)) {
@@ -266,9 +266,7 @@ public final class UML {
 			System.out.println("Not valid json or file does not exist.");
 		}
 	}
-	
 
-	}
 	
 	public static void addRelationship(String className, String relationshipClass, String relationshipType) {
         if (classes.containsKey(className)) {
