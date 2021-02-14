@@ -135,4 +135,3 @@ public class Class {
         return result;
     }
 }
-
