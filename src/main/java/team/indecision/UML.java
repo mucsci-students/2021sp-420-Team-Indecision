@@ -43,8 +43,8 @@ public final class UML {
 		boolean x = true;
 
 		while (x) {
+			
 			// add
-
 			if (parsedChoice.length == 3 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("class"))) {
 				addClass(parsedChoice[2]);
 			}
@@ -88,11 +88,11 @@ public final class UML {
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("load")) {
 				   load(parsedChoice[1]);
 			}
-      //misc
+			//misc
 			else if (parsedChoice.length == 1 && parsedChoice[0].equals("help")) {
 				   help();
 			}
-			else if (parsedChoice.length == 1 && parsedChoice[0].equals("exit")){
+			else if (parsedChoice.length == 1 && parsedChoice[0].equals("exit")) {
 				   break;
 			}
 			else {
@@ -110,8 +110,7 @@ public final class UML {
 	 */
 	public static void addClass(String name) {
 		Class c = new Class(name); 
-		if (classes.put(name, c) == null) //.put will return null if there is no mapping for the key.
-		{
+		if (classes.put(name, c) == null) { //.put will return null if there is no mapping for the key.
 			System.out.println("You have created a new class named: " + name);
 		}
 		else 
@@ -124,12 +123,10 @@ public final class UML {
 	 * @param name A string that represents the class name.
 	 */
 	public static void deleteClass(String name) {
-		if (classes.remove(name) != null) //.remove will return null if there was no mapping for the key.
-		{
+		if (classes.remove(name) != null) { //.remove will return null if there was no mapping for the key.
 			System.out.println("The class " + name + " has been deleted.");
 		}
-		else 
-		{
+		else {
 			System.out.println("The class " + name + " does not exist.");
 		}
 	}
@@ -139,16 +136,14 @@ public final class UML {
 	 * @param newClassName A string that represents the new class name.
 	 */
 	public static void renameClass(String className, String newClassName) {
-		if (classes.containsKey(className) && !classes.containsKey(newClassName))
-		{
+		if (classes.containsKey(className) && !classes.containsKey(newClassName)) {
 			Class c = classes.get(className);
 			c.setName(newClassName);
 			classes.remove(className, c); //We need to change the key value to do this we have to remove the mapping and then re-add it with then new name.
 			classes.put(newClassName, c);
 			System.out.println("You have renamed the class " + className + " to " + newClassName);
 		}
-		else 
-		{
+		else {
 			if (!classes.containsKey(className))
 			{
 				System.out.println("The class " + className + " does not exist.");
@@ -220,54 +215,11 @@ public final class UML {
 		}
 	}
 	
-	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
+	/** Adds an relationship to the specified class. If the class does not exist or the relationship already exists it prints an error.
+	 * @param className A string that represents the class name.
+	 * @param relationshipClass A string that represents the relationship destination class.
+	 * @param relationshipType A string that represents the relationship type name.
 	 */
-	public static void listClasses()
-	{
-			classes.forEach((key,value) -> System.out.println(value.toString()));
-	}
-	
-	/** Lists the Class objects stored in the classes SortedMap field. Still needs work, junit tests etc...
-	 */
-	public static void listClass(String className)
-	{
-        if(classes.containsKey(className)) {
-            Class c = classes.get(className);
-            System.out.println(c.toString());
-        }
-        else {
-            System.out.println("This class does not exist");
-        }
-	}
-	
-	
-	/** Saves the classes SortedMap to a specified .json file. Still needs work, junit tests etc...
-	 */
-	public static void save(String name) {
-		name = name.concat(".json");
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.writeValue(Paths.get(name).toFile(), classes);
-		} catch (Exception ex) {
-			System.out.println("Not a valid file name.");
-		}
-		
-	}
-	
-	/** Loads a specified valid .json file into the classes SortedMap. Still needs work, junit tests etc...
-	 */
-	public static void load(String name) {
-		name = name.concat(".json");
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			classes = objectMapper.readValue(Paths.get(name).toFile(), new TypeReference<SortedMap<String, Class>>() {});
-			listClasses();
-		} catch (Exception ex) {
-			System.out.println("Not valid json or file does not exist.");
-		}
-	}
-
-	
 	public static void addRelationship(String className, String relationshipClass, String relationshipType) {
         if (classes.containsKey(className)) {
             Class c = classes.get(className);
@@ -285,6 +237,11 @@ public final class UML {
         }
     }
 	
+	/** Deletes a relationship from the specified class. If the class does not exist or the relationship does not exist it prints an error.
+	 * @param className A string that represents the class name.
+	 * @param relationshipClass A string that represents the relationship destination class.
+	 * @param relationshipType A string that represents the relationship type name.
+	 */
 	public static void deleteRelationship(String className, String relationshipClass, String relationshipType) {
         if (classes.containsKey(className)) {
             Class c = classes.get(className);
@@ -302,13 +259,64 @@ public final class UML {
         }
 	}
 	
+	/** Prints each Class object in the map.
+	 */
+	public static void listClasses()
+	{
+			classes.forEach((key,value) -> System.out.println(value.toString()));
+	}
+	
+	/** Prints the specified class object from the classes map if it does not exist prints an error message.
+	 * @param className A String that represents the class name.
+	 */
+	public static void listClass(String className)
+	{
+        if(classes.containsKey(className)) {
+            Class c = classes.get(className);
+            System.out.println(c.toString());
+        }
+        else {
+            System.out.println("This class does not exist");
+        }
+	}
+	
+	/** Prints each Class's relationships.
+	 */
 	public static void listRelationships()
 	{
 			classes.forEach((key,value) -> System.out.println(value.getName() + " " + value.printRelationships()));
 	}
 	
+	/** Saves the classes SortedMap to a specified .json file. The file is saved to the program root dir.
+	 * @param fileName A string that represents the class name.
+	 */
+	public static void save(String fileName) {
+		fileName = fileName.concat(".json");
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.writeValue(Paths.get(fileName).toFile(), classes);
+		} catch (Exception ex) {
+			System.out.println("Not a valid file name.");
+		}
+		
+	}
 	
-  
+	/** Loads a specified valid .json file into the classes SortedMap.
+	 * @param fileName A string that represents the class name.
+	 */
+	public static void load(String fileName) {
+		fileName = fileName.concat(".json");
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			classes = objectMapper.readValue(Paths.get(fileName).toFile(), new TypeReference<SortedMap<String, Class>>() {});
+			listClasses();
+		} catch (Exception ex) {
+			System.out.println("Not valid json or file does not exist.");
+		}
+	}
+	
+	/** Prints out help information on how to use the program.
+	 */
 	public static void help() {
 		System.out.println("\nADD");
 		System.out.println("add class class_name - adds a class");
