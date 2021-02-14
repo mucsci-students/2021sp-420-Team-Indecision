@@ -316,19 +316,6 @@ public final class UML {
 		}
 	}
 	
-	/** Loads a specified valid .json file into the classes SortedMap. Primarily for testing.
-	 * @param file A file that contains a class objects as json.
-	 */
-	public static void load(File f) {
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			classes = objectMapper.readValue(f, new TypeReference<SortedMap<String, Class>>() {});
-			listClasses();
-		} catch (Exception ex) {
-			System.out.println("Not valid json or file does not exist.");
-		}
-	}
-	
 	/** Prints out help information on how to use the program.
 	 */
 	public static void help() {

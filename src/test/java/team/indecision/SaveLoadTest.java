@@ -65,16 +65,11 @@ public class SaveLoadTest {
 		SortedMap<String, Class> classes = new TreeMap<String, Class>();
 		classes.put(name, c);
 		classes.put(name1, c1);
-		classes.put(name2, c2);
-		
-		File classesTest = Paths.get("classesTest").toFile();
-		System.out.println(classesTest.getPath());
-		UML.load(classesTest);
-		
+		classes.put(name2, c2);	
 		
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		UML.load(classesTest);
+		UML.load("classesTest");
 		assertEquals("test [attr, attr1] {rel=type, rel1=type}\r\n" + 
 				"test1 [] {}\r\n" + 
 				"test2 [attr] {rel=type}", outContent.toString().trim());
