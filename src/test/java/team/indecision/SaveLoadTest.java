@@ -17,7 +17,7 @@ import org.junit.Test;
 
 public class SaveLoadTest {
 
-	/*
+	
 	@Test
 	public void testSave() throws IOException {
 		UML.addClass("test");
@@ -88,5 +88,5 @@ public class SaveLoadTest {
 		System.setOut(System.out); // resetting the system.setOut to default
 		
 	}
-*/
+
 }
