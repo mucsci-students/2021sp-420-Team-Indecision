@@ -62,19 +62,13 @@ public class SaveLoadTest {
 		Class c2 = new Class (name2, attributes2, relationships2);
 		//System.out.println(c2.toString());
 		
-		SortedMap<String, Class> classes = new TreeMap<String, Class>();
-		classes.put(name, c);
-		classes.put(name1, c1);
-		classes.put(name2, c2);	
 		
-		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(outContent)); //capturing console output.
+		
 		UML.load("classesTest");
-		assertEquals("test [attr, attr1] {rel=type, rel1=type}\r\n" + 
-				"test1 [] {}\r\n" + 
-				"test2 [attr] {rel=type}", outContent.toString().trim());
-		System.setOut(System.out); // resetting the system.setOut to default
 		
+		assertTrue(c.equals(UML.getClasses().get("test")));
+		assertTrue(c1.equals(UML.getClasses().get("test1")));
+		assertTrue(c2.equals(UML.getClasses().get("test2")));
 		
 	}
 	
