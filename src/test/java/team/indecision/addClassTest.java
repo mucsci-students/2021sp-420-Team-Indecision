@@ -15,7 +15,8 @@ public class addClassTest {
 		UML.addClass("test");
 		assertTrue(c.equals(UML.getClasses().get("test"))); //Testing that we are adding a class correctly.
 		UML.addClass("test"); 
-		//assertTrue(UML.getClasses().size() == 1 && c.equals(UML.getClasses().get("test"))); //Testing that when we add a duplicate class we not adding it again.);
+		assertTrue(UML.getClasses().size() == 1); //Testing that when we add a duplicate class we not adding it again.);
+		assertTrue(c.equals(UML.getClasses().get("test")));
 		
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
