@@ -42,7 +42,7 @@ public class AttributesTest {
 
         assertTrue(UML.getClasses().get("class").equals(classTest));
 		assertEquals("You have deleted the attribute named: attribute", outContent.toString().trim()); 
-
+		System.setOut(System.out);
         }
 	
 	@Test
