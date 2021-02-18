@@ -74,10 +74,10 @@ public final class UML {
 //				classes.editMethodType(parsedChoice[2], parsedChoice[3], parsedChoice[4], parsedChoice[5]);
 //			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel"))) {
-				classes.editRelationshipDestination(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
+//				classes.editRelationshipDestination(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method"))) {
-				classes.editRelationshipType(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
+//				classes.editRelationshipType(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// list
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
