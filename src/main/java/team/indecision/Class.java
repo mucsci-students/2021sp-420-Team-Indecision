@@ -1,9 +1,9 @@
 package team.indecision;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /** Represents a Class in the UML model.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
@@ -14,10 +14,12 @@ public class Class {
 	
 	//Stores the class name.
 	private String name;
-	//Stores the attributes for the class.
-	private Set<String> attributes = new HashSet<String>();
+	//Stores the fields for the class.
+	private SortedSet<Field> fields = new TreeSet<Field>();
+	//Stores the methods for the class.
+	private SortedSet<Method> methods = new TreeSet<Method>();
 	//Stores the relationships for the class.
-	private SortedMap<String, String> relationships = new TreeMap<String, String>();
+	private SortedSet<Relationship> relationships = new TreeSet<Relationship>();
 	
 	/** Constructs an uninitialized instance of the object.
 	 * 
@@ -33,14 +35,16 @@ public class Class {
 		name = nameP;
 	}
 	
-	/** Constructs a class with a specified name, attributes, and relationships.
+	/** Constructs a class with a specified name, fields, methods and relationships.
 	 * @param nameP The class name.
-	 * @param attributesP The class name.
-	 * @param relationshipsP The class name.
+	 * @param fieldsP The class fields name.
+	 * @param methodsP The class methods name.
+	 * @param relationshipsP The class relationships name.
 	 */
-	public Class(String nameP, Set<String> attributesP, SortedMap<String, String> relationshipsP) {
+	public Class(String nameP, SortedSet<Field> fieldsP, SortedSet<Method> methodsP, SortedSet<Relationship> relationshipsP) {
 		name = nameP;
-		attributes = attributesP;
+		fields = fieldsP;
+		methods = methodsP;
 		relationships = relationshipsP;
 	}
 	
@@ -58,54 +62,167 @@ public class Class {
 		name = newName;
 	}
 	
-	/** Gets the class's attributes.
-	 * @return A Set that stores the class attributes.
+	/** Gets the class's fields.
+	 * @return A SortedSet that stores the class fields.
 	 */
-	public Set<String> getAttributes() {
-		return attributes;
+	public SortedSet<Field> getFields() {
+		return fields;
 	}
 	
-	/** Sets the class's attributes.
-	 * @param newAttributes A Set of Strings containing the class attributes.
+	/** Sets the class's fields.
+	 * @param newFeilds A SortedSet of Fields containing the class fields.
 	 */
-	public void setAttributes(Set<String> newAttributes) {
-		attributes = newAttributes;
+	public void setFields(SortedSet<Field> newFields) {
+		fields = newFields;
 	}
 	
-	/** Adds a new attribute to the class.
-	 * @param newAttribute A Strings containing the class attribute.
+	/** Adds a new field to the class.
+	 * @param newField A String containing the class field name.
+	 * @return A boolean true if it is added and false if it already exists or is not added.
 	 */
-	public boolean addAttribute(String newAttribute) {
-		return attributes.add(newAttribute);
+	public boolean addField(String newField) {
+		Field f = new Field (newField);
+		return fields.add(f);
 	}
 	
-	/** Prints the attributes for this class.
-	 * @return A String containing the class's attributes.
+	/** Deletes an existing field from the class.
+	 * @param name A String containing the class field name.
+	 * @return A boolean true if it is deleted and false if it does not exist.
 	 */
-	public String printAttributes() {
-		return attributes.toString();
+	public boolean deleteField(String name) {
+		Field f = new Field (name);
+		return fields.remove(f);
+	}
+	
+	/** Gets a specified field from the class fields set.
+	 * @param name A String containing the class field name.
+	 * @return A Field from the fields set returns null if it does not exist in the set.
+	 */
+	public Field getField(String name) {
+		 Iterator<Field> it = fields.iterator();
+		 Field f = null;
+		 while (it.hasNext()) {
+			 f = it.next();
+			 if (f.getName().equals(name)) {
+				 break;
+			 }
+			 f = null;
+		 }
+		 return f;
+	}
+	
+	/** Prints the fields for this class.
+	 * @return A String containing the class's fields.
+	 */
+	public String printFields() {
+		return fields.toString();
+	}
+	
+	/** Gets the class's methods.
+	 * @return A SortedSet that stores the class methods.
+	 */
+	public SortedSet<Method> getMethods() {
+		return methods;
+	}
+	
+	/** Sets the class's methods.
+	 * @param newFeilds A SortedSet of methods containing the class methods.
+	 */
+	public void setMethods(SortedSet<Method> newMethods) {
+		methods = newMethods;
+	}
+	
+	/** Adds a new method to the class.
+	 * @param newField A String containing the class method name.
+	 * @return A boolean true if it is added and false if it already exists or is not added.
+	 */
+	public boolean addMethod(String newMethod, List<String> newParameters) {
+		Method m = new Method(newMethod, newParameters);
+		return methods.add(m);
+	}
+	
+	/** Deletes an existing method from the class.
+	 * @param name A String containing the class method name.
+	 * @return A boolean true if it is deleted and false if it does not exist.
+	 */
+	public boolean deleteMethod(String name, List<String> parameters) {
+		Method m = new Method(name, parameters);
+		return methods.remove(m);
+	}
+	
+	/** Gets a specified method from the class methods set.
+	 * @param name A String containing the class method name.
+	 * @return A Method from the methods set returns null if it does not exist in the set.
+	 */
+	public Method getMethod(String name, List<String> parameters) {
+		 Iterator<Method> it = methods.iterator();
+		 Method m = null;
+		 while (it.hasNext()) {
+			 m = it.next();
+			 if (m.getName().equals(name) && m.getParameters().equals(parameters)) {
+				 break;
+			 }
+			 m = null;
+		 }
+		 return m;
+	}
+	
+	/** Prints the methods for this class.
+	 * @return A String containing the class's methods.
+	 */
+	public String printMethods() {
+		return methods.toString();
 	}
 	
 	/** Gets the class's relationships.
 	 * @return A SortedMap that stores the class relationships.
 	 */
-	public SortedMap<String, String> getRelationships() {
+	public SortedSet<Relationship> getRelationships() {
 		return relationships;
 	}
 	
 	/** Sets the class's relationships.
-	 * @param newRelationship A SortedMap of a (key) String that represents the name of the relationship and a (value) String that represents the type of the relationship.
+	 * @param newRelationship A SortedSet of Relationship objects that contains the class's relationships.
 	 */
-	public void setRelationships(SortedMap<String, String> newRelationship) {
-		relationships = newRelationship;
+	public void setRelationships(SortedSet<Relationship> newRelationships) {
+		relationships = newRelationships;
 	}
 	
 	/** Adds a new relationship to the class.
 	 * @param name A String that represents the name of the relationship.
-	 * @param type A Strings that represents the type of the relationship.
+	 * @param type A String that represents the type of the relationship.
+	 * @return A boolean true if it is added and false if it already exists or is not added.
 	 */
-	public void addRelationship(String name, String type) {
-		relationships.put(name, type);
+	public boolean addRelationship(String destination, String type) {
+		Relationship r = new Relationship (destination, type);
+		return relationships.add(r);
+	}
+	
+	/** Deletes an existing relationship from the class.
+	 * @param name A String that represents the name of the relationship.
+	 * @param type A String that represents the type of the relationship.
+	 * @return A boolean true if it is deleted and false if it does not exist.
+	 */
+	public boolean deleteRelationship(String destination, String type) {
+		Relationship r = new Relationship (destination,type);
+		return relationships.remove(r);
+	}
+	
+	/** Gets a specified relationship from the class relationships set.
+	 * @param destination A String containing the relationship destination name.
+	 * @return A Relationship from the relationships set returns null if it does not exist in the set.
+	 */
+	public Relationship getRelationship(String destination) {
+		 Iterator<Relationship> it = relationships.iterator();
+		 Relationship r = null;
+		 while (it.hasNext()) {
+			 r = it.next();
+			 if (r.getDestination().equals(destination)) {
+				 break;
+			 }
+			 r = null;
+		 }
+		 return r;
 	}
 	
 	/** Prints the relationships for this class.
@@ -119,7 +236,7 @@ public class Class {
 	 * @return A String containing this class.
 	 */
 	public String toString() {
-		String result = this.getName() + " " + this.printAttributes() + " " + this.printRelationships(); 
+		String result = this.getName() + " " + this.printFields() + " " + this.printMethods() + " " + this.printRelationships(); 
         return result;
 	}
 	
@@ -129,9 +246,10 @@ public class Class {
 	 */
 	public boolean equals(Class classObject) {
         boolean result = false;
-        if (classObject.getName().equals(this.getName()) && classObject.getAttributes().equals(this.getAttributes()) && classObject.getRelationships().equals(this.getRelationships()) ) {
+        if (classObject.getName().equals(this.getName()) && classObject.getFields().equals(this.getFields()) && classObject.getMethods().equals(this.getMethods()) && classObject.getRelationships().equals(this.getRelationships()) ) {
             result = true;
         }
         return result;
     }
 }
+
