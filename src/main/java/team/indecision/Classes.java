@@ -164,7 +164,18 @@ public class Classes {
 	 * @param fieldName A String representing the name of the field.
 	 */
 	public void addField(String className, String fieldName) {
-		//Needs to be implemented.
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if (c.addField(fieldName)) {
+				System.out.println("The field " + fieldName + " has been added to the class " + className + ".");
+			}
+			else {
+				System.out.println("The field " + fieldName + " already exists with the class " + className + ".");
+			}
+		}
+		else {
+			System.out.println("The class "  +  className + " does not exist.");
+		}
 	}
 	
 	/** Deletes a field from the specified class in the classes map. If the class does not exist or the field already exists it prints an error.
@@ -172,7 +183,18 @@ public class Classes {
 	 * @param fieldName A String representing the name of the field.
 	 */
 	public void deleteField(String className, String fieldName) {
-		//Needs to be implemented.
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if (c.deleteField(fieldName)) {
+				System.out.println("The field " +  fieldName + " has been deleted from class " + className + ".");
+			}
+			else {
+				System.out.println("The field " +  fieldName + " does not exist with the class " + className + ".");
+			}
+		}
+		else {
+			System.out.println("The class " +  className + " does not exist.");
+		}
 	}
 	
 	/** Edits a current field for the specified class in the classes map. If the class does not exist or the field does not exist or if the newField name already exists it prints an error.
@@ -181,7 +203,26 @@ public class Classes {
 	 * @param newFieldName A String representing the new name of the field.
 	 */
 	public void editField(String className, String fieldName, String newFieldName) {
-		//Needs to be implemented.
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			Field f = c.getField(fieldName);
+			Field fn = c.getField(newFieldName);
+			if(f != null && fn == null) {
+				f.setName(newFieldName);
+				System.out.println("The field " + fieldName + " has been renamed to " + newFieldName + ".");
+			}
+			else {
+				if (fn != null) {
+					System.out.println("The field " +  newFieldName + " already exists with the class " + className + ".");
+				}
+				else {
+					System.out.println("The field " +  fieldName + " does not exist with the class " + className + ".");
+				}
+			}
+		}
+		else {
+			System.out.println("The class " +  className + " does not exist.");
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
