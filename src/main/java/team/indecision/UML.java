@@ -36,7 +36,7 @@ public final class UML {
 				classes.addClass(parsedChoice[2]);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("field"))) {
-//				classes.addField(parsedChoice[2], parsedChoice[3]);
+				classes.addField(parsedChoice[2], parsedChoice[3]);
 			}
 			// This will need further work to implement adding a list of parameters.
 //			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("method"))) {
@@ -50,7 +50,7 @@ public final class UML {
 				classes.deleteClass(parsedChoice[2]);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("field"))) {
-//				classes.deleteField(parsedChoice[2], parsedChoice[3]);
+				classes.deleteField(parsedChoice[2], parsedChoice[3]);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("method"))) {
 //				classes.deleteMethod(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
@@ -63,7 +63,7 @@ public final class UML {
 				classes.renameClass(parsedChoice[2], parsedChoice[3]);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("field"))) {
-//				classes.editField(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
+				classes.editField(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// This will need further work to implement adding a list of parameters.
 //			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method"))) {
