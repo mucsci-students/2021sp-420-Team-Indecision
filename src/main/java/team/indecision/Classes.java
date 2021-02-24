@@ -1,5 +1,6 @@
 package team.indecision;
 
+import java.lang.reflect.Array;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.SortedMap;
@@ -52,6 +53,7 @@ public class Classes {
 	public void listClasses() {
 		classes.forEach((key,value) -> System.out.println(value.toString()));
 	}
+
 	
 	/** Prints each Class object in the map.
 	 * @param className A String that represents the class that will be listed.
