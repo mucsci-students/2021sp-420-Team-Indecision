@@ -3,7 +3,7 @@ package team.indecision;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.SortedMap;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,13 +22,13 @@ public class GUI extends JPanel {
 	private JFrame frame;
 	
 	private JMenuItem addClassItem;
-	private static Classes controller;
-	private ArrayList<String> classes;
+	private static Classes controller = new Classes();
+	
 	
 	public GUI(Classes controller) {
-		this.controller = controller;
+		GUI.controller = controller;
 		
-		frame = new JFrame("test");
+		frame = new JFrame("guiUML");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(500, 500));
 		
@@ -38,7 +38,14 @@ public class GUI extends JPanel {
 		
 		addClassItem = new JMenuItem("Add Class");
 		addClassItem.addActionListener(addClassListener());
-		
+		menu.add(addClassItem);
+
+		addClassItem = new JMenuItem("Delete Class");
+		addClassItem.addActionListener(deleteClassListener());
+		menu.add(addClassItem);
+
+		addClassItem = new JMenuItem("Rename Class");
+		addClassItem.addActionListener(renameClassListener());
 		menu.add(addClassItem);
 		
 		frame.setJMenuBar(menuBar);
@@ -56,13 +63,8 @@ public class GUI extends JPanel {
 				String newClassName = promptInput("Enter the new class name: ");
 				controller.addClass(newClassName);
 				
-				classes.add(newClassName);
-				
-				/*
-				temp.add(lbl);
-				add(lbl);
-				frame.pack();
-				*/
+				resetJFrame();
+				refreshJFrame();
 			}
 		};
 	}
@@ -72,8 +74,8 @@ public class GUI extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String deletedClass = promptInput("Enter the class name to be deleted: ");
 				controller.deleteClass(deletedClass);
-				
-				classes.remove(deletedClass);
+				resetJFrame();
+				refreshJFrame();
 			}
 		};
 	}
@@ -86,11 +88,10 @@ public class GUI extends JPanel {
 
 				controller.renameClass(original, newName);
 				
-				JPanel tmp = new JPanel();
-				JLabel lbl = new JLabel(newName);
+				resetJFrame();
+				refreshJFrame();
 				
-				classes.remove(original);
-				classes.add(newName);
+				
 			}
 		};
 	}
@@ -98,6 +99,25 @@ public class GUI extends JPanel {
 		// Prompt the user for input and return the input
 		return JOptionPane.showInputDialog(frame, message);
 	}
+	
+	public void resetJFrame() {
+		removeAll();
+		revalidate();
+		repaint();
+	}
+	
+	public void refreshJFrame() {
+		for (SortedMap.Entry<String, Class> entry : GUI.controller.getClasses().entrySet()) {
+			JPanel temp = new JPanel();
+			JLabel lbl = new JLabel(entry.getValue().toString());
+			temp.add(lbl);
+			add(lbl);
+			frame.pack();
+	    }
+		
+			
+	}
+		
 	
 	public static void main(String[] args) {
 		new GUI(controller);
