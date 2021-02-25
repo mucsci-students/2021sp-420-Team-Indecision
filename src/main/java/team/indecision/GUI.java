@@ -14,16 +14,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GUI extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
 	private JFrame frame;
-	
 	private JMenuItem addClassItem;
 	private static Classes controller = new Classes();
-	
 	
 	public GUI(Classes controller) {
 		GUI.controller = controller;
@@ -32,30 +26,55 @@ public class GUI extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(500, 500));
 		
+
 		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new JMenu("Class");
-		menuBar.add(menu);
+
+		////////////////////////////JMenueBar Classes//////////////////////////////////////
+
+		JMenu classMenu = new JMenu("Class");
+		menuBar.add(classMenu);
 		
 		addClassItem = new JMenuItem("Add Class");
 		addClassItem.addActionListener(addClassListener());
-		menu.add(addClassItem);
+		classMenu.add(addClassItem);
 
 		addClassItem = new JMenuItem("Delete Class");
 		addClassItem.addActionListener(deleteClassListener());
-		menu.add(addClassItem);
+		classMenu.add(addClassItem);
 
 		addClassItem = new JMenuItem("Rename Class");
 		addClassItem.addActionListener(renameClassListener());
-		menu.add(addClassItem);
+		classMenu.add(addClassItem);
+		
+		////////////////////////////JMenueBar Fields//////////////////////////////////////
+		JMenu fieldMenu = new JMenu("Field");
+		menuBar.add(fieldMenu);
+		
+		addClassItem = new JMenuItem("Add Feild");
+		addClassItem.addActionListener(addFieldListener());
+		fieldMenu.add(addClassItem);
+
+		addClassItem = new JMenuItem("Delete Feild");
+		addClassItem.addActionListener(deleteFieldListener());
+		fieldMenu.add(addClassItem);
+
+		addClassItem = new JMenuItem("Rename Feild");
+		addClassItem.addActionListener(renameFieldListener());
+		fieldMenu.add(addClassItem);
+
+
 		
 		frame.setJMenuBar(menuBar);
-		
-		
 		frame.add(this);
 		frame.pack();
 		frame.setVisible(true);
 	}
 	
+
+
+
+
+	////////////////////////////Class Action Listeners//////////////////////////////////////
 	public ActionListener addClassListener() {
 		return new ActionListener() {
 			@Override
@@ -87,14 +106,59 @@ public class GUI extends JPanel {
 				String newName = promptInput("Enter the new name of the class: ");
 
 				controller.renameClass(original, newName);
-				
+
 				resetJFrame();
-				refreshJFrame();
-				
-				
+				refreshJFrame();	
 			}
 		};
 	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////Feild Action Listeners//////////////////////////////////////
+	public ActionListener addFieldListener() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String className = promptInput("Enter class name the field will be added to: ");
+				String fieldname = promptInput("Enter new field name: ");
+				controller.addField(className,fieldname);
+				
+				resetJFrame();
+				refreshJFrame();
+			}
+		};
+	}
+	public ActionListener deleteFieldListener() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String className = promptInput("Enter class name the field will be added to: ");
+				String deletedField = promptInput("Enter the field name to be deleted: ");
+				controller.addField(className, deletedField);
+				resetJFrame();
+				refreshJFrame();
+			}
+		};
+	}
+	public ActionListener renameFieldListener() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String className = promptInput("Enter class name the field will be added to: ");
+				String original = promptInput("Enter the field you want to rename: ");
+				String newName = promptInput("Enter the new name of the field: ");
+
+				controller.editField(className, original, newName);
+
+				resetJFrame();
+				refreshJFrame();	
+			}
+		};
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
 	public String promptInput(String message) {
 		// Prompt the user for input and return the input
 		return JOptionPane.showInputDialog(frame, message);
@@ -118,7 +182,6 @@ public class GUI extends JPanel {
 			
 	}
 		
-	
 	public static void main(String[] args) {
 		new GUI(controller);
 	}
