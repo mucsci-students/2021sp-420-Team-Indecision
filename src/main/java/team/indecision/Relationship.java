@@ -38,7 +38,7 @@ public class Relationship implements Comparable<Relationship> {
 	/** Sets the relationship's destination.
 	 * @param newDestination A String containing the destination name.
 	 */
-	public void setDestiniation(String newDestination) {
+	public void setDestination(String newDestination) {
 		destination = newDestination;
 	}
 	
