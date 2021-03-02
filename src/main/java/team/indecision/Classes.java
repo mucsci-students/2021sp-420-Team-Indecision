@@ -5,6 +5,10 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -113,6 +117,23 @@ public class Classes {
 		else 
 		{
 			System.out.println("The class " + name + " already exists.");
+		} 
+	}
+	
+	/** Adds a class to to the classes field. If the class name already exists it does not add the class and instead displays a message.
+	 * @param name A String that represents the class name.
+	 */
+	public void addClassGUI(JFrame frame, String name) {
+		Class c = new Class(name); 
+		if (classes.put(name, c) == null) //.put will return null if there is no mapping for the key.
+		{
+			String message = "You have created a new class named: " + name;
+			JOptionPane.showMessageDialog(frame, message);
+		}
+		else 
+		{
+			String message = "The class " + name + " already exists.";
+			JOptionPane.showMessageDialog(frame, message);
 		} 
 	}
 	

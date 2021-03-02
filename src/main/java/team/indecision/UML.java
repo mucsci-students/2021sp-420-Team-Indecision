@@ -13,15 +13,14 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class UML {
 
-	private static Classes classes = new Classes();
+	//private static Classes classes = new Classes();
 	
 	public UML(Classes classes) throws IOException {
-		UML.classes = classes;
+		//UML.classes = classes;
 		
 		
 		System.out.println("Welcome to Team Indecision's UML Tool");
 		System.out.println("Type 'help' to see a list of commands or 'exit' to close the program.");
-		System.out.print("\nChoose one of the above menu items: ");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	
 		String choice = br.readLine();
@@ -108,7 +107,6 @@ public class UML {
 			else {
 				System.out.println("Please enter a valid selection");			
 			}
-			System.out.print("Choose another menu item: ");
 			choice = br.readLine();
 			parsedChoice = StringUtils.split(choice, seperator);
 		}

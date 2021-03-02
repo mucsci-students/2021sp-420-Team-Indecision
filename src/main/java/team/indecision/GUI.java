@@ -24,7 +24,7 @@ public class GUI extends JPanel {
 		
 		frame = new JFrame("guiUML");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(500, 500));
+		frame.setPreferredSize(new Dimension(1280, 720));
 		
 
 		JMenuBar menuBar = new JMenuBar();
@@ -99,13 +99,15 @@ public class GUI extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String newClassName = promptInput("Enter the new class name: ");
-				controller.addClass(newClassName);
-				
+				controller.addClassGUI(frame, newClassName);
 				resetJFrame();
 				refreshJFrame();
 			}
 		};
+		
+
 	}
+	
 	public ActionListener deleteClassListener() {
 		return new ActionListener() {
 			@Override
