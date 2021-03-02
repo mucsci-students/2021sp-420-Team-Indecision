@@ -10,6 +10,99 @@ import org.junit.Test;
 public class ClassesTest {
 
 	@Test
+	public void addClassTest() {
+		Class c = new Class("test");
+		Classes classes = new Classes();	
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.addClass("test");
+		assertEquals("You have created a new class named: test", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+		SortedMap <String,Class> m = classes.getClasses();
+		assertTrue(m.get("test").equals(c));
+	}
+	
+	@Test
+	public void addClassTestDuplicate() {
+		Class c = new Class("test");
+		Classes classes = new Classes();
+		classes.addClass("test");
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.addClass("test");
+		assertEquals("The class test already exists.", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+		SortedMap <String,Class> m = classes.getClasses();
+		assertTrue(m.get("test").equals(c));
+	}
+	
+	@Test
+	public void deleteClassTest() {
+		Class c = new Class("test");
+		Classes classes = new Classes();
+		classes.addClass("test");
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.deleteClass("test");
+		assertEquals("The class test has been deleted.", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+		SortedMap <String,Class> m = classes.getClasses();
+		assertTrue(m.get("test") == null);
+	}
+	
+	@Test
+	public void deleteClassTestClassDoesNotExist() {
+		Class c = new Class("test");
+		Classes classes = new Classes();
+		classes.addClass("test");
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.deleteClass("test1");
+		assertEquals("The class test1 does not exist.", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+	}
+	
+	@Test
+	public void renameClassTest() {
+		Class c = new Class("test1");
+		Classes classes = new Classes();
+		classes.addClass("test");
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.renameClass("test", "test1");
+		assertEquals("You have renamed the class test to test1", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+		SortedMap <String,Class> m = classes.getClasses();
+		assertTrue(m.get("test") == null);
+		assertTrue(m.get("test1").equals(c));
+	}
+	
+	@Test
+	public void renameClassTestNoClassExists() {
+		Classes classes = new Classes();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.renameClass("test", "test1");
+		assertEquals("The class test does not exist.", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+		SortedMap <String,Class> m = classes.getClasses();
+		assertTrue(m.get("test") == null);
+	}
+	
+	@Test
+	public void renameClassTestClassRenameAlreadyExists() {
+		Classes classes = new Classes();
+		classes.addClass("test");
+		classes.addClass("test1");
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.renameClass("test", "test1");
+		assertEquals("The new class name test1 already exists.", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+		SortedMap <String,Class> m = classes.getClasses();
+	}
+	
+	@Test
 	public void addFieldTest() {
 		Class c = new Class("test");
 		c.addField("f");
