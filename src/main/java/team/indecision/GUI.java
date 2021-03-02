@@ -253,8 +253,4 @@ public class GUI extends JPanel {
 			frame.pack();
 	    }
 	}
-		
-	public static void main(String[] args) {
-		new GUI(controller);
-	}
 }

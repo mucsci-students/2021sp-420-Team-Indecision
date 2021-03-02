@@ -11,11 +11,13 @@ import org.apache.commons.lang3.StringUtils;
  * @version 1.0
  * @since 1.0
  */
-public final class UML {
+public class UML {
 
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	private static Classes classes = new Classes();
+	
+	public UML(Classes classes) throws IOException {
+		UML.classes = classes;
 		
-		Classes classes = new Classes();
 		
 		System.out.println("Welcome to Team Indecision's UML Tool");
 		System.out.println("Type 'help' to see a list of commands or 'exit' to close the program.");
@@ -112,5 +114,7 @@ public final class UML {
 		}
 
 	}
+
 	
+
 }

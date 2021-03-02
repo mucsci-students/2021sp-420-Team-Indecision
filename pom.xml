@@ -74,7 +74,7 @@
                         <addClasspath>true</addClasspath>
                         <mainClass>
                             <!--Replace with the class that contains the main function-->
-                            team.indecision.UML
+                            team.indecision.IndecisionApp
                         </mainClass>
                     </manifest>
                 </archive>
@@ -94,7 +94,7 @@
                 <archive>
                 <manifest>
                     <mainClass>
-                        team.indecision.UML
+                        team.indecision.IndecisionApp
                     </mainClass>
                 </manifest>
                 </archive>
