@@ -63,7 +63,26 @@ public class GUI extends JPanel {
 		fieldMenu.add(addClassItem);
 
 
+		////////////////////////////JMenueBar Relationships//////////////////////////////////////
+		JMenu relationshipMenu = new JMenu("Relationships");
+		menuBar.add(relationshipMenu);
 		
+		addClassItem = new JMenuItem("Add Relationship");
+		addClassItem.addActionListener(addRelationshipListener());
+		relationshipMenu.add(addClassItem);
+
+		addClassItem = new JMenuItem("Delete Relationship");
+		addClassItem.addActionListener(deleteRelationshipListener());
+		relationshipMenu.add(addClassItem);
+
+		addClassItem = new JMenuItem("Edit Relationship Destination");
+		addClassItem.addActionListener(editRelationshipDestination());
+		relationshipMenu.add(addClassItem);
+
+		addClassItem = new JMenuItem("Edit Relationship Type");
+		addClassItem.addActionListener(editRelationshipType());
+		relationshipMenu.add(addClassItem);
+
 		frame.setJMenuBar(menuBar);
 		frame.add(this);
 		frame.pack();
@@ -158,6 +177,61 @@ public class GUI extends JPanel {
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
+	////////////////////////////Relationship Action Listeners//////////////////////////////////////
+	public ActionListener addRelationshipListener() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String className = promptInput("Enter class name the relationship will be added to: ");
+				String relationshipName = promptInput("Enter new relationship destination: ");
+				String relationshipType = promptInput("Enter new relationship type: ");
+				controller.addRelationship(className, relationshipName, relationshipType);
+				resetJFrame();
+				refreshJFrame();
+			}
+		};
+	}
+	public ActionListener deleteRelationshipListener() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String className = promptInput("Enter class name the relationship will be removed from: ");
+				String relationshipName = promptInput("Enter relationship destination: ");
+				String relationshipType = promptInput("Enter relationship type: ");
+				controller.deleteRelationship(className, relationshipName, relationshipType);
+				resetJFrame();
+				refreshJFrame();
+			}
+		};
+	}
+	public ActionListener editRelationshipDestination() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String className = promptInput("Enter class name the relationship will be renamed from: ");
+				String relationshipOldName = promptInput("Enter old relationship destination: ");
+				String relationshipNewName = promptInput("Enter new relationship destination: ");
+				controller.editRelationshipDestination(className, relationshipOldName, relationshipNewName);
+				resetJFrame();
+				refreshJFrame();	
+			}
+		};
+	}
+	public ActionListener editRelationshipType() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String className = promptInput("Enter class name the relationship will be renamed from: ");
+				String relationshipOldName = promptInput("Enter relationship destination: ");
+				String relationshipNewType = promptInput("Enter new relationship type: ");
+				controller.editRelationshipDestination(className, relationshipOldName, relationshipNewType);
+				resetJFrame();
+				refreshJFrame();	
+			}
+		};
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 	public String promptInput(String message) {
 		// Prompt the user for input and return the input
@@ -178,8 +252,6 @@ public class GUI extends JPanel {
 			add(lbl);
 			frame.pack();
 	    }
-		
-			
 	}
 		
 	public static void main(String[] args) {
