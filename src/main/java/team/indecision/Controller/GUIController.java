@@ -1,111 +1,42 @@
-package team.indecision;
+package team.indecision.Controller;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.SortedMap;
-
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import team.indecision.View.GUI;
+import team.indecision.Model.Class;
+import team.indecision.Model.Classes;
 
-public class GUI extends JPanel {
-	private static final long serialVersionUID = 1L;
-	private JFrame frame;
-	private JMenuItem addClassItem;
-	private static Classes controller = new Classes();
+public class GUIController {
+
+	private Classes model;
+	private GUI gui;
 	
-	public GUI(Classes controller) {
-		GUI.controller = controller;
-		
-		frame = new JFrame("guiUML");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(1280, 720));
-		
+	public GUIController() {
 
-		JMenuBar menuBar = new JMenuBar();
-
-		////////////////////////////JMenueBar Classes//////////////////////////////////////
-
-		JMenu classMenu = new JMenu("Class");
-		menuBar.add(classMenu);
-		
-		addClassItem = new JMenuItem("Add Class");
-		addClassItem.addActionListener(addClassListener());
-		classMenu.add(addClassItem);
-
-		addClassItem = new JMenuItem("Delete Class");
-		addClassItem.addActionListener(deleteClassListener());
-		classMenu.add(addClassItem);
-
-		addClassItem = new JMenuItem("Rename Class");
-		addClassItem.addActionListener(renameClassListener());
-		classMenu.add(addClassItem);
-		
-		////////////////////////////JMenueBar Fields//////////////////////////////////////
-		JMenu fieldMenu = new JMenu("Field");
-		menuBar.add(fieldMenu);
-		
-		addClassItem = new JMenuItem("Add Feild");
-		addClassItem.addActionListener(addFieldListener());
-		fieldMenu.add(addClassItem);
-
-		addClassItem = new JMenuItem("Delete Feild");
-		addClassItem.addActionListener(deleteFieldListener());
-		fieldMenu.add(addClassItem);
-
-		addClassItem = new JMenuItem("Rename Feild");
-		addClassItem.addActionListener(renameFieldListener());
-		fieldMenu.add(addClassItem);
-
-
-		////////////////////////////JMenueBar Relationships//////////////////////////////////////
-		JMenu relationshipMenu = new JMenu("Relationships");
-		menuBar.add(relationshipMenu);
-		
-		addClassItem = new JMenuItem("Add Relationship");
-		addClassItem.addActionListener(addRelationshipListener());
-		relationshipMenu.add(addClassItem);
-
-		addClassItem = new JMenuItem("Delete Relationship");
-		addClassItem.addActionListener(deleteRelationshipListener());
-		relationshipMenu.add(addClassItem);
-
-		addClassItem = new JMenuItem("Edit Relationship Destination");
-		addClassItem.addActionListener(editRelationshipDestination());
-		relationshipMenu.add(addClassItem);
-
-		addClassItem = new JMenuItem("Edit Relationship Type");
-		addClassItem.addActionListener(editRelationshipType());
-		relationshipMenu.add(addClassItem);
-
-		frame.setJMenuBar(menuBar);
-		frame.add(this);
-		frame.pack();
-		frame.setVisible(true);
 	}
 	
-
-
-
-
+	public GUIController(GUI guiP, Classes classes) {
+		model = classes;
+		gui = guiP;
+	}
+	
 	////////////////////////////Class Action Listeners//////////////////////////////////////
+	
 	public ActionListener addClassListener() {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String newClassName = promptInput("Enter the new class name: ");
-				controller.addClassGUI(frame, newClassName);
-				resetJFrame();
-				refreshJFrame();
+				if (newClassName != null) {
+					model.addClassGUI(gui.frame, newClassName);
+					refreshJFrame();
+				}
 			}
 		};
-		
-
 	}
 	
 	public ActionListener deleteClassListener() {
@@ -113,55 +44,58 @@ public class GUI extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String deletedClass = promptInput("Enter the class name to be deleted: ");
-				controller.deleteClass(deletedClass);
-				resetJFrame();
-				refreshJFrame();
+				if (deletedClass != null) {
+					model.deleteClassGUI(gui.frame, deletedClass);
+					refreshJFrame();
+				}
 			}
 		};
 	}
+	
 	public ActionListener renameClassListener() {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String original = promptInput("Enter the class you want to rename: ");
-				String newName = promptInput("Enter the new name of the class: ");
-
-				controller.renameClass(original, newName);
-
-				resetJFrame();
-				refreshJFrame();	
+				if (original != null) {
+					String newName = promptInput("Enter the new name of the class: ");
+					if (newName != null) {
+						model.renameClassGUI(gui.frame, original, newName);
+						refreshJFrame();
+					}
+				}
 			}
 		};
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
-	////////////////////////////Feild Action Listeners//////////////////////////////////////
+	
+	////////////////////////////Field Action Listeners///////////////////////////////////////////////
 	public ActionListener addFieldListener() {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String className = promptInput("Enter class name the field will be added to: ");
 				String fieldname = promptInput("Enter new field name: ");
-				controller.addField(className,fieldname);
-				
-				resetJFrame();
+				model.addFieldGUI(gui.frame, className,fieldname);
 				refreshJFrame();
 			}
 		};
 	}
+	
 	public ActionListener deleteFieldListener() {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String className = promptInput("Enter class name the field will be added to: ");
 				String deletedField = promptInput("Enter the field name to be deleted: ");
-				controller.addField(className, deletedField);
-				resetJFrame();
+				model.addFieldGUI(gui.frame, className, deletedField);
 				refreshJFrame();
 			}
 		};
 	}
+	
 	public ActionListener renameFieldListener() {
 		return new ActionListener() {
 			@Override
@@ -169,17 +103,17 @@ public class GUI extends JPanel {
 				String className = promptInput("Enter class name the field will be added to: ");
 				String original = promptInput("Enter the field you want to rename: ");
 				String newName = promptInput("Enter the new name of the field: ");
-
-				controller.editField(className, original, newName);
-
-				resetJFrame();
-				refreshJFrame();	
+				model.editFieldGUI(gui.frame, className, original, newName);
+				refreshJFrame();
 			}
 		};
 	}
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
+	
 	////////////////////////////Relationship Action Listeners//////////////////////////////////////
+	
 	public ActionListener addRelationshipListener() {
 		return new ActionListener() {
 			@Override
@@ -187,12 +121,13 @@ public class GUI extends JPanel {
 				String className = promptInput("Enter class name the relationship will be added to: ");
 				String relationshipName = promptInput("Enter new relationship destination: ");
 				String relationshipType = promptInput("Enter new relationship type: ");
-				controller.addRelationship(className, relationshipName, relationshipType);
-				resetJFrame();
-				refreshJFrame();
+				model.addRelationshipGUI(gui.frame, className, relationshipName, relationshipType);
+				
+
 			}
 		};
 	}
+	
 	public ActionListener deleteRelationshipListener() {
 		return new ActionListener() {
 			@Override
@@ -200,12 +135,12 @@ public class GUI extends JPanel {
 				String className = promptInput("Enter class name the relationship will be removed from: ");
 				String relationshipName = promptInput("Enter relationship destination: ");
 				String relationshipType = promptInput("Enter relationship type: ");
-				controller.deleteRelationship(className, relationshipName, relationshipType);
-				resetJFrame();
-				refreshJFrame();
+				model.deleteRelationshipGUI(gui.frame, className, relationshipName, relationshipType);
+
 			}
 		};
 	}
+	
 	public ActionListener editRelationshipDestination() {
 		return new ActionListener() {
 			@Override
@@ -213,12 +148,12 @@ public class GUI extends JPanel {
 				String className = promptInput("Enter class name the relationship will be renamed from: ");
 				String relationshipOldName = promptInput("Enter old relationship destination: ");
 				String relationshipNewName = promptInput("Enter new relationship destination: ");
-				controller.editRelationshipDestination(className, relationshipOldName, relationshipNewName);
-				resetJFrame();
-				refreshJFrame();	
+				model.editRelationshipDestinationGUI(gui.frame, className, relationshipOldName, relationshipNewName);
+	
 			}
 		};
 	}
+	
 	public ActionListener editRelationshipType() {
 		return new ActionListener() {
 			@Override
@@ -226,33 +161,31 @@ public class GUI extends JPanel {
 				String className = promptInput("Enter class name the relationship will be renamed from: ");
 				String relationshipOldName = promptInput("Enter relationship destination: ");
 				String relationshipNewType = promptInput("Enter new relationship type: ");
-				controller.editRelationshipDestination(className, relationshipOldName, relationshipNewType);
-				resetJFrame();
-				refreshJFrame();	
+				model.editRelationshipDestinationGUI(gui.frame, className, relationshipOldName, relationshipNewType);
+
 			}
 		};
 	}
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
 	
 	public String promptInput(String message) {
 		// Prompt the user for input and return the input
-		return JOptionPane.showInputDialog(frame, message);
-	}
-	
-	public void resetJFrame() {
-		removeAll();
-		revalidate();
-		repaint();
+		return JOptionPane.showInputDialog(gui.frame, message);
 	}
 	
 	public void refreshJFrame() {
-		for (SortedMap.Entry<String, Class> entry : GUI.controller.getClasses().entrySet()) {
+		gui.removeAll();
+		gui.revalidate();
+		gui.repaint();
+		for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
 			JPanel temp = new JPanel();
 			JLabel lbl = new JLabel(entry.getValue().toString());
 			temp.add(lbl);
-			add(lbl);
-			frame.pack();
+			gui.add(lbl);
+			gui.frame.pack();
 	    }
 	}
+	
 }

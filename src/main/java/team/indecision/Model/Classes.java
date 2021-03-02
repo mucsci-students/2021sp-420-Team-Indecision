@@ -1,16 +1,14 @@
-package team.indecision;
+package team.indecision.Model;
 
-import java.lang.reflect.Array;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 /** Represents a collection of Class objects in the UML model.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
@@ -32,7 +30,7 @@ public class Classes {
 	/** Constructs a classes map with a specified name.
 	 * @param classesP The classes map name.
 	 */
-	public Classes (SortedMap<String, Class> classesP) {
+	public Classes(SortedMap<String, Class> classesP) {
 		classes = classesP;
 	}
 	
@@ -108,7 +106,7 @@ public class Classes {
 	/** Adds a class to to the classes field. If the class name already exists it does not add the class and instead displays a message.
 	 * @param name A String that represents the class name.
 	 */
-	public void addClass(String name) {
+	public void addClassCLI(String name) {
 		Class c = new Class(name); 
 		if (classes.put(name, c) == null) //.put will return null if there is no mapping for the key.
 		{
@@ -140,7 +138,7 @@ public class Classes {
 	/** Deletes a class from the classes field. If the class does not exists it does not delete the class and instead displays a message.
 	 * @param name A String that represents the class name.
 	 */
-	public void deleteClass(String name) {
+	public void deleteClassCLI(String name) {
 		if (classes.remove(name) != null) //.remove will return null if there was no mapping for the key.
 		{
 			System.out.println("The class " + name + " has been deleted.");
@@ -151,11 +149,27 @@ public class Classes {
 		}
 	}
 	
+	/** Deletes a class from the classes field. If the class does not exists it does not delete the class and instead displays a message.
+	 * @param name A String that represents the class name.
+	 */
+	public void deleteClassGUI(JFrame frame, String name) {
+		if (classes.remove(name) != null) //.remove will return null if there was no mapping for the key.
+		{
+			String message = "The class " + name + " has been deleted.";
+			JOptionPane.showMessageDialog(frame, message);
+		}
+		else 
+		{
+			String message = "The class " + name + " does not exist.";
+			JOptionPane.showMessageDialog(frame, message);
+		}
+	}
+	
 	/** Renames a class from the classes field. If the class name does not exist or the newClassName exists it does not rename the class and instead displays a message.
 	 * @param className A String that represents the class name.
 	 * @param newClassName A String that represents the new class name.
 	 */
-	public void renameClass(String className, String newClassName) {
+	public void renameClassCLI(String className, String newClassName) {
 		if (classes.containsKey(className) && !classes.containsKey(newClassName))
 		{
 			Class c = classes.get(className);
@@ -177,6 +191,35 @@ public class Classes {
 		}
 	}
 	
+	/** Renames a class from the classes field. If the class name does not exist or the newClassName exists it does not rename the class and instead displays a message.
+	 * @param className A String that represents the class name.
+	 * @param newClassName A String that represents the new class name.
+	 */
+	public void renameClassGUI(JFrame frame,String className, String newClassName) {
+		if (classes.containsKey(className) && !classes.containsKey(newClassName))
+		{
+			Class c = classes.get(className);
+			c.setName(newClassName);
+			classes.remove(className, c); //We need to change the key value to do this we have to remove the mapping and then re-add it with then new name.
+			classes.put(newClassName, c);
+			String message = "You have renamed the class " + className + " to " + newClassName;
+			JOptionPane.showMessageDialog(frame, message);
+		}
+		else 
+		{
+			if (!classes.containsKey(className))
+			{
+				String message = "The class " + className + " does not exist.";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+			else 
+			{
+				String message = "The new class name " + newClassName + " already exists.";
+				JOptionPane.showMessageDialog(frame, message);
+			} 	
+		}
+	}
+	
 	///////////////////////////////////////////////////////////////////////////
 	
 	
@@ -186,7 +229,7 @@ public class Classes {
 	 * @param className A String that represents the class name.
 	 * @param fieldName A String representing the name of the field.
 	 */
-	public void addField(String className, String fieldName) {
+	public void addFieldCLI(String className, String fieldName) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
 			if (c.addField(fieldName)) {
@@ -201,11 +244,33 @@ public class Classes {
 		}
 	}
 	
+	/** Adds a field to the specified class in the classes map. If the class does not exist or the field already exists it prints an error.
+	 * @param className A String that represents the class name.
+	 * @param fieldName A String representing the name of the field.
+	 */
+	public void addFieldGUI(JFrame frame, String className, String fieldName) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if (c.addField(fieldName)) {
+				String message = "The field " + fieldName + " has been added to the class " + className + ".";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+			else {
+				String message = "The field " + fieldName + " already exists with the class " + className + ".";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+		}
+		else {
+			String message = "The class "  +  className + " does not exist.";
+			JOptionPane.showMessageDialog(frame, message);
+		}
+	}
+	
 	/** Deletes a field from the specified class in the classes map. If the class does not exist or the field already exists it prints an error.
 	 * @param className A String that represents the class name.
 	 * @param fieldName A String representing the name of the field.
 	 */
-	public void deleteField(String className, String fieldName) {
+	public void deleteFieldCLI(String className, String fieldName) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
 			if (c.deleteField(fieldName)) {
@@ -217,6 +282,29 @@ public class Classes {
 		}
 		else {
 			System.out.println("The class " +  className + " does not exist.");
+			
+		}
+	}
+	
+	/** Deletes a field from the specified class in the classes map. If the class does not exist or the field already exists it prints an error.
+	 * @param className A String that represents the class name.
+	 * @param fieldName A String representing the name of the field.
+	 */
+	public void deleteFieldGUI(JFrame frame, String className, String fieldName) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if (c.deleteField(fieldName)) {
+				String message = "The field " +  fieldName + " has been deleted from class " + className + ".";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+			else {
+				String message = "The field " +  fieldName + " does not exist with the class " + className + ".";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+		}
+		else {
+			String message = "The class " +  className + " does not exist.";
+			JOptionPane.showMessageDialog(frame, message);
 		}
 	}
 	
@@ -225,7 +313,7 @@ public class Classes {
 	 * @param fieldName A String representing the name of the field.
 	 * @param newFieldName A String representing the new name of the field.
 	 */
-	public void editField(String className, String fieldName, String newFieldName) {
+	public void editFieldCLI(String className, String fieldName, String newFieldName) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
 			Field f = c.getField(fieldName);
@@ -245,6 +333,38 @@ public class Classes {
 		}
 		else {
 			System.out.println("The class " +  className + " does not exist.");
+		}
+	}
+	
+	/** Edits a current field for the specified class in the classes map. If the class does not exist or the field does not exist or if the newField name already exists it prints an error.
+	 * @param className A String that represents the class name.
+	 * @param fieldName A String representing the name of the field.
+	 * @param newFieldName A String representing the new name of the field.
+	 */
+	public void editFieldGUI(JFrame frame, String className, String fieldName, String newFieldName) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			Field f = c.getField(fieldName);
+			Field fn = c.getField(newFieldName);
+			if(f != null && fn == null) {
+				f.setName(newFieldName);
+				String message = "The field " + fieldName + " has been renamed to " + newFieldName + ".";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+			else {
+				if (fn != null) {
+					String message = "The field " +  newFieldName + " already exists with the class " + className + ".";
+					JOptionPane.showMessageDialog(frame, message);
+				}
+				else {
+					String message = "The field " +  fieldName + " does not exist with the class " + className + ".";
+					JOptionPane.showMessageDialog(frame, message);
+				}
+			}
+		}
+		else {
+			String message = "The class " +  className + " does not exist.";
+			JOptionPane.showMessageDialog(frame, message);
 		}
 	}
 	
@@ -300,7 +420,7 @@ public class Classes {
 	 * @param relationshipDestination A string that represents the relationship destination class.
 	 * @param relationshipType A string that represents the relationship type name.
 	 */
-	public void addRelationship(String className, String relationshipDestination, String relationshipType) {
+	public void addRelationshipCLI(String className, String relationshipDestination, String relationshipType) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
 			if (c.addRelationship(relationshipDestination, relationshipType)) {
@@ -315,12 +435,35 @@ public class Classes {
 		}
 	}
 	
+	/** Adds a relationship to the specified class in the classes map. If the class does not exist or the relationship already exists it prints an error.
+	 * @param className A String that represents the class name.
+	 * @param relationshipDestination A string that represents the relationship destination class.
+	 * @param relationshipType A string that represents the relationship type name.
+	 */
+	public void addRelationshipGUI(JFrame frame, String className, String relationshipDestination, String relationshipType) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if (c.addRelationship(relationshipDestination, relationshipType)) {
+				String message = "The " + className +" has created a new relationship with class: " + relationshipDestination + " of type " + relationshipType;
+				JOptionPane.showMessageDialog(frame, message);
+			}
+			else {
+				String message = "A relationship with this class " + className + " already exists.";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+		}
+		else {
+			String message = "The class "  +  className + " does not exist.";
+			JOptionPane.showMessageDialog(frame, message);
+		}
+	}
+	
 	/** Deletes a relationship from the specified class in the classes map. If the class does not exist or the relationship does not exist it prints an error.
 	 * @param className A String that represents the class name.
 	 * @param relationshipDestination A String that represents the relationship destination class.
 	 * @param relationshipType A String that represents the relationship type name.
 	 */
-	public void deleteRelationship(String className, String relationshipDestination, String relationshipType) {
+	public void deleteRelationshipCLI(String className, String relationshipDestination, String relationshipType) {
         if (classes.containsKey(className)) {
             Class c = classes.get(className);
             if (c.deleteRelationship(relationshipDestination, relationshipType)) {
@@ -335,12 +478,44 @@ public class Classes {
         }
 	}
 	
+	/** Deletes a relationship from the specified class in the classes map. If the class does not exist or the relationship does not exist it prints an error.
+	 * @param className A String that represents the class name.
+	 * @param relationshipDestination A String that represents the relationship destination class.
+	 * @param relationshipType A String that represents the relationship type name.
+	 */
+	public void deleteRelationshipGUI(JFrame frame,String className, String relationshipDestination, String relationshipType) {
+        if (classes.containsKey(className)) {
+            Class c = classes.get(className);
+            if (c.deleteRelationship(relationshipDestination, relationshipType)) {
+                String message = "You have deleted a relationship with class: " + className + "of" + relationshipDestination + "with relationship type" + relationshipType;
+    			JOptionPane.showMessageDialog(frame, message);
+            }
+            else {
+                String message = "A relationship with " + relationshipDestination + " does not exist.";
+    			JOptionPane.showMessageDialog(frame, message);
+            }
+        }
+        else {
+            String message = "The class " +  className + " does not exist.";
+			JOptionPane.showMessageDialog(frame, message);
+        }
+	}
+	
 	/** Edits a current relationship for the specified class in the classes map. If the class does not exist or the relationshipDestination does not exist or if the newRelationshipDestination name already exists it prints an error.
 	 * @param className A String that represents the class name.
 	 * @param relationshipDestination A String representing the destination of the relationship.
 	 * @param newRelationshipDestination A String representing the new destination of the relationship.
 	 */
-	public void editRelationshipDestination(String className, String relationshipDestination, String newRelationshipDestination) {
+	public void editRelationshipDestinationCLI(String className, String relationshipDestination, String newRelationshipDestination) {
+		//Needs to be implemented.
+	}
+	
+	/** Edits a current relationship for the specified class in the classes map. If the class does not exist or the relationshipDestination does not exist or if the newRelationshipDestination name already exists it prints an error.
+	 * @param className A String that represents the class name.
+	 * @param relationshipDestination A String representing the destination of the relationship.
+	 * @param newRelationshipDestination A String representing the new destination of the relationship.
+	 */
+	public void editRelationshipDestinationGUI(JFrame frame, String className, String relationshipDestination, String newRelationshipDestination) {
 		//Needs to be implemented.
 	}
 	
@@ -349,7 +524,16 @@ public class Classes {
 	 * @param relationshipDestination A String representing the destination of the relationship.
 	 * @param newRelationshipType A String representing the new type of the relationship.
 	 */
-	public void editRelationshipType(String className, String relationshipDestination, String newRelationshipType) {
+	public void editRelationshipTypeCLI(String className, String relationshipDestination, String newRelationshipType) {
+		//Needs to be implemented.
+	}
+	
+	/** Edits a current relationship's type for the specified class in the classes map. If the class does not exist or the relationshipDestination does not exist it prints an error.
+	 * @param className A String that represents the class name.
+	 * @param relationshipDestination A String representing the destination of the relationship.
+	 * @param newRelationshipType A String representing the new type of the relationship.
+	 */
+	public void editRelationshipTypeGUI(JFrame frame, String className, String relationshipDestination, String newRelationshipType) {
 		//Needs to be implemented.
 	}
 	

@@ -1,4 +1,4 @@
-package team.indecision;
+package team.indecision.Model;
 
 import static org.junit.Assert.*;
 
@@ -15,7 +15,7 @@ public class ClassesTest {
 		Classes classes = new Classes();	
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.addClass("test");
+		classes.addClassCLI("test");
 		assertEquals("You have created a new class named: test", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 		SortedMap <String,Class> m = classes.getClasses();
@@ -26,10 +26,10 @@ public class ClassesTest {
 	public void addClassTestDuplicate() {
 		Class c = new Class("test");
 		Classes classes = new Classes();
-		classes.addClass("test");
+		classes.addClassCLI("test");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.addClass("test");
+		classes.addClassCLI("test");
 		assertEquals("The class test already exists.", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 		SortedMap <String,Class> m = classes.getClasses();
@@ -38,12 +38,11 @@ public class ClassesTest {
 	
 	@Test
 	public void deleteClassTest() {
-		Class c = new Class("test");
 		Classes classes = new Classes();
-		classes.addClass("test");
+		classes.addClassCLI("test");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.deleteClass("test");
+		classes.deleteClassCLI("test");
 		assertEquals("The class test has been deleted.", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 		SortedMap <String,Class> m = classes.getClasses();
@@ -52,12 +51,11 @@ public class ClassesTest {
 	
 	@Test
 	public void deleteClassTestClassDoesNotExist() {
-		Class c = new Class("test");
 		Classes classes = new Classes();
-		classes.addClass("test");
+		classes.addClassCLI("test");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.deleteClass("test1");
+		classes.deleteClassCLI("test1");
 		assertEquals("The class test1 does not exist.", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 	}
@@ -66,10 +64,10 @@ public class ClassesTest {
 	public void renameClassTest() {
 		Class c = new Class("test1");
 		Classes classes = new Classes();
-		classes.addClass("test");
+		classes.addClassCLI("test");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.renameClass("test", "test1");
+		classes.renameClassCLI("test", "test1");
 		assertEquals("You have renamed the class test to test1", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 		SortedMap <String,Class> m = classes.getClasses();
@@ -82,7 +80,7 @@ public class ClassesTest {
 		Classes classes = new Classes();
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.renameClass("test", "test1");
+		classes.renameClassCLI("test", "test1");
 		assertEquals("The class test does not exist.", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 		SortedMap <String,Class> m = classes.getClasses();
@@ -92,14 +90,13 @@ public class ClassesTest {
 	@Test
 	public void renameClassTestClassRenameAlreadyExists() {
 		Classes classes = new Classes();
-		classes.addClass("test");
-		classes.addClass("test1");
+		classes.addClassCLI("test");
+		classes.addClassCLI("test1");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.renameClass("test", "test1");
+		classes.renameClassCLI("test", "test1");
 		assertEquals("The new class name test1 already exists.", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
-		SortedMap <String,Class> m = classes.getClasses();
 	}
 	
 	@Test
@@ -107,10 +104,10 @@ public class ClassesTest {
 		Class c = new Class("test");
 		c.addField("f");
 		Classes classes = new Classes();
-		classes.addClass("test");
+		classes.addClassCLI("test");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.addField("test","f");
+		classes.addFieldCLI("test","f");
 		assertEquals("The field f has been added to the class test.", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 		SortedMap <String,Class> m = classes.getClasses();
@@ -122,7 +119,7 @@ public class ClassesTest {
 		Classes classes = new Classes();
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.addField("test","f");
+		classes.addFieldCLI("test","f");
 		assertEquals("The class test does not exist.", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 	}
@@ -132,11 +129,11 @@ public class ClassesTest {
 		Class c = new Class("test");
 		c.addField("f");
 		Classes classes = new Classes();
-		classes.addClass("test");
-		classes.addField("test","f");
+		classes.addClassCLI("test");
+		classes.addFieldCLI("test","f");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.addField("test","f");
+		classes.addFieldCLI("test","f");
 		assertEquals("The field f already exists with the class test.", outContent.toString().trim()); 
 		System.setOut(System.out); // resetting the system.setOut to default
 		SortedMap <String,Class> m = classes.getClasses();
@@ -147,11 +144,11 @@ public class ClassesTest {
 	public void deleteFieldTest() {
 		Class c = new Class("test");
 		Classes classes = new Classes();
-		classes.addClass("test");
-		classes.addField("test","f");
+		classes.addClassCLI("test");
+		classes.addFieldCLI("test","f");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.deleteField("test", "f");
+		classes.deleteFieldCLI("test", "f");
 		assertEquals("The field f has been deleted from class test.", outContent.toString().trim()); 
 		System.setOut(System.out); // resetting the system.setOut to default
 		SortedMap <String,Class> m = classes.getClasses();
@@ -163,7 +160,7 @@ public class ClassesTest {
 		Classes classes = new Classes();
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.deleteField("test","f");
+		classes.deleteFieldCLI("test","f");
 		assertEquals("The class test does not exist.", outContent.toString().trim()); 
 		System.setOut(System.out); // resetting the system.setOut to default
 	}
@@ -171,10 +168,10 @@ public class ClassesTest {
 	@Test
 	public void deleteFieldNoExistingFieldTest() {
 		Classes classes = new Classes();
-		classes.addClass("test");
+		classes.addClassCLI("test");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.deleteField("test","f");
+		classes.deleteFieldCLI("test","f");
 		assertEquals("The field f does not exist with the class test.", outContent.toString().trim()); 
 		System.setOut(System.out); // resetting the system.setOut to default
 	}
@@ -184,11 +181,11 @@ public class ClassesTest {
 		Class c = new Class("test");
 		c.addField("f1");
 		Classes classes = new Classes();
-		classes.addClass("test");
-		classes.addField("test", "f");
+		classes.addClassCLI("test");
+		classes.addFieldCLI("test", "f");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.editField("test","f","f1");
+		classes.editFieldCLI("test","f","f1");
 		assertEquals("The field f has been renamed to f1.", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 		SortedMap <String,Class> m = classes.getClasses();
@@ -200,7 +197,7 @@ public class ClassesTest {
 		Classes classes = new Classes();
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.editField("test","f","f1");
+		classes.editFieldCLI("test","f","f1");
 		assertEquals("The class test does not exist.", outContent.toString().trim()); 
 		System.setOut(System.out); // resetting the system.setOut to default
 	}
@@ -210,11 +207,11 @@ public class ClassesTest {
 		Class c = new Class("test");
 		c.addField("f1");
 		Classes classes = new Classes();
-		classes.addClass("test");
-		classes.addField("test", "f1");
+		classes.addClassCLI("test");
+		classes.addFieldCLI("test", "f1");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.editField("test","f2","f");
+		classes.editFieldCLI("test","f2","f");
 		assertEquals("The field f2 does not exist with the class test.", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 		SortedMap <String,Class> m = classes.getClasses();
@@ -227,12 +224,12 @@ public class ClassesTest {
 		c.addField("f");
 		c.addField("f1");
 		Classes classes = new Classes();
-		classes.addClass("test");
-		classes.addField("test", "f");
-		classes.addField("test", "f1");
+		classes.addClassCLI("test");
+		classes.addFieldCLI("test", "f");
+		classes.addFieldCLI("test", "f1");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.editField("test","f","f1");
+		classes.editFieldCLI("test","f","f1");
 		assertEquals("The field f1 already exists with the class test.", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 		SortedMap <String,Class> m = classes.getClasses();

@@ -1,9 +1,11 @@
-package team.indecision;
+package team.indecision.View;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import org.apache.commons.lang3.StringUtils;
+
+import team.indecision.Model.Classes;
 
 
 /** A text-based REPL program for creating UML models.
@@ -34,37 +36,37 @@ public class UML {
 			// add
 
 			if (parsedChoice.length == 3 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("class"))) {
-				classes.addClass(parsedChoice[2]);
+				classes.addClassCLI(parsedChoice[2]);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("field"))) {
-				classes.addField(parsedChoice[2], parsedChoice[3]);
+				classes.addFieldCLI(parsedChoice[2], parsedChoice[3]);
 			}
 			// This will need further work to implement adding a list of parameters.
 //			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("method"))) {
 //				classes.addMethod(parsedChoice[2], parsedChoice[3]);
 //			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
-				classes.addRelationship(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
+				classes.addRelationshipCLI(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// delete
 			else if (parsedChoice.length == 3 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("class"))) {
-				classes.deleteClass(parsedChoice[2]);
+				classes.deleteClassCLI(parsedChoice[2]);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("field"))) {
-				classes.deleteField(parsedChoice[2], parsedChoice[3]);
+				classes.deleteFieldCLI(parsedChoice[2], parsedChoice[3]);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("method"))) {
 //				classes.deleteMethod(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("rel"))) {
-				classes.deleteRelationship(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
+				classes.deleteRelationshipCLI(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// rename / edit
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("rename") && (parsedChoice[1].equals("class"))) {
-				classes.renameClass(parsedChoice[2], parsedChoice[3]);
+				classes.renameClassCLI(parsedChoice[2], parsedChoice[3]);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("field"))) {
-				classes.editField(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
+				classes.editFieldCLI(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			// This will need further work to implement adding a list of parameters.
 //			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method"))) {

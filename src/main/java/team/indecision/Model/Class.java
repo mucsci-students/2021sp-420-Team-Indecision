@@ -1,4 +1,4 @@
-package team.indecision;
+package team.indecision.Model;
 
 import java.util.Iterator;
 import java.util.List;
