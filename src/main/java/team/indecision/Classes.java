@@ -312,8 +312,7 @@ public class Classes {
         else {
             System.out.println("The class " +  className + " does not exist.");
         }
-	}
-	
+    }
 	/** Edits a current relationship for the specified class in the classes map. If the class does not exist or the relationshipDestination does not exist or if the newRelationshipDestination name already exists it prints an error.
 	 * @param className A String that represents the class name.
 	 * @param relationshipDestination A String representing the destination of the relationship.
@@ -321,6 +320,25 @@ public class Classes {
 	 */
 	public void editRelationshipDestination(String className, String relationshipDestination, String newRelationshipDestination) {
 		//Needs to be implemented.
+		if(classes.containsKey(className)) {
+			Class c = classes.get(className);
+			Relationship r = c.getRelationship(relationshipDestination);
+			if(c.getRelationship(newRelationshipDestination) != null) {
+				System.out.println("The new destination " +  newRelationshipDestination + " already exists.");
+			}
+			
+			else if(r != null) {
+				r.setDestination(newRelationshipDestination);
+				System.out.println("The relationship destination " + relationshipDestination + " has been set to " + newRelationshipDestination + ".");
+			}
+			else {
+				System.out.println("The destination " +  relationshipDestination + " does not exist.");
+			}
+	
+		}
+		else {
+			System.out.println("The class " +  className + " does not exist.");
+		}
 	}
 	
 	/** Edits a current relationship's type for the specified class in the classes map. If the class does not exist or the relationshipDestination does not exist it prints an error.
@@ -329,7 +347,21 @@ public class Classes {
 	 * @param newRelationshipType A String representing the new type of the relationship.
 	 */
 	public void editRelationshipType(String className, String relationshipDestination, String newRelationshipType) {
-		//Needs to be implemented.
+		if (classes.containsKey(className)) {
+            Class c = classes.get(className);
+            Relationship r = c.getRelationship(relationshipDestination);
+            Relationship rn = c.getRelationship(newRelationshipType);
+            if(r != null && rn == null) {
+                r.setType(newRelationshipType);
+                System.out.println("The Relationship " + relationshipDestination + " type has been renamed to " + newRelationshipType + ".");
+            }
+            else {
+                System.out.println("The relationship " +  relationshipDestination + " does not exist with the class " + className + ".");
+            }
+        }
+        else {
+            System.out.println("The class " +  className + " does not exist.");
+        }
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
