@@ -61,7 +61,7 @@ public class GUI extends JPanel {
 
 
 		////////////////////////////JMenueBar Relationships//////////////////////////////////////
-		JMenu relationshipMenu = new JMenu("Relationships");
+		JMenu relationshipMenu = new JMenu("Relationship");
 		menuBar.add(relationshipMenu);
 		
 		addClassItem = new JMenuItem("Add Relationship");
@@ -79,6 +79,26 @@ public class GUI extends JPanel {
 		addClassItem = new JMenuItem("Edit Relationship Type");
 		addClassItem.addActionListener(controller.editRelationshipType());
 		relationshipMenu.add(addClassItem);
+
+		////////////////////////////JMenueBar Methods//////////////////////////////////////
+		JMenu methodMenu = new JMenu("Method");
+		menuBar.add(methodMenu);
+		
+		addClassItem = new JMenuItem("Add Method");
+		addClassItem.addActionListener(controller.addMethodListener());
+		methodMenu.add(addClassItem);
+
+		addClassItem = new JMenuItem("Delete Method");
+		addClassItem.addActionListener(controller.deleteMethodListener());
+		methodMenu.add(addClassItem);
+
+		addClassItem = new JMenuItem("Edit Method Name");
+		addClassItem.addActionListener(controller.editMethodNameListener());
+		methodMenu.add(addClassItem);
+
+		addClassItem = new JMenuItem("Edit Method Parameters");
+		addClassItem.addActionListener(controller.editMethodParametersListener());
+		methodMenu.add(addClassItem);
 
 		frame.setJMenuBar(menuBar);
 		frame.add(this);

@@ -37,7 +37,7 @@ public class Method implements Comparable<Method>{
 	}
 	
 	/** Sets the method's name.
-	 * @param newDestination A String containing the method's name.
+	 * @param newName A String containing the method's name.
 	 */
 	public void setName(String newName) {
 		name =  newName;
@@ -51,7 +51,7 @@ public class Method implements Comparable<Method>{
 	}
 	
 	/** Sets the method's name.
-	 * @param newDestination A String containing the method's name.
+	 * @param newParameters A String containing the method's name.
 	 */
 	public void setParameters(List<String> newParameters) {
 		parameters =  newParameters;
