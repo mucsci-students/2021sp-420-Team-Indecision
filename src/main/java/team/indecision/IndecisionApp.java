@@ -6,7 +6,6 @@ import team.indecision.View.*;
 
 public final class IndecisionApp {
 
-	@SuppressWarnings("unused")
 	public static void main(String[] args) throws IOException {
 		
 		Classes model = new Classes();
