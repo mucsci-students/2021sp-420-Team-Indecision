@@ -179,9 +179,9 @@ public class Class {
 		 return m;
 	}
 	
-	/** Checks if the specified field is in the set.
-	 * @param name A String containing the class field name.
-	 * @return Returns true if the field exists.
+	/** Checks if the specified method is in the set.
+	 * @param name A String containing the class method name.
+	 * @return Returns true if the method exists.
 	 */
 	public boolean containsMethod(String name, List<String> parameters) {
 		boolean result = false;
