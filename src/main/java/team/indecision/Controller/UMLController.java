@@ -71,11 +71,11 @@ public class UMLController {
 //			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel"))) {
 //			classes.editMethodType(parsedChoice[2], parsedChoice[3], parsedChoice[4], parsedChoice[5]);
 //			}
-			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel"))) {
-				classes.editRelationshipDestinationCLI(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
+			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel")) && (parsedChoice[2].equals("dest"))) {
+				classes.editRelationshipDestinationCLI(parsedChoice[3], parsedChoice[4], parsedChoice[5]);
 			}
-			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method"))) {
-				classes.editRelationshipTypeCLI(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
+			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel")) && (parsedChoice[2].equals("type"))) {
+				classes.editRelationshipTypeCLI(parsedChoice[3], parsedChoice[4], parsedChoice[5]);
 			}
 			// list
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {

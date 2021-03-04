@@ -155,8 +155,7 @@ public class GUIController {
                     if (relationshipOldName != null) {
                         String relationshipNewName = promptInput("Enter new relationship destination.");
                         if (relationshipNewName != null) {
-                            model.editRelationshipDestinationGUI(gui.frame, className, relationshipOldName,
-                                    relationshipNewName);
+                            model.editRelationshipDestinationGUI(gui.frame, className, relationshipOldName, relationshipNewName);
                         }
                     }
                 }
@@ -173,8 +172,7 @@ public class GUIController {
                     if (relationshipOldName != null) {
                         String relationshipNewType = promptInput("Enter new relationship type.");
                         if (relationshipNewType != null) {
-                            model.editRelationshipTypeGUI(gui.frame, className, relationshipOldName,
-                                    relationshipNewType);
+                            model.editRelationshipTypeGUI(gui.frame, className, relationshipOldName,relationshipNewType);
                         }
                     }
                 }
