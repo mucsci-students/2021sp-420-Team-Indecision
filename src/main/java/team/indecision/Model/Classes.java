@@ -124,7 +124,7 @@ public class Classes {
 	 */
 	public void addClassGUI(JFrame frame, String name) {
 		Class c = new Class(name); 
-		if (!classes.containsKey(name)) //.put will return null if there is no mapping for the key.
+		if (!classes.containsKey(name))
 		{
 			classes.put(name, c);
 			String message = "You have created a new class named: " + name;
@@ -141,7 +141,7 @@ public class Classes {
 	 * @param name A String that represents the class name.
 	 */
 	public void deleteClassCLI(String name) {
-		if (classes.containsKey(name)) //.remove will return null if there was no mapping for the key.
+		if (classes.containsKey(name))
 		{
 			classes.remove(name);
 			System.out.println("The class " + name + " has been deleted.");
