@@ -1,1 +1,1 @@
-{"test":{"name":"test","attributes":["attr","attr1"],"relationships":{"rel":"type","rel1":"type"}},"test1":{"name":"test1","attributes":[],"relationships":{}},"test2":{"name":"test2","attributes":["attr"],"relationships":{"rel":"type"}}}
+{"test":{"name":"test","fields":[],"methods":[],"relationships":[{"destination":"rel","type":"rel"},{"destination":"rel1","type":"rel1"},{"destination":"rel123","type":"rel123"},{"destination":"rel123559","type":"rel123559"}]}}

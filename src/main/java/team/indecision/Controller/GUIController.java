@@ -139,10 +139,7 @@ public class GUIController {
                 if (className != null) {
                     String relationshipName = promptInput("Enter relationship destination.");
                     if (relationshipName != null) {
-                        String relationshipType = promptInput("Enter relationship type.");
-                        if (relationshipType != null) {
-                            model.deleteRelationshipGUI(gui.frame, className, relationshipName, relationshipType);
-                        }
+                    	model.deleteRelationshipGUI(gui.frame, className, relationshipName);
                     }
                 }
             }
@@ -176,7 +173,7 @@ public class GUIController {
                     if (relationshipOldName != null) {
                         String relationshipNewType = promptInput("Enter new relationship type.");
                         if (relationshipNewType != null) {
-                            model.editRelationshipDestinationGUI(gui.frame, className, relationshipOldName,
+                            model.editRelationshipTypeGUI(gui.frame, className, relationshipOldName,
                                     relationshipNewType);
                         }
                     }
@@ -264,6 +261,7 @@ public class GUIController {
     public String promptInput(String message) {
         return JOptionPane.showInputDialog(gui.frame, message);
     }
+    
     public List<String> promptMultipleInput(String message) {
         List<String> parameters = new ArrayList<String>();
         boolean bool = true;
@@ -282,6 +280,7 @@ public class GUIController {
         }
         return parameters;
     }
+    
     public void refreshJFrame() {
         gui.removeAll();
         gui.revalidate();

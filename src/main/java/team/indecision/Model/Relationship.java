@@ -28,6 +28,10 @@ public class Relationship implements Comparable<Relationship> {
 		type = typeP;
 	}
 	
+	public Relationship(String destinationP) {
+		destination = destinationP;
+	}
+	
 	/** Gets the relationship's destination.
 	 * @return A String representing the destination name.
 	 */

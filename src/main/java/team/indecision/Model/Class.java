@@ -111,6 +111,18 @@ public class Class {
 		 return f;
 	}
 	
+	/** Checks if the specified field is in the set.
+	 * @param name A String containing the class field name.
+	 * @return Returns true if the field exists.
+	 */
+	public boolean containsField(String name) {
+		boolean result = false;
+		if (getField(name) != null) {
+			result = true;
+		}
+		return result;
+	}
+	
 	/** Prints the fields for this class.
 	 * @return A String containing the class's fields.
 	 */
@@ -167,6 +179,18 @@ public class Class {
 		 return m;
 	}
 	
+	/** Checks if the specified field is in the set.
+	 * @param name A String containing the class field name.
+	 * @return Returns true if the field exists.
+	 */
+	public boolean containsMethod(String name, List<String> parameters) {
+		boolean result = false;
+		if (getMethod(name, parameters) != null) {
+			result = true;
+		}
+		return result;
+	}
+	
 	/** Prints the methods for this class.
 	 * @return A String containing the class's methods.
 	 */
@@ -203,8 +227,8 @@ public class Class {
 	 * @param type A String that represents the type of the relationship.
 	 * @return A boolean true if it is deleted and false if it does not exist.
 	 */
-	public boolean deleteRelationship(String destination, String type) {
-		Relationship r = new Relationship (destination,type);
+	public boolean deleteRelationship(String destination) {
+		Relationship r = new Relationship (destination);
 		return relationships.remove(r);
 	}
 	
@@ -223,6 +247,18 @@ public class Class {
 			 r = null;
 		 }
 		 return r;
+	}
+	
+	/** Checks if the specified relationship is in the set.
+	 * @param name A String containing the class relationship name.
+	 * @return Returns true if the relationship exists.
+	 */
+	public boolean containsRelationship(String destination) {
+		boolean result = false;
+		if (getRelationship(destination) != null) {
+			result = true;
+		}
+		return result;
 	}
 	
 	/** Prints the relationships for this class.
