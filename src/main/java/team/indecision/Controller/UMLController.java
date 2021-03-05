@@ -3,6 +3,9 @@ package team.indecision.Controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
 import team.indecision.Model.Classes;
@@ -36,10 +39,13 @@ public class UMLController {
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("field"))) {
 				model.addFieldCLI(parsedChoice[2], parsedChoice[3]);
 			}
-			// This will need further work to implement adding a list of parameters.
-//			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("method"))) {
-//				classes.addMethod(parsedChoice[2], parsedChoice[3]);
-//			}
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("method"))) {
+				String parameters = br.readLine();
+				String sep = ",";
+				String[] parsedParameters = StringUtils.split(parameters, sep);
+				List<String> parametersList = Arrays.asList(parsedParameters);
+				classes.addMethodCLI(parsedChoice[2], parsedChoice[3], parametersList);
+			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
 				model.addRelationshipCLI(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
@@ -50,8 +56,12 @@ public class UMLController {
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("field"))) {
 				model.deleteFieldCLI(parsedChoice[2], parsedChoice[3]);
 			}
-			else if (parsedChoice.length == 5 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("method"))) {
-//				classes.deleteMethod(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("method"))) {
+				String parameters = br.readLine();
+				String sep = ",";
+				String[] parsedParameters = StringUtils.split(parameters, sep);
+				List<String> parametersList = Arrays.asList(parsedParameters);
+				classes.deleteMethodCLI(parsedChoice[2], parsedChoice[3], parametersList);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("rel"))) {
 				model.deleteRelationshipCLI(parsedChoice[2], parsedChoice[3]);
@@ -63,14 +73,24 @@ public class UMLController {
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("field"))) {
 				model.editFieldCLI(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
-		// 	This will need further work to implement adding a list of parameters.
-//			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method"))) {
-//				classes.editMethodName(parsedChoice[2], parsedChoice[3], parsedChoice[4], parsedChoice[5]);
-//			}
-			// This will need further work to implement adding a list of parameters.
-//			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel"))) {
-//			classes.editMethodType(parsedChoice[2], parsedChoice[3], parsedChoice[4], parsedChoice[5]);
-//			}
+			else if (parsedChoice.length == 4 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method"))) {
+				String parameters = br.readLine();
+				String sep = ",";
+				String[] parsedParameters = StringUtils.split(parameters, sep);
+				List<String> parametersList = Arrays.asList(parsedParameters);
+				String methodNameNew = br.readLine();
+				model.editMethodNameCLI(parsedChoice[2], parsedChoice[3], parametersList, methodNameNew);
+			}
+			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel"))) {
+				String parameters = br.readLine();
+				String sep = ",";
+				String[] parsedParameters = StringUtils.split(parameters, sep);
+				List<String> parametersList = Arrays.asList(parsedParameters);
+				String parametersNew = br.readLine();
+				String[] parsedParametersNew = StringUtils.split(parametersNew, sep);
+				List<String> parametersListNew = Arrays.asList(parsedParametersNew);
+				model.editMethodParametersCLI(parsedChoice[2], parsedChoice[3], parametersList, parametersListNew);
+			}
 			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel")) && (parsedChoice[2].equals("dest"))) {
 				classes.editRelationshipDestinationCLI(parsedChoice[3], parsedChoice[4], parsedChoice[5]);
 			}

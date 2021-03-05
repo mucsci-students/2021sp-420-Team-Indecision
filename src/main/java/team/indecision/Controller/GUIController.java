@@ -197,7 +197,7 @@ public class GUIController {
                     if (methodName != null) {
                         List<String> parameters = promptMultipleInput("Enter new method parameters.");
                         if (parameters != null) {
-                            model.addMethod(className, methodName, parameters);
+                            model.addMethodGUI(gui.frame, className, methodName, parameters);
                             refreshJFrame();
                         }
                     }
@@ -215,7 +215,7 @@ public class GUIController {
                     if (methodName != null) {
                         List<String> parameters = promptMultipleInput("Enter method parameters to delete.");
                         if (parameters != null) {
-                            model.deleteMethod(className, methodName, parameters);
+                            model.deleteMethodGUI(gui.frame, className, methodName, parameters);
                             refreshJFrame();
                         }
                     }
@@ -235,7 +235,7 @@ public class GUIController {
                         if (methodNewName != null) {
                             List<String> parameters = promptMultipleInput("Enter method parameters.");
                             if (parameters != null) {
-                                model.editMethodName(className, methodOldName, parameters, methodNewName);
+                                model.editMethodNameGUI(gui.frame, className, methodOldName, parameters, methodNewName);
                                 refreshJFrame();
                             }
                         }
@@ -256,7 +256,7 @@ public class GUIController {
                         if (oldParameters != null) {
                             List<String> newParameters = promptMultipleInput("Enter new method parameters.");
                             if (newParameters != null) {
-                                model.editMethodParameters(className, methodName, oldParameters, newParameters);
+                                model.editMethodParametersGUI(gui.frame, className, methodName, oldParameters, newParameters);
                                 refreshJFrame();
                             }
                         }

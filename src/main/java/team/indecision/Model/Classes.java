@@ -383,8 +383,44 @@ public class Classes {
 	 * @param methodName A String that represents the method name.
 	 * @param parameters A List of strings containing the parameters.
 	 */
-	public void addMethod(String className, String methodName, List<String> parameters) {
-		//Needs to be implemented.
+	public void addMethodCLI(String className, String methodName, List<String> parameters) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if (!c.containsMethod(methodName, parameters)) {
+				c.addMethod(methodName, parameters);
+				System.out.println("The method " + methodName + " has been added to the class " + className + ".");
+			}
+			else {
+				System.out.println("The method " + methodName + " already exists with the class " + className + " with those parameters.");
+			}
+		}
+		else {
+			System.out.println("The class "  +  className + " does not exist.");
+		}
+	}
+	
+	/** Adds a method to the specified class in the classes map. If the class does not exist or the method already exists it prints an error. 
+	 * @param className A String that represents the class name.
+	 * @param methodName A String that represents the method name.
+	 * @param parameters A List of strings containing the parameters.
+	 */
+	public void addMethodGUI(JFrame frame, String className, String methodName, List<String> parameters) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if (!c.containsMethod(methodName, parameters)) {
+				c.addMethod(methodName, parameters);
+				String message = "The method " + methodName + " has been added to the class " + className + ".";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+			else {
+				String message = "The method " + methodName + " already exists with the class " + className + " with those parameters.";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+		}
+		else {
+			String message = "The class "  +  className + " does not exist.";
+			JOptionPane.showMessageDialog(frame, message);
+		}
 	}
 	
 	/** Deletes a method from the specified class in the classes map. If the class does not exist or the field already exists or if the new method name with the same parameters already exists it prints an error.
@@ -392,8 +428,44 @@ public class Classes {
 	 * @param methodName A String that represents the method name.
 	 * @param parameters A List of strings containing the parameters.
 	 */
-	public void deleteMethod(String className, String methodName, List<String> parameters) {
-		//Needs to be implemented.
+	public void deleteMethodCLI(String className, String methodName, List<String> parameters) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if (c.containsMethod(methodName, parameters)) {
+				c.deleteMethod(methodName, parameters);
+				System.out.println("The method " +  methodName + " has been deleted from class " + className + ".");
+			}
+			else {
+				System.out.println("The method " +  methodName + " does not exist with the class " + className + ".");
+			}
+		}
+		else {
+			System.out.println("The class " +  className + " does not exist.");
+		}
+	}
+	
+	/** Deletes a method from the specified class in the classes map. If the class does not exist or the field already exists or if the new method name with the same parameters already exists it prints an error.
+	 * @param className A String that represents the class name.
+	 * @param methodName A String that represents the method name.
+	 * @param parameters A List of strings containing the parameters.
+	 */
+	public void deleteMethodGUI(JFrame frame, String className, String methodName, List<String> parameters) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if (c.containsMethod(methodName, parameters)) {
+				c.deleteMethod(methodName, parameters);
+				String message = "The method " +  methodName + " has been deleted from class " + className + ".";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+			else {
+				String message = "The method " +  methodName + " does not exist with the class " + className + ".";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+		}
+		else {
+			String message = "The class " +  className + " does not exist.";
+			JOptionPane.showMessageDialog(frame, message);
+		}
 	}
 	
 	/** Edits a methods name from the specified class in the classes map. If the class does not exist or the field already exists or if the new method name with the same parameters already exists it prints an error.
@@ -402,8 +474,58 @@ public class Classes {
 	 * @param parameters A List of strings containing the parameters.
 	 * @param newMethodName A String that represents the new method name.
 	 */
-	public void editMethodName(String className, String methodName, List<String> parameters, String newMethodName) {
-		//Needs to be implemented.
+	public void editMethodNameCLI(String className, String methodName, List<String> parameters, String newMethodName) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if(c.containsMethod(methodName, parameters) && !c.containsMethod(newMethodName, parameters)) {
+				Method m = c.getMethod(methodName, parameters);
+				m.setName(newMethodName);
+				System.out.println("The method " + methodName + " has been changed to " + newMethodName + ".");
+			}
+			else {
+				if (c.containsMethod(newMethodName, parameters)) {
+					System.out.println("The method " +  newMethodName + " already exists with the class " + className + " with those parameters.");
+				}
+				else {
+					System.out.println("The method " +  methodName + " does not exist with the class " + className + ".");
+				}
+			}
+		}
+		else {
+			System.out.println("The class " +  className + " does not exist.");
+		}	
+	}
+	
+	/** Edits a methods name from the specified class in the classes map. If the class does not exist or the field already exists or if the new method name with the same parameters already exists it prints an error.
+	 * @param className A String that represents the class name.
+	 * @param methodName A String that represents the method name.
+	 * @param parameters A List of strings containing the parameters.
+	 * @param newMethodName A String that represents the new method name.
+	 */
+	public void editMethodNameGUI(JFrame frame, String className, String methodName, List<String> parameters, String newMethodName) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if(c.containsMethod(methodName, parameters) && !c.containsMethod(newMethodName, parameters)) {
+				Method m = c.getMethod(methodName, parameters);
+				m.setName(newMethodName);
+				String message = "The method " + methodName + " has been changed to " + newMethodName + ".";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+			else {
+				if (c.containsMethod(newMethodName, parameters)) {
+					String message = "The method " +  newMethodName + " already exists with the class " + className + " with those parameters.";
+					JOptionPane.showMessageDialog(frame, message);
+				}
+				else {
+					String message = "The method " +  methodName + " does not exist with the class " + className + ".";
+					JOptionPane.showMessageDialog(frame, message);
+				}
+			}
+		}
+		else {
+			String message = "The class " +  className + " does not exist.";
+			JOptionPane.showMessageDialog(frame, message);
+		}	
 	}
 	
 	/** Edits a methods parameters from the specified class in the classes map. If the class does not exist or the field already exists or if the new method name with the same parameters already exists it prints an error.
@@ -412,8 +534,58 @@ public class Classes {
 	 * @param parameters A List of Strings containing the parameters.
 	 * @param newParameters A List of Strings that represents the new methods name.
 	 */
-	public void editMethodParameters(String className, String methodName, List<String> parameters, List<String> newMethodParameters) {
-		//Needs to be implemented.
+	public void editMethodParametersCLI(String className, String methodName, List<String> parameters, List<String> newMethodParameters) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if(c.containsMethod(methodName, parameters) && !c.containsMethod(methodName, newMethodParameters)) {
+				Method m = c.getMethod(methodName, parameters);
+				m.setParameters(newMethodParameters);
+				System.out.println("The method parameters of" + methodName + " has been changed.");
+			}
+			else {
+				if (c.containsMethod(methodName, newMethodParameters)) {
+					System.out.println("The method " +  methodName + " already exists with the class " + className + " with those parameters.");
+				}
+				else {
+					System.out.println("The method " +  methodName + " does not exist with the class " + className + ".");
+				}
+			}
+		}
+		else {
+			System.out.println("The class " +  className + " does not exist.");
+		}		
+	}
+	
+	/** Edits a methods parameters from the specified class in the classes map. If the class does not exist or the field already exists or if the new method name with the same parameters already exists it prints an error.
+	 * @param className A String that represents the class name.
+	 * @param methodName A String that represents the method name.
+	 * @param parameters A List of Strings containing the parameters.
+	 * @param newParameters A List of Strings that represents the new methods name.
+	 */
+	public void editMethodParametersGUI(JFrame frame, String className, String methodName, List<String> parameters, List<String> newMethodParameters) {
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if(c.containsMethod(methodName, parameters) && !c.containsMethod(methodName, newMethodParameters)) {
+				Method m = c.getMethod(methodName, parameters);
+				m.setParameters(newMethodParameters);
+				String message = "The method parameters of" + methodName + " has been changed.";
+				JOptionPane.showMessageDialog(frame, message);
+			}
+			else {
+				if (c.containsMethod(methodName, newMethodParameters)) {
+					String message = "The method " +  methodName + " already exists with the class " + className + " with those parameters.";
+					JOptionPane.showMessageDialog(frame, message);
+				}
+				else {
+					String message = "The method " +  methodName + " does not exist with the class " + className + ".";
+					JOptionPane.showMessageDialog(frame, message);
+				}
+			}
+		}
+		else {
+			String message = "The class " +  className + " does not exist.";
+			JOptionPane.showMessageDialog(frame, message);
+		}		
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
