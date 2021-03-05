@@ -11,8 +11,10 @@ import team.indecision.Model.Classes;
 import java.util.ArrayList;
 import java.util.List;
 public class GUIController {
-    private Classes model;
+    
+	private Classes model;
     private GUI gui;
+    
     public GUIController() {
     }
     public GUIController(GUI guiP, Classes classes) {
