@@ -521,7 +521,7 @@ public class Classes {
 			Class c = classes.get(className);
 			if(c.containsRelationship(relationshipDestination) && !c.containsRelationship(newRelationshipDestination)) {
 				Relationship r = c.getRelationship(relationshipDestination);
-				r.setDestiniation(newRelationshipDestination);
+				r.setDestination(newRelationshipDestination);
 				System.out.println("The relationship " + relationshipDestination + " has been changed to " + newRelationshipDestination + ".");
 			}
 			else {
@@ -548,7 +548,7 @@ public class Classes {
 			Class c = classes.get(className);
 			if(c.containsRelationship(relationshipDestination) && !c.containsRelationship(newRelationshipDestination)) {
 				Relationship r = c.getRelationship(relationshipDestination);
-				r.setDestiniation(newRelationshipDestination);
+				r.setDestination(newRelationshipDestination);
 				String message = "The relationship " + relationshipDestination + " has been changed to " + newRelationshipDestination + ".";
 	    		JOptionPane.showMessageDialog(frame, message);
 			}
