@@ -1,4 +1,4 @@
-package team.indecision;
+package team.indecision.Model;
 
 /** Represents a Field in the UML model.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 

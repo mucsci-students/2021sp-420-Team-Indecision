@@ -1,4 +1,4 @@
-package team.indecision;
+package team.indecision.Model;
 
 /** Represents a Relationship in the UML model.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
@@ -28,6 +28,11 @@ public class Relationship implements Comparable<Relationship> {
 		type = typeP;
 	}
 	
+	
+	public Relationship(String destinationP) {
+		destination = destinationP;
+	}
+	
 	/** Gets the relationship's destination.
 	 * @return A String representing the destination name.
 	 */
@@ -46,7 +51,7 @@ public class Relationship implements Comparable<Relationship> {
 	 * @return A String representing the type name.
 	 */
 	public String getType() {
-		return destination;
+		return type;
 	}
 	
 	/** Sets the relationship's type.
