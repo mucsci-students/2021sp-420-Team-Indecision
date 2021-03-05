@@ -59,27 +59,6 @@ public class GUI extends JPanel {
 		addClassItem.addActionListener(controller.renameFieldListener());
 		fieldMenu.add(addClassItem);
 
-
-		////////////////////////////JMenueBar Relationships//////////////////////////////////////
-		JMenu relationshipMenu = new JMenu("Relationship");
-		menuBar.add(relationshipMenu);
-		
-		addClassItem = new JMenuItem("Add Relationship");
-		addClassItem.addActionListener(controller.addRelationshipListener());
-		relationshipMenu.add(addClassItem);
-
-		addClassItem = new JMenuItem("Delete Relationship");
-		addClassItem.addActionListener(controller.deleteRelationshipListener());
-		relationshipMenu.add(addClassItem);
-
-		addClassItem = new JMenuItem("Edit Relationship Destination");
-		addClassItem.addActionListener(controller.editRelationshipDestination());
-		relationshipMenu.add(addClassItem);
-
-		addClassItem = new JMenuItem("Edit Relationship Type");
-		addClassItem.addActionListener(controller.editRelationshipType());
-		relationshipMenu.add(addClassItem);
-
 		////////////////////////////JMenueBar Methods//////////////////////////////////////
 		JMenu methodMenu = new JMenu("Method");
 		menuBar.add(methodMenu);
@@ -104,6 +83,26 @@ public class GUI extends JPanel {
 		frame.add(this);
 		frame.pack();
 		frame.setVisible(true);
+		
+		////////////////////////////JMenueBar Relationships//////////////////////////////////////
+		JMenu relationshipMenu = new JMenu("Relationship");
+		menuBar.add(relationshipMenu);
+		
+		addClassItem = new JMenuItem("Add Relationship");
+		addClassItem.addActionListener(controller.addRelationshipListener());
+		relationshipMenu.add(addClassItem);
+		
+		addClassItem = new JMenuItem("Delete Relationship");
+		addClassItem.addActionListener(controller.deleteRelationshipListener());
+		relationshipMenu.add(addClassItem);
+		
+		addClassItem = new JMenuItem("Edit Relationship Destination");
+		addClassItem.addActionListener(controller.editRelationshipDestination());
+		relationshipMenu.add(addClassItem);
+		
+		addClassItem = new JMenuItem("Edit Relationship Type");
+		addClassItem.addActionListener(controller.editRelationshipType());
+		relationshipMenu.add(addClassItem);
 		
 	}
 
