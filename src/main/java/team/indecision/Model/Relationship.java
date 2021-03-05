@@ -28,6 +28,7 @@ public class Relationship implements Comparable<Relationship> {
 		type = typeP;
 	}
 	
+	
 	public Relationship(String destinationP) {
 		destination = destinationP;
 	}
@@ -50,7 +51,7 @@ public class Relationship implements Comparable<Relationship> {
 	 * @return A String representing the type name.
 	 */
 	public String getType() {
-		return destination;
+		return type;
 	}
 	
 	/** Sets the relationship's type.
