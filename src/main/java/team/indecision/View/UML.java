@@ -22,7 +22,4 @@ public class UML {
 		controller = new UMLController(modelP);
 		
 	}
-
-	
-
 }

@@ -11,8 +11,10 @@ import team.indecision.Model.Classes;
 import java.util.ArrayList;
 import java.util.List;
 public class GUIController {
-    private Classes model;
+    
+	private Classes model;
     private GUI gui;
+    
     public GUIController() {
     }
     public GUIController(GUI guiP, Classes classes) {
@@ -149,6 +151,7 @@ public class GUIController {
                         String relationshipType = promptInput("Enter new relationship type.");
                         if (relationshipType != null) {
                             model.addRelationshipGUI(gui.frame, className, relationshipName, relationshipType);
+                            refreshJFrame();
                         }
                     }
                 }
@@ -167,10 +170,8 @@ public class GUIController {
                 if (className != null) {
                     String relationshipName = promptInput("Enter relationship destination.");
                     if (relationshipName != null) {
-                        String relationshipType = promptInput("Enter relationship type.");
-                        if (relationshipType != null) {
-                            model.deleteRelationshipGUI(gui.frame, className, relationshipName, relationshipType);
-                        }
+                    	model.deleteRelationshipGUI(gui.frame, className, relationshipName);
+                    	refreshJFrame();
                     }
                 }
             }
@@ -190,8 +191,8 @@ public class GUIController {
                     if (relationshipOldName != null) {
                         String relationshipNewName = promptInput("Enter new relationship destination.");
                         if (relationshipNewName != null) {
-                            model.editRelationshipDestinationGUI(gui.frame, className, relationshipOldName,
-                                    relationshipNewName);
+                            model.editRelationshipDestinationGUI(gui.frame, className, relationshipOldName, relationshipNewName);
+                            refreshJFrame();
                         }
                     }
                 }
@@ -212,8 +213,8 @@ public class GUIController {
                     if (relationshipOldName != null) {
                         String relationshipNewType = promptInput("Enter new relationship type.");
                         if (relationshipNewType != null) {
-                            model.editRelationshipDestinationGUI(gui.frame, className, relationshipOldName,
-                                    relationshipNewType);
+                            model.editRelationshipTypeGUI(gui.frame, className, relationshipOldName,relationshipNewType);
+                            refreshJFrame();
                         }
                     }
                 }
@@ -236,6 +237,7 @@ public class GUIController {
                         List<String> parameters = promptMultipleInput("Enter new method parameters.");
                         if (parameters != null) {
                             model.addMethod(className, methodName, parameters);
+                            refreshJFrame();
                         }
                     }
                 }
@@ -256,6 +258,7 @@ public class GUIController {
                         List<String> parameters = promptMultipleInput("Enter method parameters to delete.");
                         if (parameters != null) {
                             model.deleteMethod(className, methodName, parameters);
+                            refreshJFrame();
                         }
                     }
                 }
@@ -278,6 +281,7 @@ public class GUIController {
                             List<String> parameters = promptMultipleInput("Enter method parameters.");
                             if (parameters != null) {
                                 model.editMethodName(className, methodOldName, parameters, methodNewName);
+                                refreshJFrame();
                             }
                         }
                     }
@@ -301,6 +305,7 @@ public class GUIController {
                             List<String> newParameters = promptMultipleInput("Enter new method parameters.");
                             if (newParameters != null) {
                                 model.editMethodParameters(className, methodName, oldParameters, newParameters);
+                                refreshJFrame();
                             }
                         }
                     }

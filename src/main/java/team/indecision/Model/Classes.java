@@ -108,8 +108,9 @@ public class Classes {
 	 */
 	public void addClassCLI(String name) {
 		Class c = new Class(name); 
-		if (classes.put(name, c) == null) //.put will return null if there is no mapping for the key.
+		if (!classes.containsKey(name)) //.put will return null if there is no mapping for the key.
 		{
+			classes.put(name, c);
 			System.out.println("You have created a new class named: " + name);
 		}
 		else 
@@ -123,8 +124,9 @@ public class Classes {
 	 */
 	public void addClassGUI(JFrame frame, String name) {
 		Class c = new Class(name); 
-		if (classes.put(name, c) == null) //.put will return null if there is no mapping for the key.
+		if (!classes.containsKey(name))
 		{
+			classes.put(name, c);
 			String message = "You have created a new class named: " + name;
 			JOptionPane.showMessageDialog(frame, message);
 		}
@@ -139,8 +141,9 @@ public class Classes {
 	 * @param name A String that represents the class name.
 	 */
 	public void deleteClassCLI(String name) {
-		if (classes.remove(name) != null) //.remove will return null if there was no mapping for the key.
+		if (classes.containsKey(name))
 		{
+			classes.remove(name);
 			System.out.println("The class " + name + " has been deleted.");
 		}
 		else 
@@ -153,8 +156,9 @@ public class Classes {
 	 * @param name A String that represents the class name.
 	 */
 	public void deleteClassGUI(JFrame frame, String name) {
-		if (classes.remove(name) != null) //.remove will return null if there was no mapping for the key.
+		if (classes.containsKey(name)) //.remove will return null if there was no mapping for the key.
 		{
+			classes.remove(name);
 			String message = "The class " + name + " has been deleted.";
 			JOptionPane.showMessageDialog(frame, message);
 		}
@@ -232,7 +236,8 @@ public class Classes {
 	public void addFieldCLI(String className, String fieldName) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
-			if (c.addField(fieldName)) {
+			if (!c.containsField(fieldName)) {
+				c.addField(fieldName);
 				System.out.println("The field " + fieldName + " has been added to the class " + className + ".");
 			}
 			else {
@@ -251,7 +256,8 @@ public class Classes {
 	public void addFieldGUI(JFrame frame, String className, String fieldName) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
-			if (c.addField(fieldName)) {
+			if (!c.containsField(fieldName)) {
+				c.addField(fieldName);
 				String message = "The field " + fieldName + " has been added to the class " + className + ".";
 				JOptionPane.showMessageDialog(frame, message);
 			}
@@ -273,7 +279,8 @@ public class Classes {
 	public void deleteFieldCLI(String className, String fieldName) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
-			if (c.deleteField(fieldName)) {
+			if (c.containsField(fieldName)) {
+				c.deleteField(fieldName);
 				System.out.println("The field " +  fieldName + " has been deleted from class " + className + ".");
 			}
 			else {
@@ -293,7 +300,8 @@ public class Classes {
 	public void deleteFieldGUI(JFrame frame, String className, String fieldName) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
-			if (c.deleteField(fieldName)) {
+			if (c.containsField(fieldName)) {
+				c.deleteField(fieldName);
 				String message = "The field " +  fieldName + " has been deleted from class " + className + ".";
 				JOptionPane.showMessageDialog(frame, message);
 			}
@@ -316,14 +324,13 @@ public class Classes {
 	public void editFieldCLI(String className, String fieldName, String newFieldName) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
-			Field f = c.getField(fieldName);
-			Field fn = c.getField(newFieldName);
-			if(f != null && fn == null) {
+			if(c.containsField(fieldName) && !c.containsField(newFieldName)) {
+				Field f = c.getField(fieldName);
 				f.setName(newFieldName);
 				System.out.println("The field " + fieldName + " has been renamed to " + newFieldName + ".");
 			}
 			else {
-				if (fn != null) {
+				if (c.containsField(newFieldName)) {
 					System.out.println("The field " +  newFieldName + " already exists with the class " + className + ".");
 				}
 				else {
@@ -344,15 +351,14 @@ public class Classes {
 	public void editFieldGUI(JFrame frame, String className, String fieldName, String newFieldName) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
-			Field f = c.getField(fieldName);
-			Field fn = c.getField(newFieldName);
-			if(f != null && fn == null) {
+			if(c.containsField(fieldName) && !c.containsField(newFieldName)) {
+				Field f = c.getField(fieldName);
 				f.setName(newFieldName);
 				String message = "The field " + fieldName + " has been renamed to " + newFieldName + ".";
 				JOptionPane.showMessageDialog(frame, message);
 			}
 			else {
-				if (fn != null) {
+				if (c.containsField(newFieldName)) {
 					String message = "The field " +  newFieldName + " already exists with the class " + className + ".";
 					JOptionPane.showMessageDialog(frame, message);
 				}
@@ -423,7 +429,8 @@ public class Classes {
 	public void addRelationshipCLI(String className, String relationshipDestination, String relationshipType) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
-			if (c.addRelationship(relationshipDestination, relationshipType)) {
+			if (!c.containsRelationship(relationshipDestination)) {
+				c.addRelationship(relationshipDestination, relationshipType);
 				System.out.println("The " + className +" has created a new relationship with class: " + relationshipDestination + " of type " + relationshipType);
 			}
 			else {
@@ -443,7 +450,8 @@ public class Classes {
 	public void addRelationshipGUI(JFrame frame, String className, String relationshipDestination, String relationshipType) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
-			if (c.addRelationship(relationshipDestination, relationshipType)) {
+			if (!c.containsRelationship(relationshipDestination)) {
+				c.addRelationship(relationshipDestination, relationshipType);
 				String message = "The " + className +" has created a new relationship with class: " + relationshipDestination + " of type " + relationshipType;
 				JOptionPane.showMessageDialog(frame, message);
 			}
@@ -463,11 +471,12 @@ public class Classes {
 	 * @param relationshipDestination A String that represents the relationship destination class.
 	 * @param relationshipType A String that represents the relationship type name.
 	 */
-	public void deleteRelationshipCLI(String className, String relationshipDestination, String relationshipType) {
+	public void deleteRelationshipCLI(String className, String relationshipDestination) {
         if (classes.containsKey(className)) {
             Class c = classes.get(className);
-            if (c.deleteRelationship(relationshipDestination, relationshipType)) {
-                System.out.println("You have deleted a relationship with class: " + className + "of" + relationshipDestination + "with relationship type" + relationshipType);
+            if (c.containsRelationship(relationshipDestination)) {
+            	c.deleteRelationship(relationshipDestination);
+                System.out.println("You have deleted a relationship with class: " + relationshipDestination);
             }
             else {
                 System.out.println("A relationship with " + relationshipDestination + " does not exist.");
@@ -483,11 +492,12 @@ public class Classes {
 	 * @param relationshipDestination A String that represents the relationship destination class.
 	 * @param relationshipType A String that represents the relationship type name.
 	 */
-	public void deleteRelationshipGUI(JFrame frame,String className, String relationshipDestination, String relationshipType) {
+	public void deleteRelationshipGUI(JFrame frame,String className, String relationshipDestination) {
         if (classes.containsKey(className)) {
             Class c = classes.get(className);
-            if (c.deleteRelationship(relationshipDestination, relationshipType)) {
-                String message = "You have deleted a relationship with class: " + className + "of" + relationshipDestination + "with relationship type" + relationshipType;
+            if (c.containsRelationship(relationshipDestination)) {
+            	c.deleteRelationship(relationshipDestination);
+                String message = "You have deleted a relationship with class: " + relationshipDestination;
     			JOptionPane.showMessageDialog(frame, message);
             }
             else {
@@ -507,7 +517,25 @@ public class Classes {
 	 * @param newRelationshipDestination A String representing the new destination of the relationship.
 	 */
 	public void editRelationshipDestinationCLI(String className, String relationshipDestination, String newRelationshipDestination) {
-		//Needs to be implemented.
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if(c.containsRelationship(relationshipDestination) && !c.containsRelationship(newRelationshipDestination)) {
+				Relationship r = c.getRelationship(relationshipDestination);
+				r.setDestination(newRelationshipDestination);
+				System.out.println("The relationship " + relationshipDestination + " has been changed to " + newRelationshipDestination + ".");
+			}
+			else {
+				if (c.containsRelationship(newRelationshipDestination)) {
+					System.out.println("The relationship " +  newRelationshipDestination + " already exists with the class " + className + ".");
+				}
+				else {
+					System.out.println("The relationship " +  relationshipDestination + " does not exist with the class " + className + ".");
+				}
+			}
+		}
+		else {
+			System.out.println("The class " +  className + " does not exist.");
+		}
 	}
 	
 	/** Edits a current relationship for the specified class in the classes map. If the class does not exist or the relationshipDestination does not exist or if the newRelationshipDestination name already exists it prints an error.
@@ -516,7 +544,28 @@ public class Classes {
 	 * @param newRelationshipDestination A String representing the new destination of the relationship.
 	 */
 	public void editRelationshipDestinationGUI(JFrame frame, String className, String relationshipDestination, String newRelationshipDestination) {
-		//Needs to be implemented.
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if(c.containsRelationship(relationshipDestination) && !c.containsRelationship(newRelationshipDestination)) {
+				Relationship r = c.getRelationship(relationshipDestination);
+				r.setDestination(newRelationshipDestination);
+				String message = "The relationship " + relationshipDestination + " has been changed to " + newRelationshipDestination + ".";
+	    		JOptionPane.showMessageDialog(frame, message);
+			}
+			else {
+				if (c.containsRelationship(newRelationshipDestination)) {
+					String message = "The relationship " +  newRelationshipDestination + " already exists with the class " + className + ".";
+		    		JOptionPane.showMessageDialog(frame, message);
+				}
+				else {
+					String message = "The relationship " +  relationshipDestination + " does not exist with the class " + className + ".";
+		    		JOptionPane.showMessageDialog(frame, message);
+				}
+			}
+		}
+		else {
+			System.out.println("The class " +  className + " does not exist.");
+		}
 	}
 	
 	/** Edits a current relationship's type for the specified class in the classes map. If the class does not exist or the relationshipDestination does not exist it prints an error.
@@ -525,7 +574,20 @@ public class Classes {
 	 * @param newRelationshipType A String representing the new type of the relationship.
 	 */
 	public void editRelationshipTypeCLI(String className, String relationshipDestination, String newRelationshipType) {
-		//Needs to be implemented.
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if(c.containsRelationship(relationshipDestination)) {
+				Relationship r = c.getRelationship(relationshipDestination);
+				r.setType(newRelationshipType);
+				System.out.println("The relationship " + relationshipDestination + " type has been changed to " + newRelationshipType + ".");
+			}
+			else {
+				System.out.println("The relationship " +  relationshipDestination + " does not exist with the class " + className + ".");
+			}
+		}
+		else {
+			System.out.println("The class " +  className + " does not exist.");
+		}
 	}
 	
 	/** Edits a current relationship's type for the specified class in the classes map. If the class does not exist or the relationshipDestination does not exist it prints an error.
@@ -534,7 +596,23 @@ public class Classes {
 	 * @param newRelationshipType A String representing the new type of the relationship.
 	 */
 	public void editRelationshipTypeGUI(JFrame frame, String className, String relationshipDestination, String newRelationshipType) {
-		//Needs to be implemented.
+		if (classes.containsKey(className)) {
+			Class c = classes.get(className);
+			if(c.containsRelationship(relationshipDestination)) {
+				Relationship r = c.getRelationship(relationshipDestination);
+				r.setType(newRelationshipType);
+				String message = "The relationship " + relationshipDestination + " type has been changed to " + newRelationshipType + ".";
+	    		JOptionPane.showMessageDialog(frame, message);
+			}
+			else {
+				String message = "The relationship " +  relationshipDestination + " does not exist with the class " + className + ".";
+	    		JOptionPane.showMessageDialog(frame, message);
+			}
+		}
+		else {
+			String message = "The class " +  className + " does not exist.";
+    		JOptionPane.showMessageDialog(frame, message);
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
