@@ -11,7 +11,7 @@ public final class IndecisionApp {
 		Classes model = new Classes();
 		
 		if((args.length == 1) && (args[0].equals("-cli"))) {
-			UML uml = new UML(model);
+			CLI cli = new CLI(model);
 		}else if (args.length == 0){
 			GUI gui = new GUI(model);
 		}else {
