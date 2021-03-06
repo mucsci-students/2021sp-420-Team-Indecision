@@ -4,22 +4,22 @@ import team.indecision.Model.Classes;
 
 import java.io.IOException;
 
-import team.indecision.Controller.UMLController;
+import team.indecision.Controller.CLIController;
 
 /** A text-based REPL program for creating UML models.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
  * @version 1.0
  * @since 1.0
  */
-public class UML {
+public class CLI {
 
-	private UMLController controller;
+	private CLIController controller;
 	
-	public UML(Classes modelP) throws IOException {
+	public CLI(Classes modelP) throws IOException {
 		System.out.println("Welcome to Team Indecision's UML Tool");
 		System.out.println("Type 'help' to see a list of commands or 'exit' to close the program.");
 		
-		controller = new UMLController(modelP);
+		controller = new CLIController(modelP);
 		
 	}
 }
