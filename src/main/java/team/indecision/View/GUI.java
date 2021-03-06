@@ -103,7 +103,19 @@ public class GUI extends JPanel {
 		addClassItem = new JMenuItem("Edit Relationship Type");
 		addClassItem.addActionListener(controller.editRelationshipType());
 		relationshipMenu.add(addClassItem);
-		
+
+
+		////////////////////////////JMenueBar Save and Load//////////////////////////////////////
+		JMenu saveAndLoadMenu = new JMenu("Save and Load");
+		menuBar.add(saveAndLoadMenu);
+				
+		addClassItem = new JMenuItem("Save");
+		addClassItem.addActionListener(controller.saveActionListener());
+		saveAndLoadMenu.add(addClassItem);
+				
+		addClassItem = new JMenuItem("Load");
+		addClassItem.addActionListener(controller.loadActionListener());
+		saveAndLoadMenu.add(addClassItem);		
 	}
 
 }
