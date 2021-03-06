@@ -6,6 +6,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.SortedMap;
 import org.junit.Test;
+import java.util.List;
+import java.util.ArrayList;
 
 public class ClassesTest {
 
@@ -396,6 +398,210 @@ public class ClassesTest {
         assertEquals(("The class test does not exist."), outContent.toString().trim()); 
         System.setOut(System.out); // resetting the system.setOut to default
     }
+	@Test
+    public void addMethodsTest() {
+        Class c = new Class("test");
+        c.addMethod("md", null);
+        Classes classes = new Classes();
+        classes.addClassCLI("test");
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent)); //capturing console output.
+        classes.addMethodCLI("test","md", null);
+        assertEquals("The method md has been added to the class test.", outContent.toString().trim());
+        System.setOut(System.out); // resetting the system.setOut to default
+        SortedMap <String,Class> m = classes.getClasses();
+        assertTrue(m.get("test").equals(c));
+
+    }
+	@Test
+	public void addMethodNoExistingClassTest() {
+		Classes classes = new Classes();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.addMethodCLI("test","m", null);
+		assertEquals("The class test does not exist.", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+	}
 	
+	@Test
+	public void addMethodDuplicateTest() {
+		Class c = new Class("test");
+		ArrayList<String> lst = new ArrayList<>();
+		c.addMethod("md", null);
+		Classes classes = new Classes();
+		classes.addClassCLI("test");
+		classes.addMethodCLI("test","md", lst);
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.addMethodCLI("test","md", lst);
+		assertEquals("The method md already exists with the class test with those parameters.", outContent.toString().trim()); 
+		System.setOut(System.out); // resetting the system.setOut to default
+		SortedMap <String,Class> m = classes.getClasses();
+		assertTrue(m.get("test").equals(c));
+	}
+	
+	@Test
+    public void deleteMethodTest() {
+        Class c = new Class("test");
+        ArrayList<String> lst = new ArrayList<>();
+        Classes classes = new Classes();
+        classes.addClassCLI("test");
+        c.addMethod("testMethod", lst);
+        classes.addMethodCLI("test", "testMethod", lst);
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent)); //capturing console output.
+        classes.deleteMethodCLI("test", "testMethod", lst);
+        c.deleteMethod("testMethod", lst);
+        assertEquals("The method testMethod has been deleted from class test.", outContent.toString().trim()); 
+        System.setOut(System.out); // resetting the system.setOut to default
+        SortedMap <String,Class> m = classes.getClasses();
+        assertTrue(m.get("test").equals(c));
+    }
+
+    @Test
+    public void deleteMethodNoExistingClassTest() {
+        Classes classes = new Classes();
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent)); //capturing console output.
+        classes.deleteMethodCLI("test","testMethod", null);
+        assertEquals("The class test does not exist.", outContent.toString().trim()); 
+        System.setOut(System.out); // resetting the system.setOut to default
+    }
+
+    @Test
+    public void deleteMethodWhenMethodDoesNotExist() {
+        Class c = new Class("test");
+        Classes classes = new Classes();
+        classes.addClassCLI("test");
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent)); //capturing console output.
+        classes.deleteMethodCLI("test", "testMethod", null);
+        c.deleteMethod("testMethod", null);
+        assertEquals("The method testMethod does not exist with the class test.", outContent.toString().trim()); 
+        System.setOut(System.out); // resetting the system.setOut to default
+        SortedMap <String,Class> m = classes.getClasses();
+        assertTrue(m.get("test").equals(c));
+    }
+
+	@Test
+	public void editMethodNameTest() {
+	
+			Class c = new Class("test");
+			ArrayList<String> lst = new ArrayList<>();
+			c.addMethod("md1", lst);
+			Classes classes = new Classes();
+			classes.addClassCLI("test");
+			classes.addMethodCLI("test", "md", lst);
+			ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+			System.setOut(new PrintStream(outContent)); //capturing console output.
+			classes.editMethodNameCLI("test","md", lst, "md1");
+			assertEquals("The method md has been changed to md1.", outContent.toString().trim());
+			System.setOut(System.out); // resetting the system.setOut to default
+			SortedMap <String,Class> m = classes.getClasses();
+			assertTrue(m.get("test").equals(c));
+	}
+	 @Test
+	public void editMethodNoExistingClass() {
+		Classes classes = new Classes();
+		ArrayList<String> lst = new ArrayList<>();
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.editMethodNameCLI("test","m", lst,"m1");
+		assertEquals("The class test does not exist.", outContent.toString().trim()); 
+		System.setOut(System.out); // resetting the system.setOut to default
+	} 
+	
+	@Test
+	public void editMethodTestMethodNameDoesNotExist() {
+		Class c = new Class("test");
+		ArrayList<String> lst = new ArrayList<>();
+		c.addMethod("m1", lst);
+		Classes classes = new Classes();
+		classes.addClassCLI("test");
+		classes.addMethodCLI("test", "m1",lst);
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.editMethodNameCLI("test","m2", lst, "m1");
+		assertEquals("The method m1 already exists with the class test with those parameters.", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+		SortedMap <String,Class> m = classes.getClasses();
+		assertTrue(m.get("test").equals(c));
+	}
+	
+	 @Test
+	public void editMethodNameMethodNameAlreadyExists() {
+		Class c = new Class("test");
+		ArrayList<String> lst = new ArrayList<>();
+		c.addMethod("md",lst);
+		c.addMethod("md1",lst);
+		Classes classes = new Classes();
+		classes.addClassCLI("test");
+		classes.addMethodCLI("test", "md",lst);
+		classes.addMethodCLI("test", "md1", lst);
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.editMethodNameCLI("test","md",lst, "md1");
+		assertEquals("The method md1 already exists with the class test with those parameters.", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+		SortedMap <String,Class> m = classes.getClasses();
+		assertTrue(m.get("test").equals(c)); 
+	} 
+	
+	 @Test
+	public void editMethodParametersTest() {
+	     Class c = new Class("test");
+	     List <String> lst = new ArrayList<String>();
+	     List <String> lstTwo = new ArrayList<String>();
+	     lstTwo.add("testParameter");
+	     c.addMethod("testMethod", lstTwo);
+	     Classes classes = new Classes();
+	     classes.addClassCLI("test");
+	     classes.addMethodCLI("test", "testMethod", lst);
+	     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	     System.setOut(new PrintStream(outContent)); //capturing console output.
+	     classes.editMethodParametersCLI("test","testMethod", lst, lstTwo);
+	     assertEquals("The method parameters of testMethod has been changed.", outContent.toString().trim());
+	     System.setOut(System.out); // resetting the system.setOut to default
+	     SortedMap <String,Class> m = classes.getClasses();
+	     assertTrue(m.get("test").equals(c));
+	}
+
+      @Test
+    public void testEditMethodParametersWhenParametersAlreadyExistWithThatMethodAndClass() {
+	     Classes classes = new Classes();
+	     classes.addClassCLI("test");
+	     List <String> lst = new ArrayList<String>();
+	     classes.addMethodCLI("test", "testMethod", lst);
+	     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	     System.setOut(new PrintStream(outContent)); //capturing console output.
+	     classes.editMethodParametersCLI("test", "testMethod", lst, lst);
+	     assertEquals(("The method testMethod already exists with the class test with those parameters."), outContent.toString().trim()); 
+	     System.setOut(System.out); // resetting the system.setOut to default
+	}
+	    
+	 @Test
+    public void testEditMethodParametersWhenMethodDoesNotExistWithClass() {
+	     Classes classes = new Classes();
+	     List <String> lst = new ArrayList<String>();
+	     List <String> lstTwo = new ArrayList<String>();
+	     classes.addClassCLI("test");
+	     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	     System.setOut(new PrintStream(outContent)); //capturing console output.
+	     classes.editMethodParametersCLI("test", "testMethod", lst, lstTwo);
+	     assertEquals("The method testMethod does not exist with the class test.", outContent.toString().trim());
+	     System.setOut(System.out); // resetting the system.setOut to default
+   }
+
+     @Test
+	public void testEditMethodParametersWhenClassDoesNotExist() {
+	     Classes classes = new Classes();
+	     List <String> lst = new ArrayList<String>();
+	     List <String> lstTwo = new ArrayList<String>();
+	     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	     System.setOut(new PrintStream(outContent)); //capturing console output.
+	     classes.editMethodParametersCLI("test", "testMethod", lst, lstTwo);
+	     assertEquals("The class test does not exist.", outContent.toString().trim());
+	     System.setOut(System.out); // resetting the system.setOut to default
+   }
 	
 }
