@@ -21,8 +21,11 @@ public class GUIController {
         model = classes;
         gui = guiP;
     }
-    //////////////////////////// Class Action
-    //////////////////////////// Listeners//////////////////////////////////////
+    //////////////////////////// Class Action Listeners////////////////////////////////////// 
+
+    /** When the add class button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener addClassListener() {
         return new ActionListener() {
             @Override
@@ -35,6 +38,9 @@ public class GUIController {
             }
         };
     }
+    /** When the delete class button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener deleteClassListener() {
         return new ActionListener() {
             @Override
@@ -47,6 +53,9 @@ public class GUIController {
             }
         };
     }
+    /** When the rename class button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener renameClassListener() {
         return new ActionListener() {
             @Override
@@ -63,8 +72,12 @@ public class GUIController {
         };
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////// Field Action
-    //////////////////////////// Listeners///////////////////////////////////////////////
+
+    //////////////////////////// Field Action Listeners/////////////////////////////////////////////// 
+
+    /** When the add field button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener addFieldListener() {
         return new ActionListener() {
             @Override
@@ -80,6 +93,9 @@ public class GUIController {
             }
         };
     }
+    /** When the delete field button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener deleteFieldListener() {
         return new ActionListener() {
             @Override
@@ -95,6 +111,9 @@ public class GUIController {
             }
         };
     }
+    /** When the rename field button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener renameFieldListener() {
         return new ActionListener() {
             @Override
@@ -114,8 +133,12 @@ public class GUIController {
         };
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////// Relationship
-    //////////////////////////// ActionListeners////////////////////////////////////
+
+    //////////////////////////// Relationship ActionListeners////////////////////////////////////
+
+    /** When the add relationship button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener addRelationshipListener() {
         return new ActionListener() {
             @Override
@@ -134,6 +157,10 @@ public class GUIController {
             }
         };
     }
+
+    /** When the delete relationship button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener deleteRelationshipListener() {
         return new ActionListener() {
             @Override
@@ -149,6 +176,10 @@ public class GUIController {
             }
         };
     }
+    
+    /** When the edit relationship destination button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener editRelationshipDestination() {
         return new ActionListener() {
             @Override
@@ -167,6 +198,10 @@ public class GUIController {
             }
         };
     }
+
+    /** When the edit relationship type button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener editRelationshipType() {
         return new ActionListener() {
             @Override
@@ -185,8 +220,11 @@ public class GUIController {
             }
         };
     }
-    //////////////////////////// Method
-    //////////////////////////// ActionListeners////////////////////////////////////
+    //////////////////////////// Method ActionListeners////////////////////////////////////
+
+    /** When the add method button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener addMethodListener() {
         return new ActionListener() {
             @Override
@@ -197,7 +235,7 @@ public class GUIController {
                     if (methodName != null) {
                         List<String> parameters = promptMultipleInput("Enter new method parameters.");
                         if (parameters != null) {
-                            model.addMethodCLI(className, methodName, parameters);
+                            model.addMethodGUI(gui.frame, className, methodName, parameters);
                             refreshJFrame();
                         }
                     }
@@ -205,6 +243,9 @@ public class GUIController {
             }
         };
     }
+    /** When the delete method button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener deleteMethodListener() {
         return new ActionListener() {
             @Override
@@ -215,7 +256,7 @@ public class GUIController {
                     if (methodName != null) {
                         List<String> parameters = promptMultipleInput("Enter method parameters to delete.");
                         if (parameters != null) {
-                            model.deleteMethodGUI(gui.frame, className, methodName, parameters);
+                            model.deleteMethodGUI(gui.frame,className, methodName, parameters);
                             refreshJFrame();
                         }
                     }
@@ -223,6 +264,9 @@ public class GUIController {
             }
         };
     }
+    /** When the edit method name button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener editMethodNameListener() {
         return new ActionListener() {
             @Override
@@ -244,6 +288,9 @@ public class GUIController {
             }
         };
     }
+    /** When the edit method parameters button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener editMethodParametersListener() {
         return new ActionListener() {
             @Override
@@ -256,7 +303,7 @@ public class GUIController {
                         if (oldParameters != null) {
                             List<String> newParameters = promptMultipleInput("Enter new method parameters.");
                             if (newParameters != null) {
-                                model.editMethodParametersGUI(gui.frame, className, methodName, oldParameters, newParameters);
+                                model.editMethodParametersGUI(gui.frame,className, methodName, oldParameters, newParameters);
                                 refreshJFrame();
                             }
                         }
@@ -266,10 +313,52 @@ public class GUIController {
         };
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////// Save and load ActionListeners///////////////////////////////////////
+
+    /** When the save button is pushed this function is called to get info from the user and save the JSON file.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
+    public ActionListener saveActionListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String fileName = promptInput("Enter file name to save.");
+                if (fileName != null) {
+                    model.saveJSON(fileName);
+                }
+            }
+        };
+    }
+    /** When the load button is pushed this function is called to get info from the user and load the JSON file into the environment.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
+    public ActionListener loadActionListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String fileName = promptInput("Enter file name to load.");
+                if (fileName != null) {
+                    model.loadJSON(fileName);
+                    refreshJFrame();
+                }
+            }
+        };
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /** Gets single input from the user.
+     * @param message is the question the user will be prompted with to input data.
+     * @return The string the user inputed. 
+	 */
     public String promptInput(String message) {
         return JOptionPane.showInputDialog(gui.frame, message);
     }
-    
+    /** Gets multiple input from the user.
+     * @param message is the question the user will be prompted with to input data.
+     * @return The list string the user inputed. 
+	 */
     public List<String> promptMultipleInput(String message) {
         List<String> parameters = new ArrayList<String>();
         boolean bool = true;
@@ -288,7 +377,8 @@ public class GUIController {
         }
         return parameters;
     }
-    
+    /** Removes all the elements from the frame and adds them back with updated data. This allows the frame to refresh so the most updated content is shown. 
+	 */
     public void refreshJFrame() {
         gui.removeAll();
         gui.revalidate();
