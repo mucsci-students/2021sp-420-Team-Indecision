@@ -25,6 +25,19 @@ public class ClassesTest {
 	}
 	
 	@Test
+	public void addClassTestNonLetter() {
+		Class c = new Class("test");
+		Classes classes = new Classes();	
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.addClassCLI("2test");
+		assertEquals("The first letter must be a java letter.", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+		SortedMap <String,Class> m = classes.getClasses();
+		assertTrue(m.get("test") == null);
+	}
+	
+	@Test
 	public void addClassTestDuplicate() {
 		Class c = new Class("test");
 		Classes classes = new Classes();

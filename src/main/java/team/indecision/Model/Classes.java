@@ -110,8 +110,14 @@ public class Classes {
 		Class c = new Class(name); 
 		if (!classes.containsKey(name)) //.put will return null if there is no mapping for the key.
 		{
-			classes.put(name, c);
-			System.out.println("You have created a new class named: " + name);
+			char first = name.charAt(0);
+			if (Character.isLetter(first)) {
+				classes.put(name, c);
+				System.out.println("You have created a new class named: " + name);
+			}
+			else {
+				System.out.println("The first letter must be a java letter.");
+			}
 		}
 		else 
 		{
@@ -126,9 +132,16 @@ public class Classes {
 		Class c = new Class(name); 
 		if (!classes.containsKey(name))
 		{
-			classes.put(name, c);
-			String message = "You have created a new class named: " + name;
-			JOptionPane.showMessageDialog(frame, message);
+			char first = name.charAt(0);
+			if (Character.isLetter(first)) {
+				classes.put(name, c);
+				String message = "You have created a new class named: " + name;
+				JOptionPane.showMessageDialog(frame, message);
+			}
+			else {
+				String message = "The first letter must be a java letter.";
+				JOptionPane.showMessageDialog(frame, message);
+			}
 		}
 		else 
 		{
