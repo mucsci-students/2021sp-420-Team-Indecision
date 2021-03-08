@@ -6,7 +6,7 @@ import java.io.PrintStream;
 import org.junit.Test;
 
 public class deleteClassTest {
-	
+	/*
 	@Test
 	public void testDeleteClass() {
 		UML.addClass("test");
@@ -20,5 +20,5 @@ public class deleteClassTest {
 		assertEquals("The class test does not exist.", outContent.toString().trim()); //Test that the proper error message prints to the console when trying to delete a class that does not exist.
 		System.setOut(System.out); // resetting the system.setOut to default
 	}
-
+	*/
 }

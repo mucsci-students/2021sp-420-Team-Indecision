@@ -6,7 +6,7 @@ import java.io.PrintStream;
 import org.junit.Test;
 
 public class renameClassTest {
-
+/*
 	@Test
 	public void testRenameClass() {
 		UML.addClass("test");
@@ -27,5 +27,5 @@ public class renameClassTest {
 		assertEquals("The new class name test1 already exists.", outContent1.toString().trim()); //Test that the proper error message prints to the console when trying to rename to a class that already exists.
 		System.setOut(System.out); // resetting the system.setOut to default
 	}
-
+*/
 }

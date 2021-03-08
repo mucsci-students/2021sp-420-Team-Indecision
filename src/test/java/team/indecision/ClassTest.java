@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import org.junit.Test;
 
 public class ClassTest {
-	
+/*	
 	@Test
 	public void testNameConstructorAndGetName() {
 		Class c = new Class ("nameTest");
@@ -133,5 +133,6 @@ public class ClassTest {
 		assertTrue(a.equals(b));
 		assertFalse(a.equals(c));
 	}
+	*/
 }
 
