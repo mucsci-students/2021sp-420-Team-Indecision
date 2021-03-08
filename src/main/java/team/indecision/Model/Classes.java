@@ -79,15 +79,19 @@ public class Classes {
 	public void help() {
 		System.out.println("\nADD");
 		System.out.println("add class class_name - adds a class");
-		System.out.println("add attr class_name attr_name - adds attribute to a desired class");
-		System.out.println("add rel class1 class2 - adds a relationship between classes\n");
+		System.out.println("add field class_name field_name - adds attribute to a desired class");
+		System.out.println("add method class_name method_name parameter_list(comma separated)- adds a method to a desired class");
+		System.out.println("add rel class1 class2 relationship_type - adds a relationship between classes\n");
 		System.out.println("DELETE");
 		System.out.println("delete class class_name - deletes given class");
-		System.out.println("delete attr class_name attr_name - deletes given attribute in specified class");
+		System.out.println("delete field class_name attr_name - deletes given field in specified class");
+		System.out.println("delete method class_name parameter_list(comma separated)- deletes given method in specified class");
 		System.out.println("delete rel class1 class2 - deletes the relationship between given classes\n");
-		System.out.println("RENAME");
+		System.out.println("RENAME/EDIT");
 		System.out.println("rename class class_name new_class_name - renames the specified class");
-		System.out.println("rename attr class_name attr_name new_attr_name - renames desired attribute given its class\n");
+		System.out.println("edit field class_name curr_field new_field_name - renames desired field given its class\n");
+		System.out.println("edit method name class_name curr_method parameter_list new_method_name - renames desired method given its class\n");
+		System.out.println("edit method parameters class_name  method_name paramter_list new_parameter_list- renames desired attribute given its class\n");
 		System.out.println("LIST");
 		System.out.println("list class class_name - list single class and all its components");
 		System.out.println("list classes - list all classes");
@@ -95,7 +99,7 @@ public class Classes {
 		System.out.println("SAVE/LOAD");
 		System.out.println("save file_name - saves a file to x-destination with the given file name in .json format");
 		System.out.println("load file_name - loads file with given file name\n");
-		System.out.println("'exit'- will exit the program");
+		System.out.println("exit- will exit the program");
     }
 	
 	///////////////////////////////////////////////////////////////////////////
