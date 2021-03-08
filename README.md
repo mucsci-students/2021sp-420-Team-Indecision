@@ -2,7 +2,7 @@
 
 Team Indecision's UML Editor is a program that allows user's to add, delete,
 and edit classes, their methods, fields, and relationships between each other. 
-Classes contain fields and methodsw hich are characteristics of the class. The application 
+Classes contain fields and methods which are characteristics of the class. The application 
 also allows the user to save and load .json files to continue right where you left
 off. 
 
