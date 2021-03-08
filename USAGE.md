@@ -55,3 +55,7 @@ Our GUI comes with all of the same features as the Command Line Interface. All o
 	Delete Method - enter the desired class name, enter the desired method name, enter the list of parameters
 	Edit Method Name - enter desired class name, enter the current method, enter the new method name
 	Edit Method Parameters - enter the desired class name, enter the desired method name, enter the list of parameters
+	
+	SAVE AND LOAD TAB
+	Save - enter the desired file name. This will then save the file to .json format automatically.
+	Load - enter the desired file name you would like to work on/edit. This file should be in .json format.
