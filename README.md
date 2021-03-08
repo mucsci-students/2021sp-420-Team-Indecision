@@ -21,7 +21,9 @@ Once in the main directory of your command line, enter:
   
   ```mvn package```
   
+  
   ```for GUI: java -jar target\csci420-0.0.1-SNAPSHOT-jar-with-dependencies.jar```
+  
   ```for CLI: java -jar target\csci420-0.0.1-SNAPSHOT-jar-with-dependencies.jar -cli```
 
   
