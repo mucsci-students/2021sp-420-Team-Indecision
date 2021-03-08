@@ -1,8 +1,8 @@
 # CSCI 420 (Spring 2021) Team Indecision UML Editor
 
 Team Indecision's UML Editor is a program that allows user's to add, delete,
-and rename classes, their attributes, and relationships between each other. 
-Classes contain fields and methodswhich are characteristics of the class. The application 
+and edit classes, their methods, fields, and relationships between each other. 
+Classes contain fields and methodsw hich are characteristics of the class. The application 
 also allows the user to save and load .json files to continue right where you left
 off. 
 
