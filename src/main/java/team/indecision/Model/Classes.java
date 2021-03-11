@@ -81,7 +81,7 @@ public class Classes {
 		System.out.println("add class class_name - adds a class");
 		System.out.println("add field class_name field_name - adds attribute to a desired class");
 		System.out.println("add method class_name method_name parameter_list(comma separated)- adds a method to a desired class");
-		System.out.println("add rel class1 class2 relationship_type - adds a relationship between classes\n");
+		System.out.println("add rel class1 class2 relationship_type - adds a relationship between classes the relationship type must be one of the following Aggregation, Composition, Inheritance or Realization\n");
 		System.out.println("DELETE");
 		System.out.println("delete class class_name - deletes given class");
 		System.out.println("delete field class_name attr_name - deletes given field in specified class");
@@ -154,13 +154,19 @@ public class Classes {
 		} 
 	}
 	
-	/** Deletes a class from the classes field. If the class does not exists it does not delete the class and instead displays a message.
+	/** Deletes a class from the classes field and any relationships that involve that class. If the class does not exists it does not delete the class and instead displays a message.
 	 * @param name A String that represents the class name.
 	 */
 	public void deleteClassCLI(String name) {
 		if (classes.containsKey(name))
-		{
+		{	
 			classes.remove(name);
+			for (SortedMap.Entry<String, Class> entry : classes.entrySet()) {
+		        Class c = entry.getValue();
+		        if (c.containsRelationship(name)) {
+		        	c.deleteRelationship(name);
+		        }
+		    }
 			System.out.println("The class " + name + " has been deleted.");
 		}
 		else 
@@ -176,6 +182,12 @@ public class Classes {
 		if (classes.containsKey(name)) //.remove will return null if there was no mapping for the key.
 		{
 			classes.remove(name);
+			for (SortedMap.Entry<String, Class> entry : classes.entrySet()) {
+		        Class c = entry.getValue();
+		        if (c.containsRelationship(name)) {
+		        	c.deleteRelationship(name);
+		        }
+		    }
 			String message = "The class " + name + " has been deleted.";
 			JOptionPane.showMessageDialog(frame, message);
 		}
@@ -610,7 +622,7 @@ public class Classes {
 	
 	////////////////////////////RELATIONSHIPS//////////////////////////////////
 	
-	/** Adds a relationship to the specified class in the classes map. If the class does not exist or the relationship already exists it prints an error.
+	/** Adds a relationship to the specified class in the classes map. If the class does not exist or the relationship already exists or the relationship type is not valid it prints an error.
 	 * @param className A String that represents the class name.
 	 * @param relationshipDestination A string that represents the relationship destination class.
 	 * @param relationshipType A string that represents the relationship type name.
@@ -619,8 +631,18 @@ public class Classes {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
 			if (!c.containsRelationship(relationshipDestination)) {
-				c.addRelationship(relationshipDestination, relationshipType);
-				System.out.println("The " + className +" has created a new relationship with class: " + relationshipDestination + " of type " + relationshipType);
+				if (classes.containsKey(relationshipDestination)) {
+					if (relationshipType.equals("Aggregation") || relationshipType.equals("Composition") || relationshipType.equals("Inheritance") || relationshipType.equals("Realization")) {
+						c.addRelationship(relationshipDestination, relationshipType);
+						System.out.println("The " + className +" has created a new relationship with class: " + relationshipDestination + " of type " + relationshipType);
+					}
+					else {
+						System.out.println("The relationship type must be one of the following: Aggregation, Composition, Inheritance or Realization");
+					}
+				}
+				else {
+					System.out.println("The " + relationshipDestination + " class does not exist.");
+				}
 			}
 			else {
 				System.out.println("A relationship with this class " + className + " already exists.");
@@ -631,7 +653,7 @@ public class Classes {
 		}
 	}
 	
-	/** Adds a relationship to the specified class in the classes map. If the class does not exist or the relationship already exists it prints an error.
+	/** Adds a relationship to the specified class in the classes map. If the class does not exist or the relationship already exists or the relationship type is not valid it prints an error.
 	 * @param className A String that represents the class name.
 	 * @param relationshipDestination A string that represents the relationship destination class.
 	 * @param relationshipType A string that represents the relationship type name.
@@ -639,10 +661,22 @@ public class Classes {
 	public void addRelationshipGUI(JFrame frame, String className, String relationshipDestination, String relationshipType) {
 		if (classes.containsKey(className)) {
 			Class c = classes.get(className);
-			if (!c.containsRelationship(relationshipDestination)) {
-				c.addRelationship(relationshipDestination, relationshipType);
-				String message = "The " + className +" has created a new relationship with class: " + relationshipDestination + " of type " + relationshipType;
-				JOptionPane.showMessageDialog(frame, message);
+			if (!c.containsRelationship(relationshipDestination)) {		
+				if (classes.containsKey(relationshipDestination)) {
+					if (relationshipType.equals("Aggregation") || relationshipType.equals("Composition") || relationshipType.equals("Inheritance") || relationshipType.equals("Realization")) {
+						c.addRelationship(relationshipDestination, relationshipType);
+						String message = "The " + className +" has created a new relationship with class: " + relationshipDestination + " of type " + relationshipType;
+						JOptionPane.showMessageDialog(frame, message);
+					}
+					else {
+						String message = "The relationship type must be one of the following: Aggregation, Composition, Inheritance or Realization";
+						JOptionPane.showMessageDialog(frame, message);
+					}
+				}
+				else {
+					String message = "The " + relationshipDestination + " class does not exist.";
+					JOptionPane.showMessageDialog(frame, message);
+				}
 			}
 			else {
 				String message = "A relationship with this class " + className + " already exists.";

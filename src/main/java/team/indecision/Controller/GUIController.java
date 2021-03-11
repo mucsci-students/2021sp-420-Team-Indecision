@@ -233,7 +233,7 @@ public class GUIController {
                 if (className != null) {
                     String methodName = promptInput("Enter new method name.");
                     if (methodName != null) {
-                        List<String> parameters = promptMultipleInput("Enter new method parameters.");
+                        List<String> parameters = promptMultipleInput("Enter a parameter.");
                         if (parameters != null) {
                             model.addMethodGUI(gui.frame, className, methodName, parameters);
                             refreshJFrame();
@@ -254,7 +254,7 @@ public class GUIController {
                 if (className != null) {
                     String methodName = promptInput("Enter method name to delete.");
                     if (methodName != null) {
-                        List<String> parameters = promptMultipleInput("Enter method parameters to delete.");
+                        List<String> parameters = promptMultipleInput("Enter a parameter.");
                         if (parameters != null) {
                             model.deleteMethodGUI(gui.frame,className, methodName, parameters);
                             refreshJFrame();
@@ -277,7 +277,7 @@ public class GUIController {
                     if (methodOldName != null) {
                         String methodNewName = promptInput("Enter new method name.");
                         if (methodNewName != null) {
-                            List<String> parameters = promptMultipleInput("Enter method parameters.");
+                            List<String> parameters = promptMultipleInput("Enter a parameter.");
                             if (parameters != null) {
                                 model.editMethodNameGUI(gui.frame, className, methodOldName, parameters, methodNewName);
                                 refreshJFrame();

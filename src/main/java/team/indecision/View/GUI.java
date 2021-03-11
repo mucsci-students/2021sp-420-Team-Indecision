@@ -78,11 +78,6 @@ public class GUI extends JPanel {
 		addClassItem = new JMenuItem("Edit Method Parameters");
 		addClassItem.addActionListener(controller.editMethodParametersListener());
 		methodMenu.add(addClassItem);
-
-		frame.setJMenuBar(menuBar);
-		frame.add(this);
-		frame.pack();
-		frame.setVisible(true);
 		
 		////////////////////////////JMenueBar Relationships//////////////////////////////////////
 		JMenu relationshipMenu = new JMenu("Relationship");
@@ -115,7 +110,12 @@ public class GUI extends JPanel {
 				
 		addClassItem = new JMenuItem("Load");
 		addClassItem.addActionListener(controller.loadActionListener());
-		saveAndLoadMenu.add(addClassItem);		
+		saveAndLoadMenu.add(addClassItem);
+		
+		frame.setJMenuBar(menuBar);
+		frame.add(this);
+		frame.pack();
+		frame.setVisible(true);
 	}
 
 }
