@@ -65,6 +65,22 @@ public class ClassesTest {
 	}
 	
 	@Test
+	public void deleteClassTestAndRelationships() {
+		Classes classes = new Classes();
+		classes.addClassCLI("test");
+		classes.addClassCLI("test1");
+		classes.addRelationshipCLI("test1", "test", "Composition");
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent)); //capturing console output.
+		classes.deleteClassCLI("test");
+		assertEquals("The class test has been deleted.", outContent.toString().trim());
+		System.setOut(System.out); // resetting the system.setOut to default
+		SortedMap <String,Class> m = classes.getClasses();
+		assertTrue(m.get("test") == null);
+		assertTrue(m.get("test1").getRelationship("test") == null);
+	}
+	
+	@Test
 	public void deleteClassTestClassDoesNotExist() {
 		Classes classes = new Classes();
 		classes.addClassCLI("test");
@@ -257,15 +273,32 @@ public class ClassesTest {
         c.addRelationship("r","r1");
         Classes classes = new Classes();
         classes.addClassCLI("test");
+        classes.addClassCLI("r");
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent)); //capturing console output.
-        classes.addRelationshipCLI("test","r","r1" );
-        assertEquals("The test has created a new relationship with class: r of type r1", outContent.toString().trim());
+        classes.addRelationshipCLI("test","r","Composition" );
+        assertEquals("The test has created a new relationship with class: r of type Composition", outContent.toString().trim());
         System.setOut(System.out); // resetting the system.setOut to default
         SortedMap <String,Class> m = classes.getClasses();
         assertTrue(m.get("test").equals(c));
 
     }
+	
+	@Test
+    public void addRelationshipTestInvalidRelationshipType() {
+        Class c = new Class("test");
+        Classes classes = new Classes();
+        classes.addClassCLI("test");
+        classes.addClassCLI("r");
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent)); //capturing console output.
+        classes.addRelationshipCLI("test","r","r1" );
+        assertEquals("The relationship type must be one of the following: Aggregation, Composition, Inheritance or Realization", outContent.toString().trim());
+        System.setOut(System.out); // resetting the system.setOut to default
+        SortedMap <String,Class> m = classes.getClasses();
+        assertTrue(m.get("test").equals(c));
+    }
+	
 	@Test
     public void testAddRelationshipWhenClassDoesNotExist() {
         Classes classes = new Classes();
@@ -275,16 +308,31 @@ public class ClassesTest {
         assertEquals("The class abcde does not exist.", outContent.toString().trim()); 
         System.setOut(System.out); // resetting the system.setOut to default
     }
+	
+	@Test
+    public void testAddRelationshipWhenDestiniationClassDoesNotExist() {
+        Classes classes = new Classes();
+        classes.addClassCLI("test");
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent)); //capturing console output.
+        classes.addRelationshipCLI("test", "class1", "type1");
+        assertEquals("The class1 class does not exist.", outContent.toString().trim()); 
+        System.setOut(System.out); // resetting the system.setOut to default
+        SortedMap <String,Class> m = classes.getClasses();
+        assertTrue(m.get("class1") == null);
+    }
+	
 	@Test
     public void testAddRelationshipWhenRelationShipAlreadyExists() {
         Class c = new Class("test");
         c.addRelationship("r", "r1");
         Classes classes = new Classes();
         classes.addClassCLI("test");
-        classes.addRelationshipCLI("test","r","r1");
+        classes.addClassCLI("r");
+        classes.addRelationshipCLI("test","r","Composition");
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent)); //capturing console output.
-        classes.addRelationshipCLI("test","r", "r1");
+        classes.addRelationshipCLI("test","r", "Composition");
         assertEquals("A relationship with this class test already exists.", outContent.toString().trim()); 
         System.setOut(System.out); // resetting the system.setOut to default
         SortedMap <String,Class> m = classes.getClasses();
@@ -295,7 +343,8 @@ public class ClassesTest {
         Class c = new Class("test");
         Classes classes = new Classes();
         classes.addClassCLI("test");
-        classes.addRelationshipCLI("test","r", "r1");
+        classes.addClassCLI("r");
+        classes.addRelationshipCLI("test","r", "Composition");
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent)); //capturing console output.
         classes.deleteRelationshipCLI("test", "r");
@@ -333,8 +382,8 @@ public class ClassesTest {
 		classes.addClassCLI("test");
 		classes.addClassCLI("test2");
 		classes.addClassCLI("test3");
-		c.addRelationship("test3", "type1");
-		classes.addRelationshipCLI("test", "test2", "type1");
+		c.addRelationship("test3", "Composition");
+		classes.addRelationshipCLI("test", "test2", "Composition");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
 		classes.editRelationshipDestinationCLI("test","test2","test3");
@@ -368,7 +417,7 @@ public class ClassesTest {
         Classes classes = new Classes();
         classes.addClassCLI("test");
         classes.addClassCLI("test2");
-        classes.addRelationshipCLI("test", "test2", "type");
+        classes.addRelationshipCLI("test", "test2", "Composition");
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent)); //capturing console output.
         classes.editRelationshipDestinationCLI("test", "test2", "test2");
@@ -381,12 +430,12 @@ public class ClassesTest {
 		Classes classes = new Classes();
 		classes.addClassCLI("test");
 		classes.addClassCLI("test2");
-		c.addRelationship("test2", "type1");
-		classes.addRelationshipCLI("test", "test2", "type");
+		c.addRelationship("test2", "Composition");
+		classes.addRelationshipCLI("test", "test2", "Composition");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent)); //capturing console output.
-		classes.editRelationshipTypeCLI("test", "test2", "type1");
-		assertEquals("The relationship test2 type has been changed to type1.", outContent.toString().trim());
+		classes.editRelationshipTypeCLI("test", "test2", "Aggregation");
+		assertEquals("The relationship test2 type has been changed to Aggregation.", outContent.toString().trim());
 		System.setOut(System.out); // resetting the system.setOut to default
 		SortedMap <String,Class> m = classes.getClasses();
 		assertTrue(m.get("test").equals(c));
