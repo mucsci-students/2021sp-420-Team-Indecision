@@ -1,12 +1,8 @@
 package team.indecision.Controller;
-
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.SortedMap;
-
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,14 +12,9 @@ import team.indecision.Model.Classes;
 import team.indecision.Model.Field;
 import team.indecision.Model.Method;
 import team.indecision.Model.Relationship;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Iterator;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public class GUIController {
 
@@ -38,8 +29,11 @@ public class GUIController {
         gui = guiP;
     }
 
-    //////////////////////////// Class Action
-    //////////////////////////// Listeners//////////////////////////////////////
+    //////////////////////////// Class ActionListeners//////////////////////////////////////
+
+    /** When the add class button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener addClassListener() {
         return new ActionListener() {
             @Override
@@ -53,6 +47,9 @@ public class GUIController {
         };
     }
 
+    /** When the delete class button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener deleteClassListener() {
         return new ActionListener() {
             @Override
@@ -66,6 +63,9 @@ public class GUIController {
         };
     }
 
+    /** When the rename class button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener renameClassListener() {
         return new ActionListener() {
             @Override
@@ -83,8 +83,12 @@ public class GUIController {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////// Field Action
-    //////////////////////////// Listeners///////////////////////////////////////////////
+
+    //////////////////////////// Field ActionListeners///////////////////////////////////////////////
+
+    /** When the add field button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener addFieldListener() {
         return new ActionListener() {
             @Override
@@ -101,15 +105,18 @@ public class GUIController {
         };
     }
 
+    /** When the delete field button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener deleteFieldListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String className = promptClassDropDown("Enter the class name where the field will be deleted.");
                 if (className != null) {
-                    String deletedField = promptFieldDropDown(className, "Enter the field name to be deleted.");
+                    Field deletedField = promptFieldDropDown(className, "Enter the field name to be deleted.");
                     if (deletedField != null) {
-                        model.deleteFieldGUI(gui.frame, className, deletedField);
+                        model.deleteFieldGUI(gui.frame, className, deletedField.getName());
                         refreshJFrame();
                     }
                 }
@@ -117,17 +124,20 @@ public class GUIController {
         };
     }
 
+    /** When the rename field button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener renameFieldListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String className = promptClassDropDown("Enter the class name where the field will be added renamed.");
                 if (className != null) {
-                    String original = promptFieldDropDown(className, "Enter the field you want to rename.");
+                    Field original = promptFieldDropDown(className, "Enter the field you want to rename.");
                     if (original != null) {
                         String newName = promptInput("Enter the new name of the field.");
                         if (newName != null) {
-                            model.editFieldGUI(gui.frame, className, original, newName);
+                            model.editFieldGUI(gui.frame, className, original.getName(), newName);
                             refreshJFrame();
                         }
                     }
@@ -137,8 +147,12 @@ public class GUIController {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////// Relationship
-    //////////////////////////// ActionListeners////////////////////////////////////
+
+    //////////////////////////// Relationship ActionListeners////////////////////////////////////
+
+    /** When the add relationship button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener addRelationshipListener() {
         return new ActionListener() {
             @Override
@@ -158,15 +172,19 @@ public class GUIController {
         };
     }
 
+    /** When the delete relationship button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener deleteRelationshipListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String className = promptClassDropDown("Enter the class name where the relationship will be deleted.");
                 if (className != null) {
-                    String relationshipName = promptClassDropDown("Enter relationship destination.");
+                    Relationship relationshipName = promptRelationshipDropDown(className,
+                            "Choose the relationship to be deleted.");
                     if (relationshipName != null) {
-                        model.deleteRelationshipGUI(gui.frame, className, relationshipName);
+                        model.deleteRelationshipGUI(gui.frame, className, relationshipName.getDestination());
                         refreshJFrame();
                     }
                 }
@@ -174,6 +192,9 @@ public class GUIController {
         };
     }
 
+    /** When the edit relationship destination button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener editRelationshipDestination() {
         return new ActionListener() {
             @Override
@@ -181,12 +202,13 @@ public class GUIController {
                 String className = promptClassDropDown(
                         "Enter the class name where the relationship will have its destination changed.");
                 if (className != null) {
-                    String relationshipOldName = promptClassDropDown("Enter old relationship destination.");
-                    if (relationshipOldName != null) {
-                        String relationshipNewName = promptClassDropDown("Enter new relationship destination.");
-                        if (relationshipNewName != null) {
-                            model.editRelationshipDestinationGUI(gui.frame, className, relationshipOldName,
-                                    relationshipNewName);
+                    Relationship oldRelationship = promptRelationshipDropDown(className,
+                            "Choose the relationship you want to change.");
+                    if (oldRelationship != null) {
+                        String newRelationshipDestination = promptClassDropDown("Enter new relationship destination.");
+                        if (newRelationshipDestination != null) {
+                            model.editRelationshipDestinationGUI(gui.frame, className, oldRelationship.getDestination(),
+                                    newRelationshipDestination);
                             refreshJFrame();
                         }
                     }
@@ -195,6 +217,9 @@ public class GUIController {
         };
     }
 
+    /** When the edit relationship type button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener editRelationshipType() {
         return new ActionListener() {
             @Override
@@ -202,11 +227,12 @@ public class GUIController {
                 String className = promptClassDropDown(
                         "Enter the class name where the relationship will have its type changed.");
                 if (className != null) {
-                    String relationshipOldName = promptClassDropDown("Enter relationship destination.");
-                    if (relationshipOldName != null) {
+                    Relationship relationship = promptRelationshipDropDown(className,
+                            "Choose the relationship you want to change.");
+                    if (relationship != null) {
                         String relationshipNewType = promptRelationshipTypeDropDown("Enter new relationship type.");
                         if (relationshipNewType != null) {
-                            model.editRelationshipTypeGUI(gui.frame, className, relationshipOldName,
+                            model.editRelationshipTypeGUI(gui.frame, className, relationship.getDestination(),
                                     relationshipNewType);
                             refreshJFrame();
                         }
@@ -216,8 +242,11 @@ public class GUIController {
         };
     }
 
-    //////////////////////////// Method
-    //////////////////////////// ActionListeners////////////////////////////////////
+    //////////////////////////////////////Method ActionListeners////////////////////////////////////////////
+
+    /** When the add method button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener addMethodListener() {
         return new ActionListener() {
             @Override
@@ -237,21 +266,19 @@ public class GUIController {
         };
     }
 
+    /** When the delete method button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener deleteMethodListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String className = promptClassDropDown("Enter the class name where the method will be deleted.");
                 if (className != null) {
-                    Classes methodAndParams = prompMethodDropDown(className, "Enter method to delete");
+                    Method methodAndParams = prompMethodDropDown(className, "Choose method to delete");
                     if (methodAndParams != null) {
-                        SortedSet<Method> methods = methodAndParams.getClasses().get(className).getMethods();
-                        Iterator<Method> it = methods.iterator();
-                        Method m = null;
-                        m = it.next();
-                        String methodName = m.getName();
-                        List<String> parameters = m.getParameters();
-                        model.deleteMethodGUI(gui.frame, className, methodName, parameters);
+                        model.deleteMethodGUI(gui.frame, className, methodAndParams.getName(),
+                                methodAndParams.getParameters());
                         refreshJFrame();
                     }
                 }
@@ -259,24 +286,22 @@ public class GUIController {
         };
     }
 
+    /** When the edit method name button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener editMethodNameListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String className = promptClassDropDown("Enter the class name where the methods name will be changed.");
                 if (className != null) {
-                    Classes methodToChange = prompMethodDropDown(className,
-                            "Select method you want to change the name of");
+                    Method methodToChange = prompMethodDropDown(className,
+                            "Choose the method you want to change the name of.");
                     if (methodToChange != null) {
                         String methodNewName = promptInput("Enter new method name.");
                         if (methodNewName != null) {
-                            SortedSet<Method> methods = methodToChange.getClasses().get(className).getMethods();
-                            Iterator<Method> it = methods.iterator();
-                            Method m = null;
-                            m = it.next();
-                            String methodName = m.getName();
-                            List<String> parameters = m.getParameters();
-                            model.editMethodNameGUI(gui.frame, className, methodName, parameters, methodNewName);
+                            model.editMethodNameGUI(gui.frame, className, methodToChange.getName(),
+                                    methodToChange.getParameters(), methodNewName);
                             refreshJFrame();
                         }
                     }
@@ -285,6 +310,9 @@ public class GUIController {
         };
     }
 
+    /** When the edit method parameters button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
     public ActionListener editMethodParametersListener() {
         return new ActionListener() {
             @Override
@@ -292,18 +320,13 @@ public class GUIController {
                 String className = promptClassDropDown(
                         "Enter the class name where the methods parameters will be changed.");
                 if (className != null) {
-                    Classes methodToChange = prompMethodDropDown(className,
+                    Method methodToChange = prompMethodDropDown(className,
                             "Select the method you want to change parametes of.");
                     if (methodToChange != null) {
                         List<String> newParameters = promptMultipleInput("Enter new method parameters.");
                         if (newParameters != null) {
-                            SortedSet<Method> methods = methodToChange.getClasses().get(className).getMethods();
-                            Iterator<Method> it = methods.iterator();
-                            Method m = null;
-                            m = it.next();
-                            String methodName = m.getName();
-                            List<String> parameters = m.getParameters();
-                            model.editMethodParametersGUI(gui.frame, className, methodName, parameters, newParameters);
+                            model.editMethodParametersGUI(gui.frame, className, methodToChange.getName(),
+                                    methodToChange.getParameters(), newParameters);
                             refreshJFrame();
                             refreshJFrame();
                         }
@@ -313,8 +336,7 @@ public class GUIController {
         };
     }
 
-    //////////////////////////// Save and load
-    //////////////////////////// ActionListeners///////////////////////////////////////
+    //////////////////////////// Save and load ActionListeners///////////////////////////////////////
 
     /**
      * When the save button is pushed this function is called to get info from the
@@ -355,11 +377,20 @@ public class GUIController {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////// Getting Info From user///////////////////////////////////
+
+    /** Gets single input from the user.
+     * @param message is the question the user will be prompted with to input data.
+     * @return The string the user input. 
+	 */
     public String promptInput(String message) {
         return JOptionPane.showInputDialog(gui.frame, message);
     }
 
+    /** Gets multiple input from the user.
+     * @param message is the question the user will be prompted with to input data.
+     * @return The list string the user input. 
+	 */
     public List<String> promptMultipleInput(String message) {
         List<String> parameters = new ArrayList<String>();
         boolean bool = true;
@@ -378,89 +409,91 @@ public class GUIController {
         }
         return parameters;
     }
-
+    /** Gets multiple input from the user.
+     * @param message is the question the user will be prompted with to input data.
+     * @return The class name the user input. 
+	 */
     public String promptClassDropDown(String message) {
-        List<String> optionsList = new ArrayList<String>();
-        for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
-            optionsList.add(entry.getValue().getName());
+        if (model.getClasses().isEmpty()) {
+            JOptionPane.showMessageDialog(gui.frame, "There are no classes added.");
+            return null;
+        } else {
+            List<String> optionsList = new ArrayList<String>();
+            for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
+                optionsList.add(entry.getValue().getName());
+            }
+            Object[] classesArray = optionsList.toArray();
+            Object classChosen = JOptionPane.showInputDialog(gui.frame, message, message, JOptionPane.QUESTION_MESSAGE,
+                    null, classesArray, classesArray[0]);
+            return classChosen.toString();
         }
-        String[] optionsArray = new String[optionsList.size()];
-        for (int i = 0; i < optionsList.size(); i++)
-            optionsArray[i] = optionsList.get(i);
-        return (String) JOptionPane.showInputDialog(gui.frame, message, message, JOptionPane.QUESTION_MESSAGE, null,
-                optionsArray, optionsArray[0]);
     }
 
-    public String promptFieldDropDown(String className, String message) {
-        SortedSet<Field> fields = model.getClasses().get(className).getFields();
-
-        String fieldString = fields.toString();
-        String string1 = fieldString.replace("[", "");
-        String string2 = string1.replace("]", "");
-        String string3 = string2.replace(",", "");
-        String[] fieldsArray = string3.split(" ");
-
-        return (String) JOptionPane.showInputDialog(gui.frame, message, message, JOptionPane.QUESTION_MESSAGE, null,
-                fieldsArray, fieldsArray[0]);
+    /** Gets multiple input from the user.
+     * @param className is the class the field is in.
+     * @param message is the question the user will be prompted with to input data.
+     * @return a field object with the updated information. 
+	 */
+    public Field promptFieldDropDown(String className, String message) {
+        if (model.getClasses().get(className).getFields().isEmpty()) {
+            JOptionPane.showMessageDialog(gui.frame, "There are no fields added.");
+            return null;
+        } else {
+            SortedSet<Field> fields = model.getClasses().get(className).getFields();
+            Object[] fieldsArray = fields.toArray();
+            Object field = JOptionPane.showInputDialog(gui.frame, message, message, JOptionPane.QUESTION_MESSAGE, null,
+                    fieldsArray, fieldsArray[0]);
+            return (Field) field;
+        }
     }
 
+    /** Gets the relationship type the user wants for the relationship.
+     * @param message is the question the user will be prompted with to input data.
+     * @return The class name the user input. 
+	 */
     public String promptRelationshipTypeDropDown(String message) {
         String[] optionsArray = { "Aggregation", "Composition", "Inheritance", "Realization" };
         return (String) JOptionPane.showInputDialog(gui.frame, message, message, JOptionPane.QUESTION_MESSAGE, null,
                 optionsArray, optionsArray[0]);
     }
 
-    public Classes prompMethodDropDown(String className, String message) {
-
-
-
-        // Something here needs to change. Bugs with methods with more than one spaces 
-
-
-
-        SortedSet<Method> methods = model.getClasses().get(className).getMethods();
-
-        String[] methodsArray = new String[methods.size()];
-
-        Iterator<Method> it = methods.iterator();
-        Method m = null;
-        int i = 0;
-        while (it.hasNext()) {
-            m = it.next();
-
-            String methodAndParam = m.getName() + " " + m.getParameters().toString();
-            methodsArray[i] = methodAndParam;
-            i++;
-            m = null;
+    /** Gets the relationshp the user wants to change.
+     * @param className is the class the relationship is in.
+     * @param message is the question the user will be prompted with to input data.
+     * @return a relationship object with the updated information. 
+	 */
+    public Relationship promptRelationshipDropDown(String className, String message) {
+        if (model.getClasses().get(className).getRelationships().isEmpty()) {
+            JOptionPane.showMessageDialog(gui.frame, "There are no relationships added.");
+            return null;
+        } else {
+        SortedSet<Relationship> relationships = model.getClasses().get(className).getRelationships();
+        Object[] relationshipArray = relationships.toArray();
+        Object relationship = JOptionPane.showInputDialog(gui.frame, message, message, JOptionPane.QUESTION_MESSAGE,
+                null, relationshipArray, relationshipArray[0]);
+        return (Relationship) relationship;
         }
-        System.out.println();
-        System.out.println();
-        System.out.println(methods.toArray());
-        System.out.println();
-        System.out.println();
-
-
-        String methodAndParamChosen = (String) JOptionPane.showInputDialog(gui.frame, message, message,
-                JOptionPane.QUESTION_MESSAGE, null, methodsArray, methodsArray[0]);
-        // System.out.println(methodAndParamChosen);
-
-        String methodChosen = methodAndParamChosen.split(" ")[0];
-
-        String parameterString = methodAndParamChosen.split("\\[")[1];
-        String string2 = parameterString.replace("]", "");
-        String string3 = string2.replace(" ", "");
-        String str[] = string3.split(",");
-        List<String> al = new ArrayList<String>();
-        al = Arrays.asList(str);
-        System.out.println(al.toString());
-
-        Classes newModel = new Classes();
-        newModel.addClassCLI(className);
-        newModel.addMethodCLI(className, methodChosen, al);
-
-        return newModel;
     }
 
+    /** Gets the method the user wants to change.
+     * @param className is the class the method is in.
+     * @param message is the question the user will be prompted with to input data.
+     * @return a method object with the updated information. 
+	 */
+    public Method prompMethodDropDown(String className, String message) {
+        if (model.getClasses().get(className).getMethods().isEmpty()) {
+            JOptionPane.showMessageDialog(gui.frame, "There are no methods added.");
+            return null;
+        } else {
+        SortedSet<Method> methods = model.getClasses().get(className).getMethods();
+        Object[] methodsArray = methods.toArray();
+        Object method = JOptionPane.showInputDialog(gui.frame, message, message, JOptionPane.QUESTION_MESSAGE, null,
+                methodsArray, methodsArray[0]);
+        return (Method) method;
+        }
+    }
+    /** Removes all the elements from the frame and adds them back with updated data. This allows the frame to refresh so the most updated content is shown. 
+	 */
     public void refreshJFrame() {
         gui.removeAll();
         gui.revalidate();
