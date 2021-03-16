@@ -1,10 +1,8 @@
 package team.indecision.View;
 
-import team.indecision.Model.Classes;
-
+import java.io.BufferedReader;
 import java.io.IOException;
-
-import team.indecision.Controller.CLIController;
+import java.io.Reader;
 
 /** A text-based REPL program for creating UML models.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
@@ -13,13 +11,23 @@ import team.indecision.Controller.CLIController;
  */
 public class CLI {
 
-	private CLIController controller;
+	private final BufferedReader br;
 	
-	public CLI(Classes modelP) throws IOException {
-		System.out.println("Welcome to Team Indecision's UML Tool");
-		System.out.println("Type 'help' to see a list of commands or 'exit' to close the program.");
-		
-		controller = new CLIController(modelP);
-		
+	public CLI(Reader reader) {
+		this.br = new BufferedReader(reader);
 	}
+	
+	public void update(String response) {
+		System.out.println(response);
+	}
+	
+    public String prompt() {
+        try {
+            System.out.print("UML => ");
+            return br.readLine();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+	
 }

@@ -7,40 +7,34 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-
+import team.indecision.Command.*;
+import team.indecision.Command.AddClassCommand;
 import team.indecision.Model.Classes;
+import team.indecision.View.CLI;
 
 public class CLIController {
 	private Classes model;
-
+	private CLI view;
 	
-	
-	public CLIController(Classes classes) throws IOException {
-		model = classes;
-
-	
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	public CLIController(Classes model, CLI view) {
+		this.model = model;
+		this.view = view;
 		
-		String choice = br.readLine();
-		
+		String choice = view.prompt();
 		String seperator = " ";
 		String[] parsedChoice = StringUtils.split(choice, seperator);
 		
-		
 		boolean x = true;
-
-
 		while (x) {
-			// add
-
 			if (parsedChoice.length == 3 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("class"))) {
-				model.addClassCLI(parsedChoice[2]);
+				String response = executeCommand(new AddClassCommand(model, parsedChoice[2]));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("field"))) {
 				model.addFieldCLI(parsedChoice[2], parsedChoice[3]);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("method"))) {
-				String parameters = br.readLine();
+				String parameters = view.prompt();
 				String sep = ",";
 				String[] parsedParameters = StringUtils.split(parameters, sep);
 				List<String> parametersList = Arrays.asList(parsedParameters);
@@ -57,7 +51,7 @@ public class CLIController {
 				model.deleteFieldCLI(parsedChoice[2], parsedChoice[3]);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("method"))) {
-				String parameters = br.readLine();
+				String parameters = view.prompt();
 				String sep = ",";
 				String[] parsedParameters = StringUtils.split(parameters, sep);
 				List<String> parametersList = Arrays.asList(parsedParameters);
@@ -74,30 +68,30 @@ public class CLIController {
 				model.editFieldCLI(parsedChoice[2], parsedChoice[3], parsedChoice[4]);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method")) && (parsedChoice[2].equals("name"))) {
-				String parameters = br.readLine();
+				String parameters = view.prompt();
 				String sep = ",";
 				String[] parsedParameters = StringUtils.split(parameters, sep);
 				List<String> parametersList = Arrays.asList(parsedParameters);
-				String methodNameNew = br.readLine();
+				String methodNameNew = view.prompt();
 				sep = " ";
 				String[] parsedMethodNameNew = StringUtils.split(methodNameNew, sep);
 				model.editMethodNameCLI(parsedChoice[3], parsedChoice[4], parametersList, parsedMethodNameNew[0]);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method")) && (parsedChoice[2].equals("parameters"))) {
-				String parameters = br.readLine();
+				String parameters = view.prompt();
 				String sep = ",";
 				String[] parsedParameters = StringUtils.split(parameters, sep);
 				List<String> parametersList = Arrays.asList(parsedParameters);
-				String parametersNew = br.readLine();
+				String parametersNew = view.prompt();
 				String[] parsedParametersNew = StringUtils.split(parametersNew, sep);
 				List<String> parametersListNew = Arrays.asList(parsedParametersNew);
 				model.editMethodParametersCLI(parsedChoice[3], parsedChoice[4], parametersList, parametersListNew);
 			}
 			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel")) && (parsedChoice[2].equals("dest"))) {
-				classes.editRelationshipDestinationCLI(parsedChoice[3], parsedChoice[4], parsedChoice[5]);
+				model.editRelationshipDestinationCLI(parsedChoice[3], parsedChoice[4], parsedChoice[5]);
 			}
 			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel")) && (parsedChoice[2].equals("type"))) {
-				classes.editRelationshipTypeCLI(parsedChoice[3], parsedChoice[4], parsedChoice[5]);
+				model.editRelationshipTypeCLI(parsedChoice[3], parsedChoice[4], parsedChoice[5]);
 			}
 			// list
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
@@ -126,9 +120,14 @@ public class CLIController {
 			else {
 				System.out.println("Please enter a valid selection");			
 			}
-			choice = br.readLine();
+			choice = view.prompt();
 			parsedChoice = StringUtils.split(choice, seperator);
 			}
+		
+	}
+	
+	private String executeCommand(Command command) {
+		return command.execute();
 	}
 	
 }

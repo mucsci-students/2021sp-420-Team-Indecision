@@ -1,44 +1,38 @@
 package team.indecision.View;
 
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import team.indecision.Controller.GUIController;
-import team.indecision.Model.Classes;
 
 public class GUI extends JPanel {
+	
 	private static final long serialVersionUID = 1L;
 	public JFrame frame;
-	private JMenuItem addClassItem;
-	private GUIController controller;
+	private JMenuBar menuBar;
 	
-	public GUI(Classes modelP) {
-		
-		controller = new GUIController(this, modelP);
+	public GUI() {
 		
 		frame = new JFrame("guiUML");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(1280, 720));
+		menuBar = new JMenuBar();
 		
-
-		JMenuBar menuBar = new JMenuBar();
 
 		////////////////////////////JMenueBar Classes//////////////////////////////////////
 
 		JMenu classMenu = new JMenu("Class");
 		menuBar.add(classMenu);
 		
-		addClassItem = new JMenuItem("Add Class");
-		addClassItem.addActionListener(controller.addClassListener());
+		JMenuItem addClassItem = new JMenuItem("Add Class");
 		classMenu.add(addClassItem);
 
-		addClassItem = new JMenuItem("Delete Class");
-		addClassItem.addActionListener(controller.deleteClassListener());
-		classMenu.add(addClassItem);
-
+		JMenuItem deleteClassItem = new JMenuItem("Delete Class");
+		classMenu.add(deleteClassItem);
+/*
 		addClassItem = new JMenuItem("Rename Class");
 		addClassItem.addActionListener(controller.renameClassListener());
 		classMenu.add(addClassItem);
@@ -112,10 +106,16 @@ public class GUI extends JPanel {
 		addClassItem.addActionListener(controller.loadActionListener());
 		saveAndLoadMenu.add(addClassItem);
 		
+		*/
 		frame.setJMenuBar(menuBar);
 		frame.add(this);
 		frame.pack();
 		frame.setVisible(true);
+	}
+	
+	public void addActionListener (ActionListener listener, int menuPosition, int menuItemPosition) {
+		
+		menuBar.getMenu(menuPosition).getItem(menuItemPosition).addActionListener(listener);
 	}
 
 }

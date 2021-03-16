@@ -6,21 +6,31 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import team.indecision.View.GUI;
+import team.indecision.Command.AddClassCommand;
+import team.indecision.Command.Command;
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 import java.util.ArrayList;
 import java.util.List;
 public class GUIController {
-    
+
 	private Classes model;
-    private GUI gui;
+    private GUI view;
     
     public GUIController() {
+    	
     }
-    public GUIController(GUI guiP, Classes classes) {
-        model = classes;
-        gui = guiP;
+    
+    public GUIController(Classes model, GUI view) {
+        this.model = model;
+        this.view = view;
+        
+        view.addActionListener(this.addClassListener(), 0, 0);
     }
+    
+    private String executeCommand(Command command) {
+		return command.execute();
+	}
     //////////////////////////// Class Action Listeners////////////////////////////////////// 
 
     /** When the add class button is pushed this function is called to get info from the user.
@@ -32,7 +42,8 @@ public class GUIController {
             public void actionPerformed(ActionEvent e) {
                 String newClassName = promptInput("Enter the new class name.");
                 if (newClassName != null) {
-                    model.addClassGUI(gui.frame, newClassName);
+                    String response = executeCommand(new AddClassCommand(model, newClassName));
+                    JOptionPane.showMessageDialog(view.frame, response);
                     refreshJFrame();
                 }
             }
@@ -47,7 +58,7 @@ public class GUIController {
             public void actionPerformed(ActionEvent e) {
                 String deletedClass = promptInput("Enter the class name to be deleted.");
                 if (deletedClass != null) {
-                    model.deleteClassGUI(gui.frame, deletedClass);
+                    model.deleteClassGUI(view.frame, deletedClass);
                     refreshJFrame();
                 }
             }
@@ -64,7 +75,7 @@ public class GUIController {
                 if (original != null) {
                     String newName = promptInput("Enter the new name of the class.");
                     if (newName != null) {
-                        model.renameClassGUI(gui.frame, original, newName);
+                        model.renameClassGUI(view.frame, original, newName);
                         refreshJFrame();
                     }
                 }
@@ -86,7 +97,7 @@ public class GUIController {
                 if (className != null) {
                     String fieldName = promptInput("Enter new field name.");
                     if (fieldName != null) {
-                        model.addFieldGUI(gui.frame, className, fieldName);
+                        model.addFieldGUI(view.frame, className, fieldName);
                         refreshJFrame();
                     }
                 }
@@ -104,7 +115,7 @@ public class GUIController {
                 if (className != null) {
                     String deletedField = promptInput("Enter the field name to be deleted.");
                     if (deletedField != null) {
-                        model.deleteFieldGUI(gui.frame, className, deletedField);
+                        model.deleteFieldGUI(view.frame, className, deletedField);
                         refreshJFrame();
                     }
                 }
@@ -124,7 +135,7 @@ public class GUIController {
                     if (original != null) {
                         String newName = promptInput("Enter the new name of the field.");
                         if (newName != null) {
-                            model.editFieldGUI(gui.frame, className, original, newName);
+                            model.editFieldGUI(view.frame, className, original, newName);
                             refreshJFrame();
                         }
                     }
@@ -149,7 +160,7 @@ public class GUIController {
                     if (relationshipName != null) {
                         String relationshipType = promptInput("Enter new relationship type.");
                         if (relationshipType != null) {
-                            model.addRelationshipGUI(gui.frame, className, relationshipName, relationshipType);
+                            model.addRelationshipGUI(view.frame, className, relationshipName, relationshipType);
                             refreshJFrame();
                         }
                     }
@@ -169,7 +180,7 @@ public class GUIController {
                 if (className != null) {
                     String relationshipName = promptInput("Enter relationship destination.");
                     if (relationshipName != null) {
-                    	model.deleteRelationshipGUI(gui.frame, className, relationshipName);
+                    	model.deleteRelationshipGUI(view.frame, className, relationshipName);
                     	refreshJFrame();
                     }
                 }
@@ -190,7 +201,7 @@ public class GUIController {
                     if (relationshipOldName != null) {
                         String relationshipNewName = promptInput("Enter new relationship destination.");
                         if (relationshipNewName != null) {
-                            model.editRelationshipDestinationGUI(gui.frame, className, relationshipOldName, relationshipNewName);
+                            model.editRelationshipDestinationGUI(view.frame, className, relationshipOldName, relationshipNewName);
                             refreshJFrame();
                         }
                     }
@@ -212,7 +223,7 @@ public class GUIController {
                     if (relationshipOldName != null) {
                         String relationshipNewType = promptInput("Enter new relationship type.");
                         if (relationshipNewType != null) {
-                            model.editRelationshipTypeGUI(gui.frame, className, relationshipOldName,relationshipNewType);
+                            model.editRelationshipTypeGUI(view.frame, className, relationshipOldName,relationshipNewType);
                             refreshJFrame();
                         }
                     }
@@ -235,7 +246,7 @@ public class GUIController {
                     if (methodName != null) {
                         List<String> parameters = promptMultipleInput("Enter a parameter.");
                         if (parameters != null) {
-                            model.addMethodGUI(gui.frame, className, methodName, parameters);
+                            model.addMethodGUI(view.frame, className, methodName, parameters);
                             refreshJFrame();
                         }
                     }
@@ -256,7 +267,7 @@ public class GUIController {
                     if (methodName != null) {
                         List<String> parameters = promptMultipleInput("Enter a parameter.");
                         if (parameters != null) {
-                            model.deleteMethodGUI(gui.frame,className, methodName, parameters);
+                            model.deleteMethodGUI(view.frame,className, methodName, parameters);
                             refreshJFrame();
                         }
                     }
@@ -279,7 +290,7 @@ public class GUIController {
                         if (methodNewName != null) {
                             List<String> parameters = promptMultipleInput("Enter a parameter.");
                             if (parameters != null) {
-                                model.editMethodNameGUI(gui.frame, className, methodOldName, parameters, methodNewName);
+                                model.editMethodNameGUI(view.frame, className, methodOldName, parameters, methodNewName);
                                 refreshJFrame();
                             }
                         }
@@ -303,7 +314,7 @@ public class GUIController {
                         if (oldParameters != null) {
                             List<String> newParameters = promptMultipleInput("Enter new method parameters.");
                             if (newParameters != null) {
-                                model.editMethodParametersGUI(gui.frame,className, methodName, oldParameters, newParameters);
+                                model.editMethodParametersGUI(view.frame,className, methodName, oldParameters, newParameters);
                                 refreshJFrame();
                             }
                         }
@@ -353,7 +364,7 @@ public class GUIController {
      * @return The string the user inputed. 
 	 */
     public String promptInput(String message) {
-        return JOptionPane.showInputDialog(gui.frame, message);
+        return JOptionPane.showInputDialog(view.frame, message);
     }
     /** Gets multiple input from the user.
      * @param message is the question the user will be prompted with to input data.
@@ -363,7 +374,7 @@ public class GUIController {
         List<String> parameters = new ArrayList<String>();
         boolean bool = true;
         while (bool) {
-            String parameter = JOptionPane.showInputDialog(gui.frame, message);
+            String parameter = JOptionPane.showInputDialog(view.frame, message);
             if (parameter != null) {
                 parameters.add(parameter);
                 int confirmed = JOptionPane.showConfirmDialog(null, "Are you done entering parameters?",
@@ -380,15 +391,16 @@ public class GUIController {
     /** Removes all the elements from the frame and adds them back with updated data. This allows the frame to refresh so the most updated content is shown. 
 	 */
     public void refreshJFrame() {
-        gui.removeAll();
-        gui.revalidate();
-        gui.repaint();
+    	view.removeAll();
+    	view.revalidate();
+    	view.repaint();
         for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
             JPanel temp = new JPanel();
             JLabel lbl = new JLabel(entry.getValue().toString());
             temp.add(lbl);
-            gui.add(lbl);
-            gui.frame.pack();
+            view.add(lbl);
+            view.frame.pack();
         }
     }
+    
 }
