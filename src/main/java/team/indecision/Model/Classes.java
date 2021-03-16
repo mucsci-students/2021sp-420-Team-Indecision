@@ -88,7 +88,7 @@ public class Classes {
 		System.out.println("delete method class_name parameter_list(comma separated)- deletes given method in specified class");
 		System.out.println("delete rel class1 class2 - deletes the relationship between given classes\n");
 		System.out.println("RENAME/EDIT");
-		System.out.println("rename class class_name new_class_name - renames the specified class");
+		System.out.println("edit class class_name new_class_name - renames the specified class");
 		System.out.println("edit field class_name curr_field new_field_name - renames desired field given its class\n");
 		System.out.println("edit method name class_name curr_method parameter_list new_method_name - renames desired method given its class\n");
 		System.out.println("edit method parameters class_name  method_name paramter_list new_parameter_list- renames desired attribute given its class\n");
@@ -853,8 +853,7 @@ public class Classes {
 			objectMapper.writeValue(Paths.get(fileName).toFile(), classes);
 		} catch (Exception ex) {
 			System.out.println("Not a valid file name.");
-		}
-		
+		}	
 	}
 	
 	/** Loads a specified valid .json file into the classes SortedMap.

@@ -1,4 +1,5 @@
 package team.indecision.Controller;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.SortedMap;
@@ -6,13 +7,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import team.indecision.View.GUI;
-import team.indecision.Command.AddClassCommand;
-import team.indecision.Command.Command;
-import team.indecision.Command.DeleteClassCommand;
+import team.indecision.Command.*;
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 import java.util.ArrayList;
 import java.util.List;
+
 public class GUIController {
 
 	private Classes model;
@@ -28,6 +28,20 @@ public class GUIController {
         
         view.addActionListener(this.addClassListener(), 0, 0);
         view.addActionListener(this.deleteClassListener(), 0, 1);
+        view.addActionListener(this.editClassNameListener(), 0, 2);
+        view.addActionListener(this.addFieldListener(), 1, 0);
+        view.addActionListener(this.deleteFieldListener(), 1, 1);
+        view.addActionListener(this.editFieldNameListener(), 1, 2);
+        view.addActionListener(this.addMethodListener(), 2, 0);
+        view.addActionListener(this.deleteMethodListener(), 2, 1);
+        view.addActionListener(this.editMethodNameListener(), 2, 2);
+        view.addActionListener(this.editMethodParametersListener(), 2, 3);
+        view.addActionListener(this.addRelationshipListener(), 3, 0);
+        view.addActionListener(this.deleteRelationshipListener(), 3, 1);
+        view.addActionListener(this.editRelationshipDestinationListener(), 3, 2);
+        view.addActionListener(this.editRelationshipTypeListener(), 3, 3);
+        view.addActionListener(this.saveJSONActionListener(), 4, 0);
+        view.addActionListener(this.loadJSONActionListener(), 4, 1);
     }
     
     private String executeCommand(Command command) {
@@ -51,6 +65,7 @@ public class GUIController {
             }
         };
     }
+    
     /** When the delete class button is pushed this function is called to get info from the user.
      * @return An ActionListener is sent back to the GUI so the data is passed back.
 	 */
@@ -67,26 +82,30 @@ public class GUIController {
             }
         };
     }
+    
     /** When the rename class button is pushed this function is called to get info from the user.
      * @return An ActionListener is sent back to the GUI so the data is passed back.
 	 */
-    public ActionListener renameClassListener() {
+    public ActionListener editClassNameListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String original = promptInput("Enter the class you want to rename.");
-                if (original != null) {
-                    String newName = promptInput("Enter the new name of the class.");
-                    if (newName != null) {
-                        model.renameClassGUI(view.frame, original, newName);
+                String className = promptInput("Enter the class you want to rename.");
+                if (className != null) {
+                    String newClassName = promptInput("Enter the new name of the class.");
+                    if (newClassName != null) {
+                    	String response = executeCommand(new EditClassNameCommand(model, className, newClassName));
+                        JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
                 }
             }
         };
     }
+    
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
+    
     //////////////////////////// Field Action Listeners/////////////////////////////////////////////// 
 
     /** When the add field button is pushed this function is called to get info from the user.
@@ -100,13 +119,15 @@ public class GUIController {
                 if (className != null) {
                     String fieldName = promptInput("Enter new field name.");
                     if (fieldName != null) {
-                        model.addFieldGUI(view.frame, className, fieldName);
+                        String response = executeCommand(new AddFieldCommand(model, className, fieldName));
+                        JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
                 }
             }
         };
     }
+    
     /** When the delete field button is pushed this function is called to get info from the user.
      * @return An ActionListener is sent back to the GUI so the data is passed back.
 	 */
@@ -116,29 +137,32 @@ public class GUIController {
             public void actionPerformed(ActionEvent e) {
                 String className = promptInput("Enter the class name where the field will be deleted.");
                 if (className != null) {
-                    String deletedField = promptInput("Enter the field name to be deleted.");
-                    if (deletedField != null) {
-                        model.deleteFieldGUI(view.frame, className, deletedField);
+                    String fieldName = promptInput("Enter the field name to be deleted.");
+                    if (fieldName != null) {
+                        String response = executeCommand(new DeleteFieldCommand(model, className, fieldName));
+                        JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
                 }
             }
         };
     }
+    
     /** When the rename field button is pushed this function is called to get info from the user.
      * @return An ActionListener is sent back to the GUI so the data is passed back.
 	 */
-    public ActionListener renameFieldListener() {
+    public ActionListener editFieldNameListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String className = promptInput("Enter the class name where the field will be added renamed.");
                 if (className != null) {
-                    String original = promptInput("Enter the field you want to rename.");
-                    if (original != null) {
-                        String newName = promptInput("Enter the new name of the field.");
-                        if (newName != null) {
-                            model.editFieldGUI(view.frame, className, original, newName);
+                    String fieldName = promptInput("Enter the field you want to rename.");
+                    if (fieldName != null) {
+                        String newFieldName = promptInput("Enter the new name of the field.");
+                        if (newFieldName != null) {
+                            String response = executeCommand(new EditFieldNameCommand(model, className, fieldName, newFieldName));
+                            JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                     }
@@ -146,8 +170,113 @@ public class GUIController {
             }
         };
     }
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    //////////////////////////// Method ActionListeners////////////////////////////////////
+
+    /** When the add method button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
+    public ActionListener addMethodListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String className = promptInput("Enter the class name where the method will be added.");
+                if (className != null) {
+                    String methodName = promptInput("Enter new method name.");
+                    if (methodName != null) {
+                        List<String> parameters = promptMultipleInput("Enter a parameter.");
+                        if (parameters != null) {
+                            String response = executeCommand(new AddMethodCommand(model, className, methodName, parameters));
+                            JOptionPane.showMessageDialog(view.frame, response);
+                            refreshJFrame();
+                        }
+                    }
+                }
+            }
+        };
+    }
+    
+    /** When the delete method button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
+    public ActionListener deleteMethodListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String className = promptInput("Enter the class name where the method will be deleted.");
+                if (className != null) {
+                    String methodName = promptInput("Enter method name to delete.");
+                    if (methodName != null) {
+                        List<String> parameters = promptMultipleInput("Enter a parameter.");
+                        if (parameters != null) {
+                            String response = executeCommand(new DeleteMethodCommand(model, className, methodName, parameters));
+                            JOptionPane.showMessageDialog(view.frame, response);
+                            refreshJFrame();
+                        }
+                    }
+                }
+            }
+        };
+    }
+    
+    /** When the edit method name button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
+    public ActionListener editMethodNameListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String className = promptInput("Enter the class name where the methods name will be changed.");
+                if (className != null) {
+                    String methodName = promptInput("Enter old method name.");
+                    if (methodName != null) {
+                    	List<String> parameters = promptMultipleInput("Enter a parameter.");
+                        if (parameters != null) {
+                        	String newMethodName = promptInput("Enter new method name.");
+                            if (newMethodName != null) {
+                                String response = executeCommand(new EditMethodNameCommand(model, className, methodName, parameters, newMethodName));
+                                JOptionPane.showMessageDialog(view.frame, response);
+                                refreshJFrame();
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    }
+    
+    /** When the edit method parameters button is pushed this function is called to get info from the user.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
+    public ActionListener editMethodParametersListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String className = promptInput("Enter the class name where the methods parameters will be changed.");
+                if (className != null) {
+                    String methodName = promptInput("Enter method name.");
+                    if (methodName != null) {
+                        List<String> parameters = promptMultipleInput("Enter a parameter.");
+                        if (parameters != null) {
+                            List<String> newParameters = promptMultipleInput("Enter the new parameter.");
+                            if (newParameters != null) {
+                                String response = executeCommand(new EditMethodParametersCommand(model, className, methodName, parameters, newParameters));
+                                JOptionPane.showMessageDialog(view.frame, response);
+                                refreshJFrame();
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    }
+    
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
+    
     //////////////////////////// Relationship ActionListeners////////////////////////////////////
 
     /** When the add relationship button is pushed this function is called to get info from the user.
@@ -163,7 +292,8 @@ public class GUIController {
                     if (relationshipName != null) {
                         String relationshipType = promptInput("Enter new relationship type.");
                         if (relationshipType != null) {
-                            model.addRelationshipGUI(view.frame, className, relationshipName, relationshipType);
+                            String response = executeCommand(new AddRelationshipCommand(model, className, relationshipName, relationshipType));
+                            JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                     }
@@ -184,6 +314,8 @@ public class GUIController {
                     String relationshipName = promptInput("Enter relationship destination.");
                     if (relationshipName != null) {
                     	model.deleteRelationshipGUI(view.frame, className, relationshipName);
+                    	String response = executeCommand(new DeleteRelationshipCommand(model, className, relationshipName));
+                        JOptionPane.showMessageDialog(view.frame, response);
                     	refreshJFrame();
                     }
                 }
@@ -194,17 +326,18 @@ public class GUIController {
     /** When the edit relationship destination button is pushed this function is called to get info from the user.
      * @return An ActionListener is sent back to the GUI so the data is passed back.
 	 */
-    public ActionListener editRelationshipDestination() {
+    public ActionListener editRelationshipDestinationListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String className = promptInput("Enter the class name where the relationship will have its destination changed.");
                 if (className != null) {
-                    String relationshipOldName = promptInput("Enter old relationship destination.");
-                    if (relationshipOldName != null) {
-                        String relationshipNewName = promptInput("Enter new relationship destination.");
-                        if (relationshipNewName != null) {
-                            model.editRelationshipDestinationGUI(view.frame, className, relationshipOldName, relationshipNewName);
+                    String relationshipDestination = promptInput("Enter old relationship destination.");
+                    if (relationshipDestination != null) {
+                        String newRelationshipDestination = promptInput("Enter new relationship destination.");
+                        if (newRelationshipDestination != null) {
+                        	String response = executeCommand(new EditRelationshipDestinationCommand(model, className, relationshipDestination, newRelationshipDestination));
+                            JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                     }
@@ -216,17 +349,18 @@ public class GUIController {
     /** When the edit relationship type button is pushed this function is called to get info from the user.
      * @return An ActionListener is sent back to the GUI so the data is passed back.
 	 */
-    public ActionListener editRelationshipType() {
+    public ActionListener editRelationshipTypeListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String className = promptInput("Enter the class name where the relationship will have its type changed.");
                 if (className != null) {
-                    String relationshipOldName = promptInput("Enter relationship destination.");
-                    if (relationshipOldName != null) {
-                        String relationshipNewType = promptInput("Enter new relationship type.");
-                        if (relationshipNewType != null) {
-                            model.editRelationshipTypeGUI(view.frame, className, relationshipOldName,relationshipNewType);
+                    String relationshipDestination = promptInput("Enter relationship destination.");
+                    if (relationshipDestination != null) {
+                        String relationshipType = promptInput("Enter new relationship type.");
+                        if (relationshipType != null) {
+                        	String response = executeCommand(new EditRelationshipTypeCommand(model, className, relationshipDestination, relationshipType));
+                            JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                     }
@@ -234,112 +368,20 @@ public class GUIController {
             }
         };
     }
-    //////////////////////////// Method ActionListeners////////////////////////////////////
-
-    /** When the add method button is pushed this function is called to get info from the user.
-     * @return An ActionListener is sent back to the GUI so the data is passed back.
-	 */
-    public ActionListener addMethodListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String className = promptInput("Enter the class name where the method will be added.");
-                if (className != null) {
-                    String methodName = promptInput("Enter new method name.");
-                    if (methodName != null) {
-                        List<String> parameters = promptMultipleInput("Enter a parameter.");
-                        if (parameters != null) {
-                            model.addMethodGUI(view.frame, className, methodName, parameters);
-                            refreshJFrame();
-                        }
-                    }
-                }
-            }
-        };
-    }
-    /** When the delete method button is pushed this function is called to get info from the user.
-     * @return An ActionListener is sent back to the GUI so the data is passed back.
-	 */
-    public ActionListener deleteMethodListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String className = promptInput("Enter the class name where the method will be deleted.");
-                if (className != null) {
-                    String methodName = promptInput("Enter method name to delete.");
-                    if (methodName != null) {
-                        List<String> parameters = promptMultipleInput("Enter a parameter.");
-                        if (parameters != null) {
-                            model.deleteMethodGUI(view.frame,className, methodName, parameters);
-                            refreshJFrame();
-                        }
-                    }
-                }
-            }
-        };
-    }
-    /** When the edit method name button is pushed this function is called to get info from the user.
-     * @return An ActionListener is sent back to the GUI so the data is passed back.
-	 */
-    public ActionListener editMethodNameListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String className = promptInput("Enter the class name where the methods name will be changed.");
-                if (className != null) {
-                    String methodOldName = promptInput("Enter old method name.");
-                    if (methodOldName != null) {
-                        String methodNewName = promptInput("Enter new method name.");
-                        if (methodNewName != null) {
-                            List<String> parameters = promptMultipleInput("Enter a parameter.");
-                            if (parameters != null) {
-                                model.editMethodNameGUI(view.frame, className, methodOldName, parameters, methodNewName);
-                                refreshJFrame();
-                            }
-                        }
-                    }
-                }
-            }
-        };
-    }
-    /** When the edit method parameters button is pushed this function is called to get info from the user.
-     * @return An ActionListener is sent back to the GUI so the data is passed back.
-	 */
-    public ActionListener editMethodParametersListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String className = promptInput("Enter the class name where the methods parameters will be changed.");
-                if (className != null) {
-                    String methodName = promptInput("Enter method name.");
-                    if (methodName != null) {
-                        List<String> oldParameters = promptMultipleInput("Enter old method parameters.");
-                        if (oldParameters != null) {
-                            List<String> newParameters = promptMultipleInput("Enter new method parameters.");
-                            if (newParameters != null) {
-                                model.editMethodParametersGUI(view.frame,className, methodName, oldParameters, newParameters);
-                                refreshJFrame();
-                            }
-                        }
-                    }
-                }
-            }
-        };
-    }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////// Save and load ActionListeners///////////////////////////////////////
 
     /** When the save button is pushed this function is called to get info from the user and save the JSON file.
      * @return An ActionListener is sent back to the GUI so the data is passed back.
 	 */
-    public ActionListener saveActionListener() {
+    public ActionListener saveJSONActionListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String fileName = promptInput("Enter file name to save.");
                 if (fileName != null) {
-                    model.saveJSON(fileName);
+                	String response = executeCommand(new SaveJSONCommand(model, fileName));
+                    JOptionPane.showMessageDialog(view.frame, response);
                 }
             }
         };
@@ -347,13 +389,14 @@ public class GUIController {
     /** When the load button is pushed this function is called to get info from the user and load the JSON file into the environment.
      * @return An ActionListener is sent back to the GUI so the data is passed back.
 	 */
-    public ActionListener loadActionListener() {
+    public ActionListener loadJSONActionListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String fileName = promptInput("Enter file name to load.");
                 if (fileName != null) {
-                    model.loadJSON(fileName);
+                	String response = executeCommand(new LoadJSONCommand(model, fileName));
+                    JOptionPane.showMessageDialog(view.frame, response);
                     refreshJFrame();
                 }
             }

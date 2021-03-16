@@ -8,9 +8,9 @@ public class AddClassCommand implements Command {
 	Classes model;
 	String className; 
 	
-	public AddClassCommand(Classes model, String className) {
-		this.model = model;
-		this.className = className;
+	public AddClassCommand(Classes modelP, String classNameP) {
+		model = modelP;
+		className = classNameP;
 	}
 	
 	@Override

@@ -1,7 +1,6 @@
 package team.indecision.Command;
 
 import java.util.SortedMap;
-
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 
@@ -10,9 +9,9 @@ public class DeleteClassCommand implements Command {
 	Classes model;
 	String className; 
 	
-	public DeleteClassCommand(Classes model, String className) {
-		this.model = model;
-		this.className = className;
+	public DeleteClassCommand(Classes modelP, String classNameP) {
+		model = modelP;
+		className = classNameP;
 	}
 	
 	@Override
