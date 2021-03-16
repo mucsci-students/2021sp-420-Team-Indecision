@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import team.indecision.View.GUI;
 import team.indecision.Command.AddClassCommand;
 import team.indecision.Command.Command;
+import team.indecision.Command.DeleteClassCommand;
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 import java.util.ArrayList;
@@ -21,11 +22,12 @@ public class GUIController {
     	
     }
     
-    public GUIController(Classes model, GUI view) {
-        this.model = model;
-        this.view = view;
+    public GUIController(Classes modelP, GUI viewP) {
+        model = modelP;
+        view = viewP;
         
         view.addActionListener(this.addClassListener(), 0, 0);
+        view.addActionListener(this.deleteClassListener(), 0, 1);
     }
     
     private String executeCommand(Command command) {
@@ -58,7 +60,8 @@ public class GUIController {
             public void actionPerformed(ActionEvent e) {
                 String deletedClass = promptInput("Enter the class name to be deleted.");
                 if (deletedClass != null) {
-                    model.deleteClassGUI(view.frame, deletedClass);
+                	String response = executeCommand(new DeleteClassCommand(model, deletedClass));
+                    JOptionPane.showMessageDialog(view.frame, response);
                     refreshJFrame();
                 }
             }

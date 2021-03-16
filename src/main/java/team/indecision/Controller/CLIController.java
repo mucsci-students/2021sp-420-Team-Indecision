@@ -1,14 +1,9 @@
 package team.indecision.Controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import team.indecision.Command.*;
-import team.indecision.Command.AddClassCommand;
 import team.indecision.Model.Classes;
 import team.indecision.View.CLI;
 
@@ -16,9 +11,9 @@ public class CLIController {
 	private Classes model;
 	private CLI view;
 	
-	public CLIController(Classes model, CLI view) {
-		this.model = model;
-		this.view = view;
+	public CLIController(Classes modelP, CLI viewP) {
+		model = modelP;
+		view = viewP;
 		
 		String choice = view.prompt();
 		String seperator = " ";
@@ -45,7 +40,8 @@ public class CLIController {
 			}
 			// delete
 			else if (parsedChoice.length == 3 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("class"))) {
-				model.deleteClassCLI(parsedChoice[2]);
+				String response = executeCommand(new DeleteClassCommand(model, parsedChoice[2]));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("field"))) {
 				model.deleteFieldCLI(parsedChoice[2], parsedChoice[3]);
