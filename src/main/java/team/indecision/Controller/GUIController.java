@@ -8,15 +8,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import team.indecision.View.GUI;
 import team.indecision.Command.*;
+import team.indecision.Memento.History;
+import team.indecision.Memento.Memento;
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GUIController {
-
 	private Classes model;
     private GUI view;
+    private History history;
     
     public GUIController() {
     	
@@ -25,6 +27,7 @@ public class GUIController {
     public GUIController(Classes modelP, GUI viewP) {
         model = modelP;
         view = viewP;
+        history = new History();
         
         view.addActionListener(this.addClassListener(), 0, 0);
         view.addActionListener(this.deleteClassListener(), 0, 1);
@@ -40,13 +43,29 @@ public class GUIController {
         view.addActionListener(this.deleteRelationshipListener(), 3, 1);
         view.addActionListener(this.editRelationshipDestinationListener(), 3, 2);
         view.addActionListener(this.editRelationshipTypeListener(), 3, 3);
-        view.addActionListener(this.saveJSONActionListener(), 4, 0);
-        view.addActionListener(this.loadJSONActionListener(), 4, 1);
+        view.addActionListener(this.saveJSONListener(), 4, 0);
+        view.addActionListener(this.loadJSONListener(), 4, 1);
+        view.addActionListener(this.undoListener(), 5, 0);
+        view.addActionListener(this.redoListener(), 5, 1);
     }
     
     private String executeCommand(Command command) {
-    	
-		return command.execute();
+		Classes deepCopy = (Classes) org.apache.commons.lang.SerializationUtils.clone(model);
+		model.setBackup(deepCopy.getClasses());
+		String response = command.execute();
+		if (command.getStateChange()) {
+			history.push(command, new Memento(model));
+		}
+		return response;
+	}
+    
+    private String undo() {
+		String response = "You can no longer undo.";
+		if (!history.isEmpty()) {
+			history.undo();
+			response = "The last command that changed the state has been undone.";
+		}
+		return response;
 	}
     //////////////////////////// Class Action Listeners////////////////////////////////////// 
 
@@ -314,7 +333,6 @@ public class GUIController {
                 if (className != null) {
                     String relationshipName = promptInput("Enter relationship destination.");
                     if (relationshipName != null) {
-                    	model.deleteRelationshipGUI(view.frame, className, relationshipName);
                     	String response = executeCommand(new DeleteRelationshipCommand(model, className, relationshipName));
                         JOptionPane.showMessageDialog(view.frame, response);
                     	refreshJFrame();
@@ -375,7 +393,7 @@ public class GUIController {
     /** When the save button is pushed this function is called to get info from the user and save the JSON file.
      * @return An ActionListener is sent back to the GUI so the data is passed back.
 	 */
-    public ActionListener saveJSONActionListener() {
+    public ActionListener saveJSONListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -390,7 +408,7 @@ public class GUIController {
     /** When the load button is pushed this function is called to get info from the user and load the JSON file into the environment.
      * @return An ActionListener is sent back to the GUI so the data is passed back.
 	 */
-    public ActionListener loadJSONActionListener() {
+    public ActionListener loadJSONListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -405,6 +423,39 @@ public class GUIController {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////// Save and load ActionListeners///////////////////////////////////////
+
+    /** When the save button is pushed this function is called to get info from the user and save the JSON file.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
+    public ActionListener undoListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	String response = undo();
+                JOptionPane.showMessageDialog(view.frame, response);
+                refreshJFrame();
+            }
+        };
+    }
+    /** When the load button is pushed this function is called to get info from the user and load the JSON file into the environment.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
+    public ActionListener redoListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        };
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+    
 
     /** Gets single input from the user.
      * @param message is the question the user will be prompted with to input data.

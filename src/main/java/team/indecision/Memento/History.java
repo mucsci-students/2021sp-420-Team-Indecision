@@ -16,6 +16,7 @@ public class History {
 			memento = m;
 		}
 		
+		
 		private Command getCommand() {
             return command;
         }

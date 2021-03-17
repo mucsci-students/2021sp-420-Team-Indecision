@@ -92,6 +92,16 @@ public class GUI extends JPanel {
 		JMenuItem loadItem = new JMenuItem("Load");
 		saveAndLoadMenu.add(loadItem);
 		
+		////////////////////////////JMenueBar Save and Load//////////////////////////////////////
+		JMenu undoAndRedoMenu = new JMenu("Undo and Redo");
+		menuBar.add(undoAndRedoMenu);
+		
+		JMenuItem undoItem = new JMenuItem("Undo");
+		undoAndRedoMenu.add(undoItem);
+		
+		JMenuItem redoItem = new JMenuItem("Redo");
+		undoAndRedoMenu.add(redoItem);
+				
 		frame.setJMenuBar(menuBar);
 		frame.add(this);
 		frame.pack();
