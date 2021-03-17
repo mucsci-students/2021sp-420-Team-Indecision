@@ -1,1 +1,0 @@
-{"test":{"name":"test","attributes":["attr","attr1"],"relationships":{"rel":"type","rel1":"type"}},"test1":{"name":"test1","attributes":[],"relationships":{}},"test2":{"name":"test2","attributes":["attr"],"relationships":{"rel":"type"}}}
