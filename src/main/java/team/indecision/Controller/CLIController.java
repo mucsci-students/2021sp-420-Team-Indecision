@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import team.indecision.Command.*;
 import team.indecision.Memento.History;
+import team.indecision.Memento.Memento;
 import team.indecision.Model.Classes;
 import team.indecision.View.CLI;
 
@@ -149,9 +150,12 @@ public class CLIController {
 	}
 	
 	private String executeCommand(Command command) {
-
+		Classes deepCopy = (Classes) org.apache.commons.lang.SerializationUtils.clone(model);
+		model.setBackup(deepCopy.getClasses());
 		String response = command.execute();
-
+		if (command.getStateChange()) {
+			history.push(command, new Memento(model));
+		}
 		return response;
 	}
 	

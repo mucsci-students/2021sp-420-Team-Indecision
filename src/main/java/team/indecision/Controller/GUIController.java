@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import team.indecision.View.GUI;
 import team.indecision.Command.*;
 import team.indecision.Memento.History;
+import team.indecision.Memento.Memento;
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 import java.util.ArrayList;
@@ -47,7 +48,12 @@ public class GUIController {
     }
     
     private String executeCommand(Command command) {
+    	Classes deepCopy = (Classes) org.apache.commons.lang.SerializationUtils.clone(model);
+		model.setBackup(deepCopy.getClasses());
 		String response = command.execute();
+		if (command.getStateChange()) {
+			history.push(command, new Memento(model));
+		}
 		return response;
 	}
     
