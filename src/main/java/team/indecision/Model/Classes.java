@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-
 /** Represents a collection of Class objects in the UML model.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
  * @version 1.0
