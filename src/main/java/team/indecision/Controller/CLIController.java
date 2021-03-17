@@ -4,16 +4,19 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import team.indecision.Command.*;
+import team.indecision.Memento.History;
 import team.indecision.Model.Classes;
 import team.indecision.View.CLI;
 
 public class CLIController {
 	private Classes model;
 	private CLI view;
+	private History history;
 	
 	public CLIController(Classes modelP, CLI viewP) {
 		model = modelP;
 		view = viewP;
+		history = new History();
 		
 		String choice = view.prompt();
 		String seperator = " ";
@@ -129,6 +132,10 @@ public class CLIController {
 				String response = executeCommand(new HelpCommand());
 				view.update(response);
 			}
+			else if (parsedChoice.length == 1 && parsedChoice[0].equals("undo")) {
+				String response = this.undo();
+				view.update(response);
+			}
 			else if (parsedChoice.length == 1 && parsedChoice[0].equals("exit")){
 			   break;
 			}
@@ -145,6 +152,15 @@ public class CLIController {
 
 		String response = command.execute();
 
+		return response;
+	}
+	
+	private String undo() {
+		String response = "You can no longer undo.";
+		if (!history.isEmpty()) {
+			history.undo();
+			response = "The last command that changed the state has been undone.";
+		}
 		return response;
 	}
 	

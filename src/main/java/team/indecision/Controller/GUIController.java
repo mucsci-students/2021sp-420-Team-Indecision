@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import team.indecision.View.GUI;
 import team.indecision.Command.*;
+import team.indecision.Memento.History;
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 public class GUIController {
 	private Classes model;
     private GUI view;
+    private History history;
     
     public GUIController() {
     	
@@ -24,7 +26,7 @@ public class GUIController {
     public GUIController(Classes modelP, GUI viewP) {
         model = modelP;
         view = viewP;
-
+        history = new History();
         
         view.addActionListener(this.addClassListener(), 0, 0);
         view.addActionListener(this.deleteClassListener(), 0, 1);
@@ -46,6 +48,15 @@ public class GUIController {
     
     private String executeCommand(Command command) {
 		String response = command.execute();
+		return response;
+	}
+    
+    private String undo() {
+		String response = "You can no longer undo.";
+		if (!history.isEmpty()) {
+			history.undo();
+			response = "The last command that changed the state has been undone.";
+		}
 		return response;
 	}
     
@@ -400,6 +411,33 @@ public class GUIController {
                     JOptionPane.showMessageDialog(view.frame, response);
                     refreshJFrame();
                 }
+            }
+        };
+    }
+    
+    //////////////////////////// Undo and Redo ActionListeners///////////////////////////////////////
+
+    /** When the save button is pushed this function is called to get info from the user and save the JSON file.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
+    public ActionListener undoListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	String response = undo();
+                JOptionPane.showMessageDialog(view.frame, response);
+                refreshJFrame();
+            }
+        };
+    }
+    /** When the load button is pushed this function is called to get info from the user and load the JSON file into the environment.
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+	 */
+    public ActionListener redoListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
             }
         };
     }
