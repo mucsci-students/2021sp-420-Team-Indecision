@@ -3,6 +3,7 @@ package team.indecision.Controller;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import team.indecision.Command.*;
 import team.indecision.Model.Classes;
 import team.indecision.View.CLI;
 
@@ -22,72 +23,111 @@ public class CLIController {
 		while (x) {
 			// add
 			if (parsedChoice.length == 3 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("class"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new AddClassCommand(model, parsedChoice[2]));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("field"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new AddFieldCommand(model, parsedChoice[2], parsedChoice[3]));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("method"))) {
-				// Will re-implement when we do the Command design method.
+				String parameters = view.prompt();
+				String sep = ",";
+				String[] parsedParameters = StringUtils.split(parameters, sep);
+				List<String> parametersList = Arrays.asList(parsedParameters);
+				String response = executeCommand(new AddMethodCommand(model, parsedChoice[2], parsedChoice[3], parametersList));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new AddRelationshipCommand(model, parsedChoice[2], parsedChoice[3], parsedChoice[4]));
+				view.update(response);
 			}
 			// delete
 			else if (parsedChoice.length == 3 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("class"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new DeleteClassCommand(model, parsedChoice[2]));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("field"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new DeleteFieldCommand(model, parsedChoice[2], parsedChoice[3]));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("method"))) {
-				// Will re-implement when we do the Command design method.
+				String parameters = view.prompt();
+				String sep = ",";
+				String[] parsedParameters = StringUtils.split(parameters, sep);
+				List<String> parametersList = Arrays.asList(parsedParameters);
+				String response = executeCommand(new DeleteMethodCommand(model, parsedChoice[2], parsedChoice[3], parametersList));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("rel"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new DeleteRelationshipCommand(model, parsedChoice[2], parsedChoice[3]));
+				view.update(response);
 			}
 			// rename / edit
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("class"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new EditClassNameCommand(model, parsedChoice[2], parsedChoice[3]));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("field"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new EditFieldNameCommand(model, parsedChoice[2], parsedChoice[3], parsedChoice[4]));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method")) && (parsedChoice[2].equals("name"))) {
-				// Will re-implement when we do the Command design method.
+				String parameters = view.prompt();
+				String sep = ",";
+				String[] parsedParameters = StringUtils.split(parameters, sep);
+				List<String> parametersList = Arrays.asList(parsedParameters);
+				String methodNameNew = view.prompt();
+				sep = " ";
+				String[] parsedMethodNameNew = StringUtils.split(methodNameNew, sep);
+				String response = executeCommand(new EditMethodNameCommand(model, parsedChoice[3], parsedChoice[4], parametersList, parsedMethodNameNew[0]));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method")) && (parsedChoice[2].equals("parameters"))) {
-				// Will re-implement when we do the Command design method.
+				String parameters = view.prompt();
+				String sep = ",";
+				String[] parsedParameters = StringUtils.split(parameters, sep);
+				List<String> parametersList = Arrays.asList(parsedParameters);
+				String parametersNew = view.prompt();
+				String[] parsedParametersNew = StringUtils.split(parametersNew, sep);
+				List<String> parametersListNew = Arrays.asList(parsedParametersNew);
+				String response = executeCommand(new EditMethodParametersCommand(model, parsedChoice[3], parsedChoice[4], parametersList, parametersListNew));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel")) && (parsedChoice[2].equals("dest"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new EditRelationshipDestinationCommand(model, parsedChoice[3], parsedChoice[4], parsedChoice[5]));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel")) && (parsedChoice[2].equals("type"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new EditRelationshipTypeCommand(model, parsedChoice[3], parsedChoice[4], parsedChoice[5]));
+				view.update(response);
 			}
 			// list
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("classes"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new ListClassesCommand(model));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 3 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("class"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new ListClassCommand(model, parsedChoice[2]));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("list") && (parsedChoice[1].equals("rel"))) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new ListRelationshipsCommand(model));
+				view.update(response);
 			}
 			// save / load
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("save")) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new SaveJSONCommand(model, parsedChoice[1]));
+				view.update(response);
 			}
 			else if (parsedChoice.length == 2 && parsedChoice[0].equals("load")) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new LoadJSONCommand(model, parsedChoice[1]));
+				view.update(response);
 			}
 			// help and exit
 			else if (parsedChoice.length == 1 && parsedChoice[0].equals("help")) {
-				// Will re-implement when we do the Command design method.
-			}
-			else if (parsedChoice.length == 1 && parsedChoice[0].equals("undo")) {
-				// Will re-implement when we do the Command design method.
+				String response = executeCommand(new HelpCommand());
+				view.update(response);
 			}
 			else if (parsedChoice.length == 1 && parsedChoice[0].equals("exit")){
 			   break;
@@ -100,4 +140,12 @@ public class CLIController {
 			}
 		
 	}
+	
+	private String executeCommand(Command command) {
+
+		String response = command.execute();
+
+		return response;
+	}
+	
 }
