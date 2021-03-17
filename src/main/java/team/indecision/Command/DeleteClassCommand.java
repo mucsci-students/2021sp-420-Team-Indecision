@@ -7,11 +7,13 @@ import team.indecision.Model.Classes;
 public class DeleteClassCommand implements Command {
 
 	Classes model;
-	String className; 
+	String className;
+	boolean stateChange;
 	
 	public DeleteClassCommand(Classes modelP, String classNameP) {
 		model = modelP;
 		className = classNameP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -27,11 +29,17 @@ public class DeleteClassCommand implements Command {
 		        }
 		    }
 			response = "The class " + className + " has been deleted.";
+			stateChange = true;
 		}
 		else 
 		{
 			response = "The class " + className + " does not exist.";
 		}
 		return response;
+	}
+	
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
 	}
 }

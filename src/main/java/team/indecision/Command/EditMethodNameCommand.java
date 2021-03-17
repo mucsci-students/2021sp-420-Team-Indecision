@@ -12,6 +12,7 @@ public class EditMethodNameCommand implements Command {
 	String methodName;
 	List<String> parameters;
 	String newMethodName;
+	boolean stateChange;
 	
 	public EditMethodNameCommand (Classes modelP, String classNameP, String methodNameP, List<String> parametersP, String newMethodNameP) {
 		model = modelP;
@@ -19,6 +20,7 @@ public class EditMethodNameCommand implements Command {
 		methodName = methodNameP;
 		parameters = parametersP;
 		newMethodName = newMethodNameP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -30,6 +32,7 @@ public class EditMethodNameCommand implements Command {
 				Method m = c.getMethod(methodName, parameters);
 				m.setName(newMethodName);
 				response = "The method " + methodName + " has been changed to " + newMethodName + ".";
+				stateChange = true;
 			}
 			else {
 				if (c.containsMethod(newMethodName, parameters)) {
@@ -45,5 +48,9 @@ public class EditMethodNameCommand implements Command {
 		}	
 		return response;
 	}
-
+	
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
+	}
 }

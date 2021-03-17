@@ -1,5 +1,6 @@
 package team.indecision.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +9,12 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public class Method implements Comparable<Method>{
+public class Method implements Comparable<Method>, Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// stores the method name.
 	private String name;
 	// stores the methods parameter list.
@@ -20,10 +25,6 @@ public class Method implements Comparable<Method>{
 	 */
 	public Method() {
 		
-	}
-	
-	public Method (Method that) {
-		this(that.getName(), new ArrayList<String>(that.getParameters()));
 	}
 	
 	/** Constructs a method with a specified name.

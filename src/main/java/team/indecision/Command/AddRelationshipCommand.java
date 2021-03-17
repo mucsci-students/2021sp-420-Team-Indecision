@@ -9,12 +9,14 @@ public class AddRelationshipCommand implements Command {
 	String className;
 	String relationshipDestination;
 	String relationshipType;
+	boolean stateChange;
 	
 	public AddRelationshipCommand (Classes modelP, String classNameP, String relationshipDestinationP, String relationshipTypeP) {
 		model = modelP;
 		className = classNameP;
 		relationshipDestination = relationshipDestinationP;
 		relationshipType = relationshipTypeP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -27,6 +29,7 @@ public class AddRelationshipCommand implements Command {
 					if (relationshipType.equals("Aggregation") || relationshipType.equals("Composition") || relationshipType.equals("Inheritance") || relationshipType.equals("Realization")) {
 						c.addRelationship(relationshipDestination, relationshipType);
 						response = "The " + className +" has created a new relationship with class: " + relationshipDestination + " of type " + relationshipType;
+						stateChange = true;
 					}
 					else {
 						response = "The relationship type must be one of the following: Aggregation, Composition, Inheritance or Realization";
@@ -45,5 +48,9 @@ public class AddRelationshipCommand implements Command {
 		}
 		return response;
 	}
-
+	
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
+	}
 }

@@ -1,11 +1,17 @@
 package team.indecision.Model;
 
+import java.io.Serializable;
+
 /** Represents a Field in the UML model.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
  * @version 1.0
  * @since 1.0
  */
-public class Field implements Comparable<Field>{
+public class Field implements Comparable<Field>, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	
 	/** Constructs an uninitialized instance of the object.
@@ -13,10 +19,6 @@ public class Field implements Comparable<Field>{
 	 */
 	public Field() {
 		
-	}
-	
-	public Field (Field that) {
-		this(that.getName());
 	}
 	
 	/** Constructs a field with a specified name.

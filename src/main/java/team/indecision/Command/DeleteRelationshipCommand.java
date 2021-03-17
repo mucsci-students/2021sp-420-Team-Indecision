@@ -8,11 +8,13 @@ public class DeleteRelationshipCommand implements Command {
 	Classes model;
 	String className;
 	String relationshipDestination;
+	boolean stateChange;
 	
 	public DeleteRelationshipCommand (Classes modelP, String classNameP, String relationshipDestinationP) {
 		model = modelP;
 		className = classNameP;
 		relationshipDestination = relationshipDestinationP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -23,6 +25,7 @@ public class DeleteRelationshipCommand implements Command {
             if (c.containsRelationship(relationshipDestination)) {
             	c.deleteRelationship(relationshipDestination);
                 response = "You have deleted a relationship with class: " + relationshipDestination;
+                stateChange = true;
             }
             else {
                 response = "A relationship with " + relationshipDestination + " does not exist.";
@@ -33,5 +36,9 @@ public class DeleteRelationshipCommand implements Command {
         }
 		return response;
 	}
-
+	
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
+	}
 }

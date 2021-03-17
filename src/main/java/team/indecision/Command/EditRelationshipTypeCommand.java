@@ -10,12 +10,14 @@ public class EditRelationshipTypeCommand implements Command {
 	String className;
 	String relationshipDestination;
 	String newRelationshipType;
+	boolean stateChange;
 	
 	public EditRelationshipTypeCommand (Classes modelP, String classNameP, String relationshipDestinationP, String newRelationshipTypeP) {
 		model = modelP;
 		className = classNameP;
 		relationshipDestination = relationshipDestinationP;
 		newRelationshipType = newRelationshipTypeP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -29,6 +31,7 @@ public class EditRelationshipTypeCommand implements Command {
 					r.setType(newRelationshipType);
 					System.out.println("The relationship " + relationshipDestination + " type has been changed to " + newRelationshipType + ".");
 					response = "The relationship " + relationshipDestination + " type has been changed to " + newRelationshipType + ".";
+					stateChange = true;
 				}
 				else {
 					response = "The relationship type must be one of the following: Aggregation, Composition, Inheritance or Realization";
@@ -42,5 +45,10 @@ public class EditRelationshipTypeCommand implements Command {
 			response = "The class " +  className + " does not exist.";
 		}
 		return response;
+	}
+	
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
 	}
 }

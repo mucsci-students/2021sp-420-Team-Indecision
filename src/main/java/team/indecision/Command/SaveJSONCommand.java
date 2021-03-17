@@ -8,10 +8,12 @@ public class SaveJSONCommand implements Command {
 
 	Classes model;
 	String fileName;
+	boolean stateChange;
 	
 	public SaveJSONCommand (Classes modelP, String fileNameP) {
 		model = modelP;
 		fileName = fileNameP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -29,4 +31,8 @@ public class SaveJSONCommand implements Command {
 		return response;
 	}
 
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
+	}
 }

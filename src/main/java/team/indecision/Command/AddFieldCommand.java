@@ -5,14 +5,16 @@ import team.indecision.Model.Classes;
 
 public class AddFieldCommand implements Command {
 
-	Classes model;
-	String className;
-	String fieldName;
+	private Classes model;
+	private String className;
+	private String fieldName;
+	boolean stateChange;
 	
 	public AddFieldCommand(Classes modelP, String classNameP, String fieldNameP) {
 		model = modelP;
 		className = classNameP;
 		fieldName = fieldNameP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -23,6 +25,7 @@ public class AddFieldCommand implements Command {
 			if (!c.containsField(fieldName)) {
 				c.addField(fieldName);
 				response = "The field " + fieldName + " has been added to the class " + className + ".";
+				stateChange = true;
 			}
 			else {
 				response = "The field " + fieldName + " already exists with the class " + className + ".";
@@ -32,5 +35,10 @@ public class AddFieldCommand implements Command {
 			response = "The class "  +  className + " does not exist.";
 		}
 		return response;
+	}
+
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
 	}
 }

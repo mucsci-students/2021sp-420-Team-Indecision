@@ -6,8 +6,8 @@ import team.indecision.Model.Classes;
 public class AddClassCommand implements Command {
 
 	private Classes model;
-	String className;
-	boolean stateChange;
+	private String className;
+	private boolean stateChange;
 	
 	public AddClassCommand(Classes modelP, String classNameP) {
 		model = modelP;

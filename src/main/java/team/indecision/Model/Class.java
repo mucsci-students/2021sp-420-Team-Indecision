@@ -1,5 +1,6 @@
 package team.indecision.Model;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
@@ -10,8 +11,12 @@ import java.util.TreeSet;
  * @version 1.0
  * @since 1.0
  */
-public class Class {
+public class Class implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//Stores the class name.
 	private String name;
 	//Stores the fields for the class.
@@ -26,10 +31,6 @@ public class Class {
 	 */
 	public Class() {
 		
-	}
-	
-	public Class (Class that) {
-		this(that.getName(), new TreeSet<Field>(that.getFields()), new TreeSet<Method>(that.getMethods()), new TreeSet<Relationship>(that.getRelationships()));
 	}
 	
 	/** Constructs a class with a specified name.

@@ -7,9 +7,11 @@ import team.indecision.Model.Classes;
 public class ListRelationshipsCommand implements Command {
 
 	Classes model;
+	boolean stateChange;
 	
 	public ListRelationshipsCommand (Classes modelP) {
 		model = modelP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -30,6 +32,11 @@ public class ListRelationshipsCommand implements Command {
 	        i++;
 	    }
 		return response;
+	}
+	
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
 	}
 
 }

@@ -10,12 +10,14 @@ public class EditRelationshipDestinationCommand implements Command {
 	String className;
 	String relationshipDestination;
 	String newRelationshipDestination;
+	boolean stateChange;
 	
 	public EditRelationshipDestinationCommand (Classes modelP, String classNameP, String relationshipDestinationP, String newRelationshipDestinationP) {
 		model = modelP;
 		className = classNameP;
 		relationshipDestination = relationshipDestinationP;
 		newRelationshipDestination = newRelationshipDestinationP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -27,6 +29,7 @@ public class EditRelationshipDestinationCommand implements Command {
 				Relationship r = c.getRelationship(relationshipDestination);
 				r.setDestination(newRelationshipDestination);
 				response = "The relationship " + relationshipDestination + " has been changed to " + newRelationshipDestination + ".";
+				stateChange = true;
 			}
 			else {
 				if (c.containsRelationship(newRelationshipDestination)) {
@@ -41,5 +44,10 @@ public class EditRelationshipDestinationCommand implements Command {
 			response = "The class " +  className + " does not exist.";
 		}
 		return response;
+	}
+	
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
 	}
 }

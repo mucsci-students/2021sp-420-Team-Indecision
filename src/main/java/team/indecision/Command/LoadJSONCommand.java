@@ -13,10 +13,12 @@ public class LoadJSONCommand implements Command {
 
 	Classes model;
 	String fileName;
+	boolean stateChange;
 	
 	public LoadJSONCommand (Classes modelP, String fileNameP) {
 		model = modelP;
 		fileName = fileNameP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -28,10 +30,15 @@ public class LoadJSONCommand implements Command {
 			SortedMap<String, Class> classes = objectMapper.readValue(Paths.get(fileName).toFile(), new TypeReference<SortedMap<String, Class>>() {});
 			model.setClasses(classes);
 			response = "Your data has been loaded from a JSON file in your program's root directory";
+			stateChange = true;
 		} catch (Exception ex) {
 			response = "Not a valid json file or the file does not exist.";
 		}
 		return response;
 	}
 
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
+	}
 }

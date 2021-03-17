@@ -10,12 +10,14 @@ public class DeleteMethodCommand implements Command {
 	String className;
 	String methodName;
 	List<String> parameters;
+	boolean stateChange;
 	
 	public DeleteMethodCommand (Classes modelP, String classNameP, String methodNameP, List<String> parametersP) {
 		model = modelP;
 		className = classNameP;
 		methodName = methodNameP;
 		parameters = parametersP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -26,6 +28,7 @@ public class DeleteMethodCommand implements Command {
 			if (c.containsMethod(methodName, parameters)) {
 				c.deleteMethod(methodName, parameters);
 				response = "The method " +  methodName + " has been deleted from class " + className + ".";
+				stateChange = true;
 			}
 			else {
 				response = "The method " +  methodName + " does not exist with the class " + className + ".";
@@ -35,5 +38,10 @@ public class DeleteMethodCommand implements Command {
 			response = "The class " +  className + " does not exist.";
 		}
 		return response;
+	}
+	
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
 	}
 }

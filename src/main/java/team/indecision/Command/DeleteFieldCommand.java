@@ -8,11 +8,13 @@ public class DeleteFieldCommand implements Command {
 	Classes model;
 	String className;
 	String fieldName;
+	boolean stateChange;
 	
 	public DeleteFieldCommand(Classes modelP, String classNameP, String fieldNameP) {
 		model = modelP;
 		className = classNameP;
 		fieldName = fieldNameP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -23,6 +25,7 @@ public class DeleteFieldCommand implements Command {
 			if (c.containsField(fieldName)) {
 				c.deleteField(fieldName);
 				response = "The field " +  fieldName + " has been deleted from class " + className + ".";
+				stateChange = true;
 			}
 			else {
 				response = "The field " +  fieldName + " does not exist with the class " + className + ".";
@@ -32,5 +35,10 @@ public class DeleteFieldCommand implements Command {
 			response = "The class " +  className + " does not exist.";
 		}
 		return response;
+	}
+	
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
 	}
 }

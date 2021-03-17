@@ -10,12 +10,14 @@ public class EditFieldNameCommand implements Command {
 	String className;
 	String fieldName;
 	String newFieldName;
+	boolean stateChange;
 	
 	public EditFieldNameCommand (Classes modelP, String classNameP, String fieldNameP, String newFieldNameP) {
 		model = modelP;
 		className = classNameP;
 		fieldName = fieldNameP;
 		newFieldName = newFieldNameP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -27,6 +29,7 @@ public class EditFieldNameCommand implements Command {
 				Field f = c.getField(fieldName);
 				f.setName(newFieldName);
 				response = "The field " + fieldName + " has been renamed to " + newFieldName + ".";
+				stateChange = true;
 			}
 			else {
 				if (c.containsField(newFieldName)) {
@@ -41,5 +44,10 @@ public class EditFieldNameCommand implements Command {
 			response = "The class " +  className + " does not exist.";
 		}
 		return response;
+	}
+	
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
 	}
 }

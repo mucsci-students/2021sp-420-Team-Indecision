@@ -7,10 +7,12 @@ public class ListClassCommand implements Command {
 
 	Classes model;
 	String className;
+	boolean stateChange;
 	
 	public ListClassCommand (Classes modelP, String classNameP) {
 		model = modelP;
 		className = classNameP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -24,5 +26,10 @@ public class ListClassCommand implements Command {
             response = "The class " + className + " does not exist";
         }
 		return response;
+	}
+	
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
 	}
 }

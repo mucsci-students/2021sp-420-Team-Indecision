@@ -10,12 +10,14 @@ public class AddMethodCommand implements Command{
 	String className;
 	String methodName;
 	List<String> parameters;
+	boolean stateChange;
 	
 	public AddMethodCommand (Classes modelP, String classNameP, String methodNameP, List<String> parametersP) {
 		model = modelP;
 		className = classNameP;
 		methodName = methodNameP;
 		parameters = parametersP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -26,6 +28,7 @@ public class AddMethodCommand implements Command{
 			if (!c.containsMethod(methodName, parameters)) {
 				c.addMethod(methodName, parameters);
 				response = "The method " + methodName + " has been added to the class " + className + ".";
+				stateChange = true;
 			}
 			else {
 				response = "The method " + methodName + " already exists with the class " + className + " with those parameters.";
@@ -36,5 +39,9 @@ public class AddMethodCommand implements Command{
 		}
 		return response;
 	}
-
+	
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
+	}
 }

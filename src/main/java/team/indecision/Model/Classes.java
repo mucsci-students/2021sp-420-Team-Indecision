@@ -1,10 +1,14 @@
 package team.indecision.Model;
 
+import java.io.Serializable;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -16,8 +20,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @version 1.0
  * @since 1.0
  */
-public class Classes {
+public class Classes implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// stores a SortedMap of class objects.
 	private SortedMap<String, Class> classes = new TreeMap<String, Class>();
 	private SortedMap<String, Class> backup = new TreeMap<String, Class>();
@@ -27,10 +35,6 @@ public class Classes {
 	 */
 	public Classes () {
 		
-	}
-	
-	public Classes (Classes that) {
-		this(new TreeMap<String, Class>(that.getClasses()), new TreeMap<String, Class>(that.getBackup()));
 	}
 	
 	/** Constructs a classes map with a specified name.
