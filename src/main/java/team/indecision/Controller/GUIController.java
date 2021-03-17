@@ -45,6 +45,8 @@ public class GUIController {
         view.addActionListener(this.editRelationshipTypeListener(), 3, 3);
         view.addActionListener(this.saveJSONListener(), 4, 0);
         view.addActionListener(this.loadJSONListener(), 4, 1);
+        view.addActionListener(this.undoListener(), 5, 0);
+        view.addActionListener(this.redoListener(), 5, 1);
     }
     
     private String executeCommand(Command command) {
