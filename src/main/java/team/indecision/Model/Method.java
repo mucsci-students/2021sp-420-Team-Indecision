@@ -1,5 +1,6 @@
 package team.indecision.Model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /** Represents a Method in the UML model.
@@ -7,8 +8,9 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public class Method implements Comparable<Method>{
-	
+public class Method implements Comparable<Method>, Serializable{
+
+	private static final long serialVersionUID = 1L;
 	// stores the method name.
 	private String name;
 	// stores the methods parameter list.
