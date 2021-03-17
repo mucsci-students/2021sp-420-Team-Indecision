@@ -1,6 +1,5 @@
 package team.indecision;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import team.indecision.Controller.CLIController;
 import team.indecision.Controller.GUIController;
