@@ -5,7 +5,7 @@ import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 
 public class Memento {
-	Classes model;
+	private Classes model;
 	private SortedMap<String, Class> backup;
 	
 	public Memento(Classes modelP) {
@@ -16,5 +16,4 @@ public class Memento {
 	public void restore() {
 		model.setClasses(backup);
 	}
-	
 }
