@@ -1,5 +1,6 @@
 package team.indecision.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** Represents a Method in the UML model.
@@ -12,13 +13,17 @@ public class Method implements Comparable<Method>{
 	// stores the method name.
 	private String name;
 	// stores the methods parameter list.
-	private List<String> parameters;
+	private List<String> parameters = new ArrayList<String>();
 	
 	/** Constructs an uninitialized instance of the object.
 	 * 
 	 */
 	public Method() {
 		
+	}
+	
+	public Method (Method that) {
+		this(that.getName(), new ArrayList<String>(that.getParameters()));
 	}
 	
 	/** Constructs a method with a specified name.

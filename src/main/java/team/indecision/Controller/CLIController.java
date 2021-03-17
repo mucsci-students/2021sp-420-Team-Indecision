@@ -2,18 +2,26 @@ package team.indecision.Controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 import org.apache.commons.lang3.StringUtils;
 import team.indecision.Command.*;
+import team.indecision.Memento.History;
+import team.indecision.Memento.Memento;
+import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 import team.indecision.View.CLI;
 
 public class CLIController {
 	private Classes model;
 	private CLI view;
+	private History history;
 	
 	public CLIController(Classes modelP, CLI viewP) {
 		model = modelP;
 		view = viewP;
+		history = new History();
 		
 		String choice = view.prompt();
 		String seperator = " ";
@@ -129,6 +137,10 @@ public class CLIController {
 				String response = executeCommand(new HelpCommand());
 				view.update(response);
 			}
+			else if (parsedChoice.length == 1 && parsedChoice[0].equals("undo")) {
+				String response = this.undo();
+				view.update(response);
+			}
 			else if (parsedChoice.length == 1 && parsedChoice[0].equals("exit")){
 			   break;
 			}
@@ -142,7 +154,23 @@ public class CLIController {
 	}
 	
 	private String executeCommand(Command command) {
-		return command.execute();
+		
+		Classes deepCopy = new Classes(model);
+		model.setBackup(deepCopy.getClasses());
+		String response = command.execute();
+		if (command.getStateChange()) {
+			history.push(command, new Memento(model));
+		}
+		return response;
+	}
+	
+	private String undo() {
+		String response = "You can no longer undo.";
+		if (!history.isEmpty()) {
+			history.undo();
+			response = "The last command that changed the state has been undone.";
+		}
+		return response;
 	}
 	
 }

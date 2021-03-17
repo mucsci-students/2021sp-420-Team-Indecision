@@ -15,6 +15,10 @@ public class Field implements Comparable<Field>{
 		
 	}
 	
+	public Field (Field that) {
+		this(that.getName());
+	}
+	
 	/** Constructs a field with a specified name.
 	 * @param nameP A String that represents the field name.
 	 */
@@ -64,4 +68,5 @@ public class Field implements Comparable<Field>{
 		int name = this.name.compareTo(o.getName()); 
 		return name;
 	}
+	
 }

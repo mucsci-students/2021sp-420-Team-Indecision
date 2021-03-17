@@ -45,6 +45,7 @@ public class GUIController {
     }
     
     private String executeCommand(Command command) {
+    	
 		return command.execute();
 	}
     //////////////////////////// Class Action Listeners////////////////////////////////////// 

@@ -28,6 +28,10 @@ public class Class {
 		
 	}
 	
+	public Class (Class that) {
+		this(that.getName(), new TreeSet<Field>(that.getFields()), new TreeSet<Method>(that.getMethods()), new TreeSet<Relationship>(that.getRelationships()));
+	}
+	
 	/** Constructs a class with a specified name.
 	 * @param nameP The class name.
 	 */
@@ -287,5 +291,6 @@ public class Class {
         }
         return result;
     }
+	
 }
 

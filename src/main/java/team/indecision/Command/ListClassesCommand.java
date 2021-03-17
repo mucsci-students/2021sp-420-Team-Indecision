@@ -8,9 +8,11 @@ import team.indecision.Model.Classes;
 public class ListClassesCommand implements Command {
 
 	Classes model;
+	boolean stateChange;
 	
 	public ListClassesCommand (Classes modelP) {
 		model = modelP;
+		stateChange = false;
 	}
 	
 	@Override
@@ -29,6 +31,11 @@ public class ListClassesCommand implements Command {
 	        i++;
 	    }
 		return response;
+	}
+
+	@Override
+	public boolean getStateChange() {
+		return stateChange;
 	}
 
 }

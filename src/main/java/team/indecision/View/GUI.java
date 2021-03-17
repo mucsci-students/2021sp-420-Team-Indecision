@@ -92,7 +92,6 @@ public class GUI extends JPanel {
 		JMenuItem loadItem = new JMenuItem("Load");
 		saveAndLoadMenu.add(loadItem);
 		
-		
 		frame.setJMenuBar(menuBar);
 		frame.add(this);
 		frame.pack();

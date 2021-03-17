@@ -3,6 +3,7 @@ package team.indecision.Model;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -19,6 +20,7 @@ public class Classes {
 	
 	// stores a SortedMap of class objects.
 	private SortedMap<String, Class> classes = new TreeMap<String, Class>();
+	private SortedMap<String, Class> backup = new TreeMap<String, Class>();
 	
 	/** Constructs an uninitialized instance of the object.
 	 * 
@@ -27,11 +29,28 @@ public class Classes {
 		
 	}
 	
+	public Classes (Classes that) {
+		this(new TreeMap<String, Class>(that.getClasses()), new TreeMap<String, Class>(that.getBackup()));
+	}
+	
 	/** Constructs a classes map with a specified name.
 	 * @param classesP The classes map name.
 	 */
 	public Classes(SortedMap<String, Class> classesP) {
 		classes = classesP;
+	}
+	
+	public Classes(SortedMap<String, Class> classesP, SortedMap<String, Class> backupP) {
+		classes = classesP;
+		backup = backupP;
+	}
+	
+	public void setBackup(SortedMap<String, Class> newBackup) {
+		backup = newBackup;
+	}
+	
+	public SortedMap<String, Class> getBackup() {
+		return backup;
 	}
 	
 	/** Gets the classes's map.
@@ -55,7 +74,10 @@ public class Classes {
 	public void listClasses() {
 		classes.forEach((key,value) -> System.out.println(value.toString()));
 	}
-
+	
+	public void listBackup() {
+		backup.forEach((key,value) -> System.out.println(value.toString()));
+	}
 	
 	/** Prints each Class object in the map.
 	 * @param className A String that represents the class that will be listed.

@@ -19,6 +19,10 @@ public class Relationship implements Comparable<Relationship> {
 		
 	}
 	
+	public Relationship (Relationship that) {
+		this(that.getDestination(), that.getType());
+	}
+	
 	/** Constructs a relationship with a specified destination and type.
 	 * @param destinationP A String that represents destination name.
 	 * @param typeP A String that represents type name.
@@ -89,5 +93,4 @@ public class Relationship implements Comparable<Relationship> {
 		int destination = this.destination.compareTo(o.getDestination()); 
 		return destination;
 	}
-	
 }
