@@ -1,12 +1,15 @@
 package team.indecision.Model;
 
+import java.io.Serializable;
+
 /** Represents a Relationship in the UML model.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
  * @version 1.0
  * @since 1.0
  */
-public class Relationship implements Comparable<Relationship> {
+public class Relationship implements Comparable<Relationship>, Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	// stores the relationship destination
 	private String destination;
 	// stores the relationship type

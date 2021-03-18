@@ -14,9 +14,11 @@ public final class IndecisionApp {
 		
 		if((args.length == 1) && (args[0].equals("-cli"))) {
 			CLI view = new CLI(new InputStreamReader(System.in));
+			@SuppressWarnings("unused")
 			CLIController controller = new CLIController(model, view);
 		}else if (args.length == 0){
 			GUI view = new GUI();
+			@SuppressWarnings("unused")
 			GUIController controller = new GUIController(model, view);
 		}else {
 			System.out.println("Invalid Input.");
