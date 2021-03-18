@@ -2,11 +2,18 @@ package team.indecision.Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Cursor;
+
 import java.util.SortedMap;
 import java.util.SortedSet;
+
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+
 import team.indecision.View.GUI;
 import team.indecision.Command.*;
 import team.indecision.Memento.History;
@@ -711,8 +718,14 @@ public class GUIController {
         view.revalidate();
         view.repaint();
         for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
+            Border emptyborder = BorderFactory.createEmptyBorder(10,10,10,10);
             JPanel temp = new JPanel();
-            JLabel lbl = new JLabel(entry.getValue().toString());
+            temp.setLayout(null);
+            JLabel lbl = new JLabel(entry.getValue().toStringGUI());
+            lbl.setBorder(emptyborder);
+            lbl.setBackground(Color.LIGHT_GRAY);
+            lbl.setOpaque(true);
+            lbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             temp.add(lbl);
             view.add(lbl);
             view.frame.pack();
