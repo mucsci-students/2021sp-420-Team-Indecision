@@ -278,6 +278,12 @@ public class Class implements Serializable{
         return result;
 	}
 	
+	public String toStringGUI() {
+		String result = "<html>" + this.getName() + "<br/> Fields:" + this.printFields() + " <br/> Methods:" + this.printMethods() + "<br/> Relationships:" + this.printRelationships() + "</html>"; 
+        return result;
+	}
+
+	
 	/** Compares two class objects for equality.
 	 * @param classObject A Class that will be compared to this class. 
 	 * @return A boolean if the classes equal each other false if not.
