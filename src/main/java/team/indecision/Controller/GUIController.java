@@ -14,7 +14,6 @@ import team.indecision.Model.Method;
 import team.indecision.Model.Relationship;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Iterator;
 
 public class GUIController {
 
