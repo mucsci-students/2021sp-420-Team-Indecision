@@ -1,1 +1,0 @@
-{"Test":{"name":"Test","fields":[{"name":"Field"}],"methods":[{"name":"Method1","parameters":["param1","param2"]}],"relationships":[{"destination":"Test2","type":"Aggregation"}]},"Test2":{"name":"Test2","fields":[],"methods":[],"relationships":[]}}
