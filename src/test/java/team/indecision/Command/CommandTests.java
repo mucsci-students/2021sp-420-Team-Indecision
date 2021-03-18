@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Test;
 import team.indecision.Model.Classes;
 
-public class CommandTestSuite {
+public class CommandTests {
 	
 	@Test
 	public void addClassCommand() {

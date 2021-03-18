@@ -54,16 +54,25 @@ public class GUIController {
 		model.setBackup(deepCopy.getClasses());
 		String response = command.execute();
 		if (command.getStateChange()) {
-			history.push(command, new Memento(model));
+			history.pushUndo(command, new Memento(model));
 		}
 		return response;
 	}
     
     private String undo() {
 		String response = "You can no longer undo.";
-		if (!history.isEmpty()) {
+		if (!history.isEmptyUndo()) {
 			history.undo();
 			response = "The last command that changed the state has been undone.";
+		}
+		return response;
+	}
+    
+    private String redo() {
+		String response = "You can no longer redo.";
+		if (!history.isEmptyRedo()) {
+			Command c = history.redo();
+			response = executeCommand(c);
 		}
 		return response;
 	}
@@ -445,7 +454,9 @@ public class GUIController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+            	String response = redo();
+                JOptionPane.showMessageDialog(view.frame, response);
+                refreshJFrame();
             }
         };
     }
