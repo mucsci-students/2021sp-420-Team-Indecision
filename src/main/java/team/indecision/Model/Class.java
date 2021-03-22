@@ -22,6 +22,10 @@ public class Class implements Serializable{
 	private SortedSet<Method> methods = new TreeSet<Method>();
 	//Stores the relationships for the class.
 	private SortedSet<Relationship> relationships = new TreeSet<Relationship>();
+	//Stores GUI location data
+	private int x;
+	//Stores GUI location data
+	private int y;
 	
 	/** Constructs an uninitialized instance of the object.
 	 * 
@@ -295,5 +299,22 @@ public class Class implements Serializable{
         }
         return result;
     }
+	
+	
+	public int getXLocation() {
+		return x;
+	}
+	
+	public int getYLocation() {
+		return y;
+	}
+	
+	public void setXLocation(int xP) {
+		x = xP;
+	}
+	
+	public void setYLocation(int yP) {
+		y = yP;
+	}
 }
 

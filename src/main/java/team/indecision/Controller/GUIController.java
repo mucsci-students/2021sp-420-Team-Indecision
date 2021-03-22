@@ -2,6 +2,8 @@ package team.indecision.Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.Color;
 import java.awt.Cursor;
 
@@ -26,7 +28,7 @@ import team.indecision.Model.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GUIController {
+public class GUIController extends JPanel implements MouseMotionListener{
     private Classes model;
     private GUI view;
     private History history;
@@ -731,5 +733,17 @@ public class GUIController {
             view.frame.pack();
         }
     }
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

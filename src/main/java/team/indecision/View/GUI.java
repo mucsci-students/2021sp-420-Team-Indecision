@@ -2,6 +2,7 @@ package team.indecision.View;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -9,7 +10,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-public class GUI extends JPanel {
+public class GUI extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 	public JFrame frame;
@@ -20,7 +21,7 @@ public class GUI extends JPanel {
 		frame = new JFrame("UML - Team Indecision");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(1280, 720));
-
+		frame.setLayout(null); //enables us to moves labels
 		try {
          	UIManager.setLookAndFeel(
             	UIManager.getSystemLookAndFeelClassName());
@@ -124,5 +125,4 @@ public class GUI extends JPanel {
 		
 		menuBar.getMenu(menuPosition).getItem(menuItemPosition).addActionListener(listener);
 	}
-
 }
