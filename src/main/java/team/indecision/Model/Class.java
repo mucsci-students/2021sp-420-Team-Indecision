@@ -46,12 +46,16 @@ public class Class implements Serializable{
 	 * @param fieldsP The class fields name.
 	 * @param methodsP The class methods name.
 	 * @param relationshipsP The class relationships name.
+	 * @param xP 
+	 * @param yP 
 	 */
-	public Class(String nameP, SortedSet<Field> fieldsP, SortedSet<Method> methodsP, SortedSet<Relationship> relationshipsP) {
+	public Class(String nameP, SortedSet<Field> fieldsP, SortedSet<Method> methodsP, SortedSet<Relationship> relationshipsP, int xP, int yP) {
 		name = nameP;
 		fields = fieldsP;
 		methods = methodsP;
 		relationships = relationshipsP;
+		x = xP;
+		y = yP;
 	}
 	
 	/** Gets the class's name.
