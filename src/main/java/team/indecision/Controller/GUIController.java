@@ -715,7 +715,7 @@ public class GUIController extends JPanel implements MouseMotionListener{
      * Removes all the elements from the frame and adds them back with updated data.
      * This allows the frame to refresh so the most updated content is shown.
      */
-    public void refreshJFrame() {
+    public void refreshJFrame1() {
         view.removeAll();
         view.revalidate();
         view.repaint();
@@ -733,12 +733,12 @@ public class GUIController extends JPanel implements MouseMotionListener{
             view.frame.pack();
         }
     }
-    public void refreshJFrame3() {
-        //view.frame.repaint();
+    public void refreshJFrame() {
         for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
             Border emptyborder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 
-            JPanel panel = new JPanel(null);
+            JPanel panel = new JPanel();
+            panel.setLayout(null);
             JLabel label = new JLabel();
 
             label.setLocation(150, 20);

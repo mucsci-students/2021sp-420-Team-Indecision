@@ -21,7 +21,7 @@ public class GUI extends JPanel{
 		frame = new JFrame("UML - Team Indecision");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(1280, 720));
-		frame.setLayout(null); //enables us to moves labels
+		//frame.setLayout(null); //enables us to moves labels
 		try {
          	UIManager.setLookAndFeel(
             	UIManager.getSystemLookAndFeelClassName());
