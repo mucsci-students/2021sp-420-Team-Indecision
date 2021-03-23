@@ -733,17 +733,28 @@ public class GUIController extends JPanel implements MouseMotionListener{
             view.frame.pack();
         }
     }
+    public void refreshJFrame3() {
+        //view.frame.repaint();
+        for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
+            Border emptyborder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+            JPanel panel = new JPanel(null);
+            JLabel label = new JLabel();
 
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+            label.setLocation(150, 20);
+            label.setText(entry.getValue().toStringGUI());
+            label.setBorder(emptyborder);
+            label.setBackground(Color.LIGHT_GRAY);
+            label.setOpaque(true);
+            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            label.setSize(label.getPreferredSize());
+
+            panel.add(label);
+            view.frame.add(panel);
+            view.frame.pack();
+
+        }
+    }
+
 
 }
