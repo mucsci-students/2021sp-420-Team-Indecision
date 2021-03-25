@@ -6,14 +6,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.Color;
 import java.awt.Cursor;
-
+import java.awt.Dimension;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.awt.event.MouseListener;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 import team.indecision.View.GUI;
@@ -26,12 +29,18 @@ import team.indecision.Model.Method;
 import team.indecision.Model.Relationship;
 import team.indecision.Model.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class GUIController extends JPanel implements MouseMotionListener{
+public class GUIController extends JPanel implements  MouseListener, MouseMotionListener{
     private Classes model;
     private GUI view;
     private History history;
+    private int lastX;
+    private int lastY;
+
+    private HashMap<String, JPanel> customJPanels = new HashMap<String, JPanel>();
 
     public GUIController() {
 
@@ -734,26 +743,118 @@ public class GUIController extends JPanel implements MouseMotionListener{
         }
     }
     public void refreshJFrame() {
+
+        // keep track of these panels 
+
+
         for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
             Border emptyborder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 
             JPanel panel = new JPanel();
-            panel.setLayout(null);
+            panel.setSize(new Dimension(100, 100));
             JLabel label = new JLabel();
 
-            label.setLocation(150, 20);
             label.setText(entry.getValue().toStringGUI());
             label.setBorder(emptyborder);
             label.setBackground(Color.LIGHT_GRAY);
             label.setOpaque(true);
             label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            label.setSize(label.getPreferredSize());
 
             panel.add(label);
-            view.frame.add(panel);
-            view.frame.pack();
+            
+            //panel.setLocation(150, 20);
+            panel.addMouseListener(this);
+            panel.addMouseMotionListener(this);
+            customJPanels.put(entry.getValue().getName(), panel);
 
         }
+        placeJPanles();
+    }
+    public void placeJPanles(){
+        view.removeAll();
+        view.revalidate();
+        for(Map.Entry<String, JPanel> entry : customJPanels.entrySet()) {
+            JPanel panel = entry.getValue();
+            view.add(panel); 
+
+        }
+        view.revalidate();
+        view.repaint();
+
+    }
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// Get the source of the mouse event
+		Object source = e.getSource();
+
+		// Check if press is a left click
+		if(SwingUtilities.isLeftMouseButton(e)) {
+			// Loop through GUI classes and check if it triggered the event
+			for(Map.Entry<String, JPanel> entry : customJPanels.entrySet()) {
+				JPanel panel = entry.getValue();
+				if(source == panel) {
+					// Set location of GUIClass
+					int newX = e.getLocationOnScreen().x - lastX;
+					int newY = e.getLocationOnScreen().y - lastY;
+					panel.setLocation(newX, newY);
+					
+					lastX = e.getLocationOnScreen().x - panel.getX();
+					lastY = e.getLocationOnScreen().y - panel.getY();
+	
+					// If the user is dragging a class then repaint in case the class has a relationship
+                    view.frame.revalidate();
+                    view.frame.repaint();				
+					break;
+				}
+			}
+		}
+	}
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        Object source = e.getSource();
+        if(SwingUtilities.isLeftMouseButton(e)) {
+			for(Map.Entry<String, JPanel> entry : customJPanels.entrySet()) {
+				JPanel panel = entry.getValue(); 
+				
+				if(source == panel) {
+					lastX = e.getLocationOnScreen().x - panel.getX();
+					lastY = e.getLocationOnScreen().y - panel.getY();	
+                    System.out.println("Clicked");
+    			}
+			}
+		}
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 
 
