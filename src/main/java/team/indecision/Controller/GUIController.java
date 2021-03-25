@@ -833,7 +833,6 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
 				if(source == panel) {
 					lastX = e.getLocationOnScreen().x - panel.getX();
 					lastY = e.getLocationOnScreen().y - panel.getY();	
-                    System.out.println("Clicked");
     			}
 			}
 		}
