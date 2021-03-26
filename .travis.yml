@@ -1,5 +1,5 @@
 name: CI testing with mvn
-
+language: java
 on: [ push, pull_request ]
 
 jobs:
