@@ -1,0 +1,4 @@
+language: java
+java-version: oraclejdk11
+sudo: false
+script: mvn clean verify
