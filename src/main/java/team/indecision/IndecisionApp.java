@@ -13,7 +13,7 @@ public final class IndecisionApp {
 		Classes model = new Classes();
 		
 		if((args.length == 1) && (args[0].equals("-cli"))) {
-			CLI view = new CLI(new InputStreamReader(System.in));
+			CLI view = new CLI();
 			@SuppressWarnings("unused")
 			CLIController controller = new CLIController(model, view);
 		}else if (args.length == 0){
