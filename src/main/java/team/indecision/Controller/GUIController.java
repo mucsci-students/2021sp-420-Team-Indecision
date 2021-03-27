@@ -32,13 +32,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+ 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 public class GUIController extends JPanel implements  MouseListener, MouseMotionListener{
     private Classes model;
     private GUI view;
     private History history;
-    private int lastX;
-    private int lastY;
+    private int previousX;
+    private int previousY;
 
     private HashMap<String, JPanel> customJPanels = new HashMap<String, JPanel>();
 
@@ -719,93 +733,92 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             
         }
     }
+    public void paintComponent(Graphics g)
+    {
+        //Here we call the parent to setout our paint component from given
+        //graphics g and we establish our 2D graphics variable g2d also based
+        //upon graphics g.
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        System.out.println("Hello");
 
+        //loop through and draw each shape in the shapes arraylist and draw
+        //them according to g2d.
+
+        }
+        
+    
     /**
      * Removes all the elements from the frame and adds them back with updated data.
      * This allows the frame to refresh so the most updated content is shown.
      */
-    public void refreshJFrame1() {
-        view.removeAll();
-        view.revalidate();
-        view.repaint();
-        for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
-            Border emptyborder = BorderFactory.createEmptyBorder(10,10,10,10);
-            JPanel temp = new JPanel();
-            temp.setLayout(null);
-            JLabel lbl = new JLabel(entry.getValue().toStringGUI());
-            lbl.setBorder(emptyborder);
-            lbl.setBackground(Color.LIGHT_GRAY);
-            lbl.setOpaque(true);
-            lbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            temp.add(lbl);
-            view.add(lbl);
-            view.frame.pack();
-        }
-    }
+
     public void refreshJFrame() {
-
-        // keep track of these panels 
-
-
+        if(!(customJPanels.isEmpty())) {
+            customJPanels.clear();
+        }
         for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
             Border emptyborder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 
             JPanel panel = new JPanel();
-            panel.setSize(new Dimension(100, 100));
+            //panel.setSize(new Dimension(100, 100));
+            //panel.setBounds(200, 200, 200, 200);
             JLabel label = new JLabel();
+
+            panel.setOpaque(false);
 
             label.setText(entry.getValue().toStringGUI());
             label.setBorder(emptyborder);
             label.setBackground(Color.LIGHT_GRAY);
+            //panel.setBackground(Color.GREEN);
             label.setOpaque(true);
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            //label.setPreferredSize(new Dimension(100,100));
+            panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+            panel.setLayout(new GridBagLayout());
+
 
             panel.add(label);
-            
-            //panel.setLocation(150, 20);
             panel.addMouseListener(this);
             panel.addMouseMotionListener(this);
             customJPanels.put(entry.getValue().getName(), panel);
 
+            view.frame.pack();
         }
-        placeJPanles();
+        placeJPanels();
     }
-    public void placeJPanles(){
+    public void placeJPanels(){
         view.removeAll();
-        view.revalidate();
+        view.repaint();
         for(Map.Entry<String, JPanel> entry : customJPanels.entrySet()) {
             JPanel panel = entry.getValue();
+            panel.setBounds(model.getClasses().get(entry.getKey()).getXLocation(), model.getClasses().get(entry.getKey()).getYLocation(), 200,  200);
             view.add(panel); 
-
         }
         view.revalidate();
         view.repaint();
-
     }
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// Get the source of the mouse event
 		Object source = e.getSource();
 
-		// Check if press is a left click
 		if(SwingUtilities.isLeftMouseButton(e)) {
-			// Loop through GUI classes and check if it triggered the event
 			for(Map.Entry<String, JPanel> entry : customJPanels.entrySet()) {
 				JPanel panel = entry.getValue();
 				if(source == panel) {
-					// Set location of GUIClass
-					int newX = e.getLocationOnScreen().x - lastX;
-					int newY = e.getLocationOnScreen().y - lastY;
+					int newX = e.getLocationOnScreen().x - previousX;
+					int newY = e.getLocationOnScreen().y - previousY;
+
 					panel.setLocation(newX, newY);
 					
-					lastX = e.getLocationOnScreen().x - panel.getX();
-					lastY = e.getLocationOnScreen().y - panel.getY();
-	
-					// If the user is dragging a class then repaint in case the class has a relationship
-                    view.frame.revalidate();
-                    view.frame.repaint();				
-					break;
+					previousX = e.getLocationOnScreen().x - panel.getX();
+					previousY = e.getLocationOnScreen().y - panel.getY();
+                    model.getClasses().get(entry.getKey()).setXLocation(panel.getX());
+                    model.getClasses().get(entry.getKey()).setYLocation(panel.getY());
+
+                    view.revalidate();
+                    view.repaint();				
 				}
 			}
 		}
@@ -831,8 +844,8 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
 				JPanel panel = entry.getValue(); 
 				
 				if(source == panel) {
-					lastX = e.getLocationOnScreen().x - panel.getX();
-					lastY = e.getLocationOnScreen().y - panel.getY();	
+					previousX = e.getLocationOnScreen().x - panel.getX();
+					previousY = e.getLocationOnScreen().y - panel.getY();	
     			}
 			}
 		}

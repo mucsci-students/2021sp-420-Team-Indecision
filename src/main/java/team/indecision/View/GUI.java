@@ -2,6 +2,7 @@ package team.indecision.View;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
@@ -24,10 +25,9 @@ public class GUI extends JPanel{
 	public GUI() {
 		
 		frame = new JFrame("UML - Team Indecision");
+		setLayout(null); 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(1280, 720));
-		setLayout(null); 
-
 
 		try {
          	UIManager.setLookAndFeel(

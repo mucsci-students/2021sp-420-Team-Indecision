@@ -287,7 +287,7 @@ public class Class implements Serializable{
 	}
 	
 	public String toStringGUI() {
-		String result = "<html>" + this.getName() + "<br/> Fields:" + this.printFields() + " <br/> Methods:" + this.printMethods() + "<br/> Relationships:" + this.printRelationships() + "</html>"; 
+		String result = "<html>" + this.getName() + "<hr/> Fields:" + this.printFields() + " <hr/> Methods:" + this.printMethods() + "<hr/> Relationships:" + this.printRelationships() + "</html>"; 
         return result;
 	}
 
