@@ -1,5 +1,6 @@
 package team.indecision.Model;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
@@ -10,8 +11,9 @@ import java.util.TreeSet;
  * @version 1.0
  * @since 1.0
  */
-public class Class {
+public class Class implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	//Stores the class name.
 	private String name;
 	//Stores the fields for the class.
@@ -20,6 +22,10 @@ public class Class {
 	private SortedSet<Method> methods = new TreeSet<Method>();
 	//Stores the relationships for the class.
 	private SortedSet<Relationship> relationships = new TreeSet<Relationship>();
+	//Stores GUI location data
+	private int x;
+	//Stores GUI location data
+	private int y;
 	
 	/** Constructs an uninitialized instance of the object.
 	 * 
@@ -40,12 +46,16 @@ public class Class {
 	 * @param fieldsP The class fields name.
 	 * @param methodsP The class methods name.
 	 * @param relationshipsP The class relationships name.
+	 * @param xP 
+	 * @param yP 
 	 */
-	public Class(String nameP, SortedSet<Field> fieldsP, SortedSet<Method> methodsP, SortedSet<Relationship> relationshipsP) {
+	public Class(String nameP, SortedSet<Field> fieldsP, SortedSet<Method> methodsP, SortedSet<Relationship> relationshipsP, int xP, int yP) {
 		name = nameP;
 		fields = fieldsP;
 		methods = methodsP;
 		relationships = relationshipsP;
+		x = xP;
+		y = yP;
 	}
 	
 	/** Gets the class's name.
@@ -276,6 +286,12 @@ public class Class {
         return result;
 	}
 	
+	public String toStringGUI() {
+		String result = "<html>" + this.getName() + "<hr/> Fields:" + this.printFields() + " <hr/> Methods:" + this.printMethods() + "<hr/> Relationships:" + this.printRelationships() + "</html>"; 
+        return result;
+	}
+
+	
 	/** Compares two class objects for equality.
 	 * @param classObject A Class that will be compared to this class. 
 	 * @return A boolean if the classes equal each other false if not.
@@ -287,5 +303,22 @@ public class Class {
         }
         return result;
     }
+	
+	
+	public int getXLocation() {
+		return x;
+	}
+	
+	public int getYLocation() {
+		return y;
+	}
+	
+	public void setXLocation(int xP) {
+		x = xP;
+	}
+	
+	public void setYLocation(int yP) {
+		y = yP;
+	}
 }
 

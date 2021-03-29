@@ -1,5 +1,6 @@
 package team.indecision.Model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /** Represents a Method in the UML model.
@@ -7,8 +8,9 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public class Method implements Comparable<Method>{
-	
+public class Method implements Comparable<Method>, Serializable{
+
+	private static final long serialVersionUID = 1L;
 	// stores the method name.
 	private String name;
 	// stores the methods parameter list.
@@ -82,8 +84,14 @@ public class Method implements Comparable<Method>{
 	 */
 	@Override
 	public int compareTo(Method o) {
-		int name = this.name.compareTo(o.getName()); 
-		return name;
+		int nameDiff = this.name.compareTo(o.getName());
+		if (nameDiff != 0) {
+			return nameDiff;
+		}
+		if (parameters.equals(o.getParameters())) {
+			return 0;
+		}
+		return -1;
 	}
 	
 }

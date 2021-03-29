@@ -4,6 +4,27 @@
   <artifactId>csci420</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <dependencies>
+  
+  <dependency>
+    <groupId>org.jline</groupId>
+    <artifactId>jline</artifactId>
+    <version>3.19.0</version>
+</dependency>
+  
+  
+  <!-- https://mvnrepository.com/artifact/org.fusesource.jansi/jansi -->
+<dependency>
+    <groupId>org.fusesource.jansi</groupId>
+    <artifactId>jansi</artifactId>
+    <version>2.3.2</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.jline/jline-terminal-jansi -->
+<dependency>
+    <groupId>org.jline</groupId>
+    <artifactId>jline-terminal-jansi</artifactId>
+    <version>3.19.0</version>
+</dependency>
   	
 	<dependency>
 	    <groupId>junit</groupId>
@@ -47,6 +68,13 @@
     <version>2.8.0</version>
 </dependency>
 
+<!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+<dependency>
+    <groupId>commons-lang</groupId>
+    <artifactId>commons-lang</artifactId>
+    <version>2.6</version>
+</dependency>
+
 	
 	
   </dependencies>
@@ -57,8 +85,18 @@
   	<maven.compiler.source>1.8</maven.compiler.source>
   	<maven.compiler.target>1.8</maven.compiler.target>
   </properties>
-  <build>    <plugins>
-  		
+  <build>    
+  <plugins>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
+        </plugin>
+
   		<plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
