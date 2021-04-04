@@ -8,6 +8,8 @@
 
 # CLI Commands
 
+As of update 3.0, our CLI interface comes with tab completion. Tab completion allows you to autocomplete commands. For example, if you wish to delete a class you could simply type "del" + tab, then the delete function will fill, and after that you would type "cl" tab, and class will autofill.
+
 	ADD
 	add class class_name - adds a class
 	add field class_name attr_name - adds field to a desired class
@@ -30,6 +32,10 @@
 	list class class_name - list single class and all its components
 	list classes - list all classes
 	list rel - lists all relationships between classes
+	
+	UNDO/REDO
+	undo - Restores the state of the application to the previously called command.
+	redo - If undo is called, redo allows you to return to the function call prior to the undo call. 
 	
 	SAVE/LOAD/EXIT
 	save file_name - saves a file to x-destination with the given file name in .json format
@@ -55,6 +61,16 @@ Our GUI comes with all of the same features as the Command Line Interface. All o
 	Delete Method - enter the desired class name, enter the desired method name, enter the list of parameters
 	Edit Method Name - enter desired class name, enter the current method, enter the new method name
 	Edit Method Parameters - enter the desired class name, enter the desired method name, enter the list of parameters
+	
+	RELATIONSHIP TAB
+	Add Relationship - choose the desired starting class, choose the receiving class, choose the relationship type. 
+	Delete Relationship - choose the class that hosts the relationship, choose the specific relationship to be deleted.
+	Edit Relationship Destination - enter the name of the host class, enter the name of the old class destination, enter the new class destination. 
+	Edit Relationship Type - Choose the host class, choose the relationship with the type you would like to change, choose the new relationship type. 
+	
+	UNDO/REDO
+	Undo - Restores the state of the application to the previously called command. For example, if you call "add class test", then undo, the test class will disappear.
+	Redo - If undo is called, redo allows you to return to the application state prior to the undo call. If we take the example above for undo, and called redo, the test class will be added back to the application.
 	
 	SAVE AND LOAD TAB
 	Save - enter the desired file name. This will then save the file to .json format automatically.
