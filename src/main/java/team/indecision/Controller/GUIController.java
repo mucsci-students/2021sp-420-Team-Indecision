@@ -604,30 +604,21 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
     public List<String> promptMultipleInput(String message) {
         List<String> parameters = new ArrayList<String>();
 
+        
         String input = JOptionPane.showInputDialog(view.frame, message);
+        if(input.equals(null)){
+            return null;
+        }
+        else {
         input.replaceAll("\\s", "");
         String[] token = input.split(",");
 
         parameters.addAll(Arrays.asList(token));
 
         System.out.println(parameters.toString());
-        /*
-        boolean bool = true;
-        while (bool) {
-            String parameter = JOptionPane.showInputDialog(view.frame, message);
-            if (parameter != null) {
-                parameters.add(parameter);
-                int confirmed = JOptionPane.showConfirmDialog(null, "Are you done entering parameters?",
-                        "Exit Program Message Box", JOptionPane.YES_NO_OPTION);
-                if (confirmed == JOptionPane.YES_OPTION) {
-                    bool = false;
-                }
-            } else {
-                bool = false;
-            }
+            return parameters;
+
         }
-        */
-        return parameters;
     }
 
     /**

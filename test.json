@@ -1,1 +1,1 @@
-{"a":{"name":"a","fields":[],"methods":[],"relationships":[],"ylocation":217,"xlocation":671},"aa":{"name":"aa","fields":[],"methods":[],"relationships":[],"ylocation":225,"xlocation":296}}
+{"a":{"name":"a","fields":[],"methods":[{"name":"Method 1","parameters":["param1"," param2"," param3"]}],"relationships":[],"ylocation":217,"xlocation":671},"aa":{"name":"aa","fields":[],"methods":[],"relationships":[],"ylocation":225,"xlocation":296}}
