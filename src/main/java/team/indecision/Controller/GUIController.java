@@ -614,9 +614,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         String[] token = input.split(",");
 
         parameters.addAll(Arrays.asList(token));
-
-        System.out.println(parameters.toString());
-            return parameters;
+        return parameters;
 
         }
     }
