@@ -133,6 +133,9 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     JOptionPane.showMessageDialog(view.frame, response);
                     refreshJFrame();
                 }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No class was added.");
+                }
             }
         };
     }
@@ -153,6 +156,9 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     JOptionPane.showMessageDialog(view.frame, response);
                     refreshJFrame();
                 }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No class was deleted.");
+                }
             }
         };
     }
@@ -163,22 +169,6 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      * 
      * @return An ActionListener is sent back to the GUI so the data is passed back.
      */
-    public ActionListener renameClassListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String original = promptClassDropDown("Enter the class you want to rename.");
-                if (original != null) {
-                    String newClassName = promptInput("Enter the new name of the class.");
-                    if (newClassName != null) {
-                        String response = executeCommand(new EditClassNameCommand(model, original, newClassName));
-                        JOptionPane.showMessageDialog(view.frame, response);
-                        refreshJFrame();
-                    }
-                }
-            }
-        };
-    }
 
     public ActionListener editClassNameListener() {
         return new ActionListener() {
@@ -192,6 +182,13 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
+                    else {
+                        JOptionPane.showMessageDialog(view.frame, "No class was renamed.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No class was renamed.");
+
                 }
             }
         };
@@ -220,6 +217,12 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
+                    else {
+                        JOptionPane.showMessageDialog(view.frame, "No field was added.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No field was added.");
                 }
             }
         };
@@ -239,12 +242,18 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                 if (className != null) {
                     Field deletedField = promptFieldDropDown(className, "Enter the field name to be deleted.");
                     if (deletedField != null) {
-                        String response = executeCommand(
-                                new DeleteFieldCommand(model, className, deletedField.getName()));
+                        String response = executeCommand(new DeleteFieldCommand(model, className, deletedField.getName()));
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
+                    else {
+                        JOptionPane.showMessageDialog(view.frame, "No field was deleted.");
+                    }
                 }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No field was deleted.");
+                }
+
             }
         };
     }
@@ -270,7 +279,16 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
+                        else {
+                            JOptionPane.showMessageDialog(view.frame, "No field was renamed.");
+                        }
                     }
+                    else { 
+                        JOptionPane.showMessageDialog(view.frame, "No field was renamed.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No field was renamed.");
                 }
             }
         };
@@ -302,7 +320,16 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
+                        else {
+                            JOptionPane.showMessageDialog(view.frame, "No method was added.");
+                        }
                     }
+                    else {
+                        JOptionPane.showMessageDialog(view.frame, "No method was added.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No method was added.");
                 }
             }
         };
@@ -327,6 +354,12 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
+                    else {
+                        JOptionPane.showMessageDialog(view.frame, "No method was deleted.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No method was deleted.");
                 }
             }
         };
@@ -354,7 +387,16 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
+                        else {
+                            JOptionPane.showMessageDialog(view.frame, "No method name was changed.");
+                        }
                     }
+                    else {
+                        JOptionPane.showMessageDialog(view.frame, "No method name was changed.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No method name was changed.");
                 }
             }
         };
@@ -383,7 +425,17 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
+                        else {
+                            JOptionPane.showMessageDialog(view.frame, "No method parameters were changed.");
+                        }
                     }
+                    else {
+                        JOptionPane.showMessageDialog(view.frame, "No method parameters were changed.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No method parameters were changed.");
+
                 }
             }
         };
@@ -415,7 +467,16 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
+                        else {
+                            JOptionPane.showMessageDialog(view.frame, "No relationship was added.");
+                        }
                     }
+                    else {
+                        JOptionPane.showMessageDialog(view.frame, "No relationship was added.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No relationship was added.");
                 }
             }
         };
@@ -441,7 +502,12 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
-
+                    else {
+                        JOptionPane.showMessageDialog(view.frame, "No relationship was deleted.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No relationship was deleted.");
                 }
             }
         };
@@ -469,7 +535,16 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
+                        else {
+                            JOptionPane.showMessageDialog(view.frame, "No relationship was changed.");
+                        }
                     }
+                    else {
+                        JOptionPane.showMessageDialog(view.frame, "No relationship was changed.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No relationship was changed.");
                 }
             }
         };
@@ -498,7 +573,16 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
+                        else {
+                            JOptionPane.showMessageDialog(view.frame, "No relationship was changed.");
+                        }
                     }
+                    else {
+                        JOptionPane.showMessageDialog(view.frame, "No relationship was changed.");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No relationship was changed.");
                 }
             }
         };
@@ -522,6 +606,9 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     String response = executeCommand(new SaveJSONCommand(model, fileName));
                     JOptionPane.showMessageDialog(view.frame, response);
                 }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "Nothing was saved.");
+                }
             }
         };
     }
@@ -539,7 +626,9 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                 String fileName = promptInput("Enter file name to load.");
                 if (fileName != null) {
                     String response = executeCommand(new LoadJSONCommand(model, fileName));
-                    JOptionPane.showMessageDialog(view.frame, response);
+                    if (response.equals("Not a valid json file or the file does not exist.")){
+                        JOptionPane.showMessageDialog(view.frame, response);
+                    }
                     refreshJFrame();
                 }
             }
