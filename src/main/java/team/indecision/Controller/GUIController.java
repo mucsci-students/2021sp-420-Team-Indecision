@@ -29,6 +29,7 @@ import team.indecision.Model.Method;
 import team.indecision.Model.Relationship;
 import team.indecision.Model.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -294,7 +295,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                 if (className != null) {
                     String methodName = promptInput("Enter new method name.");
                     if (methodName != null) {
-                        List<String> parameters = promptMultipleInput("Enter new method parameters.");
+                        List<String> parameters = promptMultipleInput("Enter new method parameters seperated with commas.");
                         if (parameters != null) {
                             String response = executeCommand(
                                     new AddMethodCommand(model, className, methodName, parameters));
@@ -375,7 +376,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     Method methodToChange = prompMethodDropDown(className,
                             "Select the method you want to change parametes of.");
                     if (methodToChange != null) {
-                        List<String> newParameters = promptMultipleInput("Enter new method parameters.");
+                        List<String> newParameters = promptMultipleInput("Enter new method parameters seperated with commas.");
                         if (newParameters != null) {
                             String response = executeCommand(new EditMethodParametersCommand(model, className,
                                     methodToChange.getName(), methodToChange.getParameters(), newParameters));
@@ -602,21 +603,20 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      */
     public List<String> promptMultipleInput(String message) {
         List<String> parameters = new ArrayList<String>();
-        boolean bool = true;
-        while (bool) {
-            String parameter = JOptionPane.showInputDialog(view.frame, message);
-            if (parameter != null) {
-                parameters.add(parameter);
-                int confirmed = JOptionPane.showConfirmDialog(null, "Are you done entering parameters?",
-                        "Exit Program Message Box", JOptionPane.YES_NO_OPTION);
-                if (confirmed == JOptionPane.YES_OPTION) {
-                    bool = false;
-                }
-            } else {
-                bool = false;
-            }
+
+        
+        String input = JOptionPane.showInputDialog(view.frame, message);
+        if(input.equals(null)){
+            return null;
         }
+        else {
+        input.replaceAll("\\s", "");
+        String[] token = input.split(",");
+
+        parameters.addAll(Arrays.asList(token));
         return parameters;
+
+        }
     }
 
     /**
