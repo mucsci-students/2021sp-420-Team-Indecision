@@ -22,20 +22,19 @@ public class LoadJSONCommand implements Command {
 	}
 	
 	@Override
-	public String execute() {
-		String response;
-		fileName = fileName.concat(".json");
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			SortedMap<String, Class> classes = objectMapper.readValue(Paths.get(fileName).toFile(), new TypeReference<SortedMap<String, Class>>() {});
-			model.setClasses(classes);
-			response = "Your data has been loaded from a JSON file in your program's root directory";
-			stateChange = true;
-		} catch (Exception ex) {
-			response = "Not a valid json file or the file does not exist.";
-		}
-		return response;
-	}
+    public String execute() {
+        String response;
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            SortedMap<String, Class> classes = objectMapper.readValue(Paths.get(fileName).toFile(), new TypeReference<SortedMap<String, Class>>() {});
+            model.setClasses(classes);
+            response = "Your data has been loaded from a JSON file in your program's root directory";
+            stateChange = true;
+        } catch (Exception ex) {
+            response = "Not a valid json file or the file does not exist.";
+        }
+        return response;
+    }
 
 	@Override
 	public boolean getStateChange() {

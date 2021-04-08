@@ -1,5 +1,8 @@
 package team.indecision.Command;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import team.indecision.Model.Classes;
@@ -17,19 +20,18 @@ public class SaveJSONCommand implements Command {
 	}
 	
 	@Override
-	public String execute() {
-		String response;
-		fileName = fileName.concat(".json");
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.writeValue(Paths.get(fileName).toFile(), model.getClasses());
-			response = "Your data has been saved to a JSON file in your program's root directory.";
-		} catch (Exception ex) {
-			System.out.println("Not a valid file name.");
-			response = "Not a valid file name.";
-		}	
-		return response;
-	}
+    public String execute() {
+        String response;
+        try {
+                File f = new File(fileName);
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.writeValue(f, model.getClasses());
+                response = "Your data has been saved to a JSON file in your program's root directory.";
+        } catch (Exception ex) {
+            response = "Not a valid path or filename.";
+        }
+        return response;
+    }
 
 	@Override
 	public boolean getStateChange() {
