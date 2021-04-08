@@ -105,7 +105,7 @@ public class GUI extends JPanel{
 		
 		JMenu saveAndLoadMenu = new JMenu("Save and Load");
 		menuBar.add(saveAndLoadMenu);
-				
+		
 		JMenuItem saveItem = new JMenuItem("Save");
 		saveAndLoadMenu.add(saveItem);
 				
