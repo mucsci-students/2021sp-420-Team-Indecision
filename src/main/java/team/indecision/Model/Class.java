@@ -3,6 +3,7 @@ package team.indecision.Model;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -140,6 +141,21 @@ public class Class implements Serializable{
 		return fields.toString();
 	}
 	
+	
+	/** Prints the fields for this class.
+	 * @return A String containing the class's fields.
+	 */
+	public String printFieldsGUI() {
+			 Iterator<Field> it = fields.iterator();
+			 String result = "";
+			 while (it.hasNext()) {
+				 Field f = it.next();
+				 result += "<br/>     " + f.toString();
+			 }
+			 return result;
+
+	}
+	
 	/** Gets the class's methods.
 	 * @return A SortedSet that stores the class methods.
 	 */
@@ -207,6 +223,17 @@ public class Class implements Serializable{
 	public String printMethods() {
 		return methods.toString();
 	}
+	
+	public String printMethodsGUI() {
+		 Iterator<Method> it = methods.iterator();
+		 String result = "";
+		 while (it.hasNext()) {
+			 Method m = it.next();
+			 result += "<br/>     " + m.toString();
+		 }
+		 return result;
+
+}
 	
 	/** Gets the class's relationships.
 	 * @return A SortedMap that stores the class relationships.
@@ -285,9 +312,11 @@ public class Class implements Serializable{
 		String result = this.getName() + " " + this.printFields() + " " + this.printMethods() + " " + this.printRelationships(); 
         return result;
 	}
-	
+	/** Represents this class in a format suitable for the GUI. Swing uses HTML in its panels. 
+	 * @return A String containing this class.
+	 */
 	public String toStringGUI() {
-		String result = "<html>" + this.getName() + "<hr/> Fields:" + this.printFields() + " <hr/> Methods:" + this.printMethods() + "<hr/> Relationships:" + this.printRelationships() + "</html>"; 
+		String result = "<html>" + this.getName() + "<hr/> Fields:" + this.printFieldsGUI() + " <hr/> Methods:" + this.printMethodsGUI() + "<hr/> Relationships:" + this.printRelationships() + "</html>"; 
         return result;
 	}
 
