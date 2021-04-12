@@ -150,7 +150,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String deletedClass = promptClassDropDown("Delect the class to be deleted.");
+                String deletedClass = promptClassDropDown("Select the class to be deleted.");
                 if (deletedClass != null) {
                     String response = executeCommand(new DeleteClassCommand(model, deletedClass));
                     JOptionPane.showMessageDialog(view.frame, response);
