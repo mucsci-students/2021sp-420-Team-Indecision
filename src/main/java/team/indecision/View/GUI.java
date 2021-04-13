@@ -4,13 +4,32 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.Map.Entry;
 
+import javax.management.relation.Relation;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+
+import team.indecision.Controller.GUIController;
+import team.indecision.Model.Classes;
+import team.indecision.Model.Relationship;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Component;
+import java.awt.Container;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+
 
 public class GUI extends JPanel{
 
@@ -21,8 +40,70 @@ public class GUI extends JPanel{
 	private static final long serialVersionUID = 1L;
 	public JFrame frame;
 	private JMenuBar menuBar;
+	private Classes model;
 	
-	public GUI() {
+	public void paint(Graphics g) {
+		super.paint(g);
+        Graphics2D g2d = (Graphics2D) g;
+ 
+        //g2d.drawLine(120, 50, 360, 50);
+		//controller.printLine();
+		List<Component> list = getAllComponents(this);
+		//System.out.println(list.toString());
+
+		for (Component component : list) {1
+			System.out.println(component.getBounds().toString());
+			//System.out.println(component.toString());
+			//System.out.println(entry.getBounds());
+			//component.repaint();
+		}
+		for (Entry<String, team.indecision.Model.Class> entry : model.getClasses().entrySet()) {
+			if(entry.getValue().getRelationships() != null){
+				//System.out.println(entry.getValue().getRelationships().toString());
+
+
+
+				SortedSet<Relationship> relationships = entry.getValue().getRelationships();
+				Iterator<Relationship> it = relationships.iterator();
+				Relationship r = null;
+				while (it.hasNext()) {
+					r = it.next();
+					System.out.println(r.getDestination());
+					int entryX = entry.getValue().getXLocation();
+					int entryY = entry.getValue().getYLocation();
+					int destinationX = model.getClasses().get(r.getDestination()).getXLocation();
+					int destinationY = model.getClasses().get(r.getDestination()).getYLocation();
+					//System.out.println("entryX: " + entryX + "entryY: " + entryY);
+					//System.out.println("destinationX: " + destinationX + "destinationY: " + destinationY);
+					
+					g2d.drawLine(entryX + 100 , entryY + 100, destinationX + 100, destinationY + 100);
+
+					}
+				
+			}
+		}
+ 
+    }
+	
+
+	public static List<Component> getAllComponents(final Container c) {
+		Component[] comps = c.getComponents();
+		List<Component> compList = new ArrayList<Component>();
+		for (Component comp : comps) {
+			compList.add(comp);
+			if (comp instanceof Container)
+				compList.addAll(getAllComponents((Container) comp));
+		}
+		return compList;
+	}
+
+
+
+	public GUI(Classes modelP) {
+		//controller = controllerP;
+		//List<Component> list = getAllComponents(this);
+		//System.out.println(list.toString());
+		model = modelP;
 		
 		frame = new JFrame("UML - Team Indecision");
 		setLayout(null); 
