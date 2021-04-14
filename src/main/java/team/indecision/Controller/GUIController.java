@@ -85,7 +85,9 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         view.addActionListener(this.undoListener(), 5, 0);
         view.addActionListener(this.redoListener(), 5, 1);
     }
-
+    public void printLine (){
+        System.out.println("hello");
+    }
     private String executeCommand(Command command) {
         Classes deepCopy = (Classes) org.apache.commons.lang.SerializationUtils.clone(model);
         model.setBackup(deepCopy.getClasses());
@@ -811,6 +813,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         if(!(customJPanels.isEmpty())) {
             customJPanels.clear();
         }
+        int i = 0;
         for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
             Border emptyborder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 
@@ -819,7 +822,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             //panel.setBounds(200, 200, 200, 200);
             JLabel label = new JLabel();
 
-            panel.setOpaque(false);
+            panel.setOpaque(true);
 
             label.setText(entry.getValue().toStringGUI());
             label.setBorder(emptyborder);
@@ -830,6 +833,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             panel.setLayout(new GridBagLayout());
+
 
 
             panel.add(label);

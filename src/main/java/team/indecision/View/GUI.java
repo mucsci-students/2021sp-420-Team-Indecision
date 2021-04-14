@@ -3,6 +3,7 @@ package team.indecision.View;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
+import java.awt.Polygon;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.SortedMap;
@@ -28,6 +29,9 @@ import java.awt.Container;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.awt.*;
+import java.awt.geom.Line2D;
+import javax.swing.*;
 
 
 
@@ -45,14 +49,19 @@ public class GUI extends JPanel{
 	public void paint(Graphics g) {
 		super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
+
+
+
+
+
  
         //g2d.drawLine(120, 50, 360, 50);
 		//controller.printLine();
 		List<Component> list = getAllComponents(this);
 		//System.out.println(list.toString());
 
-		for (Component component : list) {1
-			System.out.println(component.getBounds().toString());
+		for (Component component : list) {
+			//System.out.println(component.getBounds().toString());
 			//System.out.println(component.toString());
 			//System.out.println(entry.getBounds());
 			//component.repaint();
@@ -68,16 +77,27 @@ public class GUI extends JPanel{
 				Relationship r = null;
 				while (it.hasNext()) {
 					r = it.next();
-					System.out.println(r.getDestination());
+					//System.out.println(r.getDestination());
 					int entryX = entry.getValue().getXLocation();
 					int entryY = entry.getValue().getYLocation();
 					int destinationX = model.getClasses().get(r.getDestination()).getXLocation();
 					int destinationY = model.getClasses().get(r.getDestination()).getYLocation();
 					//System.out.println("entryX: " + entryX + "entryY: " + entryY);
 					//System.out.println("destinationX: " + destinationX + "destinationY: " + destinationY);
-					
-					g2d.drawLine(entryX + 100 , entryY + 100, destinationX + 100, destinationY + 100);
 
+					Graphics2D g2 = (Graphics2D) g;
+					g2.setStroke(new BasicStroke(5));
+					
+					g2.drawLine(entryX + 100 , entryY + 100, destinationX + 100, destinationY + 100);
+					
+					int xPoly[] = {destinationX + 100, destinationX - 10 + 100, destinationX - 10 + 100};
+					int yPoly[] = {destinationY + 100, destinationY - 10 + 100, destinationY + 10 + 100};
+
+					//System.out.println("x " + xPoly.toString() + "\n" + "y " + yPoly.toString());
+			
+					Polygon triangle = new Polygon(xPoly, yPoly, xPoly.length);
+					g.drawPolygon(triangle);
+					g.fillPolygon(triangle);
 					}
 				
 			}
