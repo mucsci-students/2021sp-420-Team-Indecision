@@ -447,10 +447,10 @@ public class CommandTests {
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth", p);
 		String response = d.execute();
 		assertEquals("The method meth has been added to the class test.", response);
-		assertTrue(model.getClasses().get("test").containsMethod("meth", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type", "meth", p));
     }
 	
 	@Test
@@ -459,7 +459,7 @@ public class CommandTests {
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type", "meth", p);
 		String response = d.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
@@ -473,12 +473,12 @@ public class CommandTests {
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");
-		AddMethodCommand d1 = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d1 = new AddMethodCommand(model, "test", "type","meth", p);
 		d1.execute();
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth", p);
 		String response = d.execute();
 		assertEquals("The method meth already exists with the class test with those parameters.", response);
-		assertTrue(model.getClasses().get("test").containsMethod("meth", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth", p));
     }
 	
 	@Test
@@ -489,12 +489,12 @@ public class CommandTests {
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		AddMethodCommand a = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand a = new AddMethodCommand(model, "test", "type", "meth", p);
 		a.execute();
-		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "meth", p);
+		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "type","meth", p);
 		String response = d.execute();
 		assertEquals("The method meth has been deleted from class test.", response);
-		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
+		assertFalse(model.getClasses().get("test").containsMethod("type","meth", p));
     }
 	
 	@Test
@@ -503,9 +503,9 @@ public class CommandTests {
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		AddMethodCommand a = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand a = new AddMethodCommand(model, "test", "type", "meth", p);
 		a.execute();
-		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "meth", p);
+		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "type", "meth", p);
 		String response = d.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
@@ -519,10 +519,10 @@ public class CommandTests {
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "meth", p);
+		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "type","meth", p);
 		String response = d.execute();
 		assertEquals("The method meth does not exist with the class test.", response);
-		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
+		assertFalse(model.getClasses().get("test").containsMethod("type","meth", p));
     }
 	
 	@Test
@@ -533,13 +533,13 @@ public class CommandTests {
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth", p);
 		d.execute();
-		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
+		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "type","meth", p, "meth1");
 		String response = e.execute();
 		assertEquals("The method meth has been changed to meth1.", response);
-		assertTrue(model.getClasses().get("test").containsMethod("meth1", p));
-		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth1", p));
+		assertFalse(model.getClasses().get("test").containsMethod("type","meth", p));
     }
 	
 	@Test
@@ -548,9 +548,9 @@ public class CommandTests {
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "type","test", "meth", p);
 		d.execute();
-		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
+		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "type","meth", p, "meth1");
 		String response = e.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
@@ -564,10 +564,10 @@ public class CommandTests {
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");
-		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
+		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "type","meth", p, "meth1");
 		String response = e.execute();
 		assertEquals("The method meth does not exist with the class test.", response);
-		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
+		assertFalse(model.getClasses().get("test").containsMethod("type","meth", p));
     }
 	
 	@Test
@@ -578,15 +578,15 @@ public class CommandTests {
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth", p);
 		d.execute();
-		AddMethodCommand d1 = new AddMethodCommand(model, "test", "meth1", p);
+		AddMethodCommand d1 = new AddMethodCommand(model, "test", "type","meth1", p);
 		d1.execute();
-		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
+		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "type","meth", p, "meth1");
 		String response = e.execute();
 		assertEquals("The method meth1 already exists with the class test with those parameters.", response);
-		assertTrue(model.getClasses().get("test").containsMethod("meth", p));
-		assertTrue(model.getClasses().get("test").containsMethod("meth1", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth1", p));
     }
 	
 	@Test
@@ -600,13 +600,13 @@ public class CommandTests {
 		List <String> pn = new ArrayList<String>();
 		pn.add("1");
 		pn.add("2");
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth", p);
 		d.execute();
-		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
+		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "type","meth", p, pn);
 		String response = e.execute();
 		assertEquals("The method parameters of meth has been changed.", response);
-		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
-		assertTrue(model.getClasses().get("test").containsMethod("meth", pn));
+		assertFalse(model.getClasses().get("test").containsMethod("type","meth", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth", pn));
     }
 	
 	@Test
@@ -618,9 +618,9 @@ public class CommandTests {
 		List <String> pn = new ArrayList<String>();
 		pn.add("1");
 		pn.add("2");
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth", p);
 		d.execute();
-		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
+		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "type","meth", p, pn);
 		String response = e.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
@@ -637,15 +637,15 @@ public class CommandTests {
 		List <String> pn = new ArrayList<String>();
 		pn.add("1");
 		pn.add("2");
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth", p);
 		d.execute();
-		AddMethodCommand d1 = new AddMethodCommand(model, "test", "meth", pn);
+		AddMethodCommand d1 = new AddMethodCommand(model, "test", "type","meth", pn);
 		d1.execute();
-		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
+		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "type","meth", p, pn);
 		String response = e.execute();
 		assertEquals("The method meth already exists with the class test with those parameters.", response);
-		assertTrue(model.getClasses().get("test").containsMethod("meth", p));
-		assertTrue(model.getClasses().get("test").containsMethod("meth", pn));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth", pn));
     }
 	
 	@Test
@@ -659,10 +659,57 @@ public class CommandTests {
 		List <String> pn = new ArrayList<String>();
 		pn.add("1");
 		pn.add("2");
-		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
+		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "type","meth", p, pn);
 		String response = e.execute();
 		assertEquals("The method meth does not exist with the class test.", response);
-		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
+		assertFalse(model.getClasses().get("test").containsMethod("type","meth", p));
     }
 	
+	@Test
+	public void saveAndLoadFileTest() {
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model, "test");
+		c.execute();
+		String testFilename = "makeTest.json";
+		SaveJSONCommand testSave = new SaveJSONCommand(model, testFilename);
+		LoadJSONCommand testLoad = new LoadJSONCommand(model, testFilename);
+		assertEquals("Your data has been saved to a JSON file in your program's root directory.", testSave.execute());
+		assertEquals("Your data has been loaded from a JSON file in your program's root directory", testLoad.execute());
+	}
+	
+	@Test
+	public void saveWithInvalidPathTest() {
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model, "test");
+		c.execute();
+		String testFilename = "blah/makeTest.json";
+		SaveJSONCommand testSave = new SaveJSONCommand(model, testFilename);
+		assertEquals("Not a valid path or filename.", testSave.execute());
+	}
+	
+	@Test
+	public void loadNonExistentFile() {
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model, "test");
+		c.execute();
+		String testFilename = "blah.json";
+		LoadJSONCommand testLoad = new LoadJSONCommand(model, testFilename);
+		assertEquals("Not a valid json file or the file does not exist.", testLoad.execute());
+	}
+	
+	@Test
+	public void loadNotValidJsonFile() {
+		//currently accepts all files including pdf's
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model, "test");
+		c.execute();
+		String testFilename = "makeTest.pdf";
+		SaveJSONCommand testSave = new SaveJSONCommand(model, testFilename);
+		LoadJSONCommand testLoad = new LoadJSONCommand(model, testFilename);
+		testSave.execute();
+		assertEquals("Not a valid json file or the file does not exist.", testLoad.execute());
+	}
+	
+	//another test needed for saving invalid filename
+
 }

@@ -158,8 +158,8 @@ public class Class implements Serializable{
 	 * @param newField A String containing the class method name.
 	 * @return A boolean true if it is added and false if it already exists or is not added.
 	 */
-	public boolean addMethod(String newMethod, List<String> newParameters) {
-		Method m = new Method(newMethod, newParameters);
+	public boolean addMethod(String newMethod, List<String> newParameters, String newReturnType) {
+		Method m = new Method(newMethod, newParameters, newReturnType);
 		return methods.add(m);
 	}
 	
@@ -167,8 +167,8 @@ public class Class implements Serializable{
 	 * @param name A String containing the class method name.
 	 * @return A boolean true if it is deleted and false if it does not exist.
 	 */
-	public boolean deleteMethod(String name, List<String> parameters) {
-		Method m = new Method(name, parameters);
+	public boolean deleteMethod(String returnType,String name, List<String> parameters) {
+		Method m = new Method(name, parameters, returnType);
 		return methods.remove(m);
 	}
 	
@@ -176,12 +176,12 @@ public class Class implements Serializable{
 	 * @param name A String containing the class method name.
 	 * @return A Method from the methods set returns null if it does not exist in the set.
 	 */
-	public Method getMethod(String name, List<String> parameters) {
+	public Method getMethod(String returnType, String name, List<String> parameters) {
 		 Iterator<Method> it = methods.iterator();
 		 Method m = null;
 		 while (it.hasNext()) {
 			 m = it.next();
-			 if (m.getName().equals(name) && m.getParameters().equals(parameters)) {
+			 if (m.getReturnType().equals(returnType) && m.getName().equals(name) && m.getParameters().equals(parameters)) {
 				 break;
 			 }
 			 m = null;
@@ -193,9 +193,9 @@ public class Class implements Serializable{
 	 * @param name A String containing the class method name.
 	 * @return Returns true if the method exists.
 	 */
-	public boolean containsMethod(String name, List<String> parameters) {
+	public boolean containsMethod(String returnType, String name, List<String> parameters) {
 		boolean result = false;
-		if (getMethod(name, parameters) != null) {
+		if (getMethod(returnType, name, parameters) != null) {
 			result = true;
 		}
 		return result;

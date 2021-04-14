@@ -293,12 +293,13 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             public void actionPerformed(ActionEvent e) {
                 String className = promptClassDropDown("Enter the class name where the method will be added.");
                 if (className != null) {
+                	String returnType = promptInput("Enter method return type: ");
                     String methodName = promptInput("Enter new method name.");
                     if (methodName != null) {
                         List<String> parameters = promptMultipleInput("Enter new method parameters seperated with commas.");
                         if (parameters != null) {
                             String response = executeCommand(
-                                    new AddMethodCommand(model, className, methodName, parameters));
+                                    new AddMethodCommand(model, className, returnType,methodName, parameters));
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
@@ -322,8 +323,8 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                 if (className != null) {
                     Method methodAndParams = prompMethodDropDown(className, "Choose method to delete");
                     if (methodAndParams != null) {
-                        String response = executeCommand(new DeleteMethodCommand(model, className,
-                                methodAndParams.getName(), methodAndParams.getParameters()));
+                        String response = executeCommand(new DeleteMethodCommand(model, className,methodAndParams.getReturnType()
+,                                methodAndParams.getName(), methodAndParams.getParameters()));
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
@@ -349,7 +350,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     if (methodToChange != null) {
                         String methodNewName = promptInput("Enter new method name.");
                         if (methodNewName != null) {
-                            String response = executeCommand(new EditMethodNameCommand(model, className,
+                            String response = executeCommand(new EditMethodNameCommand(model, className,methodToChange.getReturnType(),
                                     methodToChange.getName(), methodToChange.getParameters(), methodNewName));
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
@@ -378,7 +379,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     if (methodToChange != null) {
                         List<String> newParameters = promptMultipleInput("Enter new method parameters seperated with commas.");
                         if (newParameters != null) {
-                            String response = executeCommand(new EditMethodParametersCommand(model, className,
+                            String response = executeCommand(new EditMethodParametersCommand(model, className,methodToChange.getReturnType(),
                                     methodToChange.getName(), methodToChange.getParameters(), newParameters));
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();

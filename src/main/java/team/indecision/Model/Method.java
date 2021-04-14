@@ -15,6 +15,7 @@ public class Method implements Comparable<Method>, Serializable{
 	private String name;
 	// stores the methods parameter list.
 	private List<String> parameters;
+	private String returnType;
 	
 	/** Constructs an uninitialized instance of the object.
 	 * 
@@ -26,9 +27,14 @@ public class Method implements Comparable<Method>, Serializable{
 	/** Constructs a method with a specified name.
 	 * @param nameP A String that represents the method name.
 	 */
-	public Method(String nameP, List<String> parametersP) {
+	public Method(String nameP, List<String> parametersP, String returnTypeP) {
 		name = nameP;
 		parameters = parametersP;
+		returnType = returnTypeP;
+	}
+	
+	public String getReturnType() {
+		return returnType;
 	}
 	
 	/** Gets the method's name.
@@ -43,6 +49,10 @@ public class Method implements Comparable<Method>, Serializable{
 	 */
 	public void setName(String newName) {
 		name =  newName;
+	}
+	
+	public void setReturnType (String newReturnType) {
+		returnType = newReturnType;
 	}
 	
 	/** Gets the method's parameters.

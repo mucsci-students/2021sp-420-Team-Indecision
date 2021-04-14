@@ -34,12 +34,12 @@ public class CLIController {
 				String response = executeCommand(new AddFieldCommand(model, parsedChoice[2], parsedChoice[3]));
 				view.update(response);
 			}
-			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("method"))) {
+			else if (parsedChoice.length == 5 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("method"))) {
 				String parameters = view.prompt();
 				String sep = ",";
 				String[] parsedParameters = StringUtils.split(parameters, sep);
 				List<String> parametersList = Arrays.asList(parsedParameters);
-				String response = executeCommand(new AddMethodCommand(model, parsedChoice[2], parsedChoice[3], parametersList));
+				String response = executeCommand(new AddMethodCommand(model, parsedChoice[2], parsedChoice[3],parsedChoice[4], parametersList));
 				view.update(response);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
@@ -60,7 +60,7 @@ public class CLIController {
 				String sep = ",";
 				String[] parsedParameters = StringUtils.split(parameters, sep);
 				List<String> parametersList = Arrays.asList(parsedParameters);
-				String response = executeCommand(new DeleteMethodCommand(model, parsedChoice[2], parsedChoice[3], parametersList));
+				String response = executeCommand(new DeleteMethodCommand(model, parsedChoice[2], parsedChoice[3], parsedChoice[4], parametersList));
 				view.update(response);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("rel"))) {
@@ -84,7 +84,7 @@ public class CLIController {
 				String methodNameNew = view.prompt();
 				sep = " ";
 				String[] parsedMethodNameNew = StringUtils.split(methodNameNew, sep);
-				String response = executeCommand(new EditMethodNameCommand(model, parsedChoice[3], parsedChoice[4], parametersList, parsedMethodNameNew[0]));
+				String response = executeCommand(new EditMethodNameCommand(model, parsedChoice[3], parsedChoice[4], parsedChoice[5], parametersList, parsedMethodNameNew[0]));
 				view.update(response);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method")) && (parsedChoice[2].equals("parameters"))) {
@@ -95,7 +95,7 @@ public class CLIController {
 				String parametersNew = view.prompt();
 				String[] parsedParametersNew = StringUtils.split(parametersNew, sep);
 				List<String> parametersListNew = Arrays.asList(parsedParametersNew);
-				String response = executeCommand(new EditMethodParametersCommand(model, parsedChoice[3], parsedChoice[4], parametersList, parametersListNew));
+				String response = executeCommand(new EditMethodParametersCommand(model, parsedChoice[3], parsedChoice[4], parsedChoice[5], parametersList, parametersListNew));
 				view.update(response);
 			}
 			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel")) && (parsedChoice[2].equals("dest"))) {
