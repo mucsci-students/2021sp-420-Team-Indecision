@@ -215,8 +215,9 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                 String className = promptClassDropDown("Enter the class name where the field will be added.");
                 if (className != null) {
                     String fieldName = promptInput("Enter new field name.");
+                    String fieldType = promptInput("Enter new type.");
                     if (fieldName != null) {
-                        String response = executeCommand(new AddFieldCommand(model, className, fieldName));
+                        String response = executeCommand(new AddFieldCommand(model, className, fieldType, fieldName));
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
@@ -240,7 +241,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     Field deletedField = promptFieldDropDown(className, "Enter the field name to be deleted.");
                     if (deletedField != null) {
                         String response = executeCommand(
-                                new DeleteFieldCommand(model, className, deletedField.getName()));
+                                new DeleteFieldCommand(model, className, deletedField.getType(),deletedField.getName()));
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
@@ -288,25 +289,27 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      * @return An ActionListener is sent back to the GUI so the data is passed back.
      */
     public ActionListener addMethodListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String className = promptClassDropDown("Enter the class name where the method will be added.");
-                if (className != null) {
-                    String methodName = promptInput("Enter new method name.");
-                    if (methodName != null) {
-                        List<String> parameters = promptMultipleInput("Enter new method parameters seperated with commas.");
-                        if (parameters != null) {
-                            String response = executeCommand(
-                                    new AddMethodCommand(model, className, methodName, parameters));
-                            JOptionPane.showMessageDialog(view.frame, response);
-                            refreshJFrame();
+            return new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String className = promptClassDropDown("Enter the class name where the method will be added.");
+                    if (className != null) {
+                    	String returnType = promptInput("Enter method return type: ");
+                        String methodName = promptInput("Enter new method name.");
+                        if (methodName != null) {
+                        	String parameterType = promptInput ("Enter parameter type");
+                            List<String> parameters = promptMultipleInput("Enter new method parameters seperated with commas.");
+                            if (parameters != null) {
+                                String response = executeCommand(
+                                        new AddMethodCommand(model, className, returnType,methodName, parameterType,parameters));
+                                JOptionPane.showMessageDialog(view.frame, response);
+                                refreshJFrame();
+                            }
                         }
                     }
                 }
-            }
-        };
-    }
+            };
+        }
 
     /**
      * When the delete method button is pushed this function is called to get info
@@ -314,51 +317,50 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      * 
      * @return An ActionListener is sent back to the GUI so the data is passed back.
      */
-    public ActionListener deleteMethodListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String className = promptClassDropDown("Enter the class name where the method will be deleted.");
-                if (className != null) {
-                    Method methodAndParams = prompMethodDropDown(className, "Choose method to delete");
-                    if (methodAndParams != null) {
-                        String response = executeCommand(new DeleteMethodCommand(model, className,
-                                methodAndParams.getName(), methodAndParams.getParameters()));
-                        JOptionPane.showMessageDialog(view.frame, response);
-                        refreshJFrame();
+    	public ActionListener deleteMethodListener() {
+            return new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String className = promptClassDropDown("Enter the class name where the method will be deleted.");
+                    if (className != null) {
+                        Method methodAndParams = prompMethodDropDown(className, "Choose method to delete");
+                        if (methodAndParams != null) {
+                            String response = executeCommand(new DeleteMethodCommand(model, className,methodAndParams.getReturnType()
+    ,                                methodAndParams.getName(),methodAndParams.getparametersType(),methodAndParams.getParameters()));
+                            JOptionPane.showMessageDialog(view.frame, response);
+                            refreshJFrame();
+                        }
                     }
                 }
-            }
-        };
-    }
-
+            };
+        }
     /**
      * When the edit method name button is pushed this function is called to get
      * info from the user.
      * 
      * @return An ActionListener is sent back to the GUI so the data is passed back.
      */
-    public ActionListener editMethodNameListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String className = promptClassDropDown("Enter the class name where the methods name will be changed.");
-                if (className != null) {
-                    Method methodToChange = prompMethodDropDown(className,
-                            "Choose the method you want to change the name of.");
-                    if (methodToChange != null) {
-                        String methodNewName = promptInput("Enter new method name.");
-                        if (methodNewName != null) {
-                            String response = executeCommand(new EditMethodNameCommand(model, className,
-                                    methodToChange.getName(), methodToChange.getParameters(), methodNewName));
-                            JOptionPane.showMessageDialog(view.frame, response);
-                            refreshJFrame();
+    	public ActionListener editMethodNameListener() {
+            return new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String className = promptClassDropDown("Enter the class name where the methods name will be changed.");
+                    if (className != null) {
+                        Method methodToChange = prompMethodDropDown(className,
+                                "Choose the method you want to change the name of.");
+                        if (methodToChange != null) {
+                            String methodNewName = promptInput("Enter new method name.");
+                            if (methodNewName != null) {
+                                String response = executeCommand(new EditMethodNameCommand(model, className,methodToChange.getReturnType(),
+                                        methodToChange.getName(), methodToChange.getparametersType(),methodToChange.getParameters(), methodNewName));
+                                JOptionPane.showMessageDialog(view.frame, response);
+                                refreshJFrame();
+                            }
                         }
                     }
                 }
-            }
-        };
-    }
+            };
+        }
 
     /**
      * When the edit method parameters button is pushed this function is called to
@@ -366,28 +368,28 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      * 
      * @return An ActionListener is sent back to the GUI so the data is passed back.
      */
-    public ActionListener editMethodParametersListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String className = promptClassDropDown(
-                        "Enter the class name where the methods parameters will be changed.");
-                if (className != null) {
-                    Method methodToChange = prompMethodDropDown(className,
-                            "Select the method you want to change parametes of.");
-                    if (methodToChange != null) {
-                        List<String> newParameters = promptMultipleInput("Enter new method parameters seperated with commas.");
-                        if (newParameters != null) {
-                            String response = executeCommand(new EditMethodParametersCommand(model, className,
-                                    methodToChange.getName(), methodToChange.getParameters(), newParameters));
-                            JOptionPane.showMessageDialog(view.frame, response);
-                            refreshJFrame();
-                        }
-                    }
-                }
-            }
-        };
-    }
+    	 public ActionListener editMethodParametersListener() {
+    	        return new ActionListener() {
+    	            @Override
+    	            public void actionPerformed(ActionEvent e) {
+    	                String className = promptClassDropDown(
+    	                        "Enter the class name where the methods parameters will be changed.");
+    	                if (className != null) {
+    	                    Method methodToChange = prompMethodDropDown(className,
+    	                            "Select the method you want to change parametes of.");
+    	                    if (methodToChange != null) {
+    	                        List<String> newParameters = promptMultipleInput("Enter new method parameters seperated with commas.");
+    	                        if (newParameters != null) {
+    	                            String response = executeCommand(new EditMethodParametersCommand(model, className,methodToChange.getReturnType(),
+    	                                    methodToChange.getName(),methodToChange.getparametersType(), methodToChange.getParameters(), newParameters));
+    	                            JOptionPane.showMessageDialog(view.frame, response);
+    	                            refreshJFrame();
+    	                        }
+    	                    }
+    	                }
+    	            }
+    	        };
+    	    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
 

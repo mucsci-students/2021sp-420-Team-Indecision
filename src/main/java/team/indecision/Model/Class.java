@@ -90,8 +90,8 @@ public class Class implements Serializable{
 	 * @param newField A String containing the class field name.
 	 * @return A boolean true if it is added and false if it already exists or is not added.
 	 */
-	public boolean addField(String newField) {
-		Field f = new Field (newField);
+	public boolean addField(String type, String newField) {
+		Field f = new Field (type , newField);
 		return fields.add(f);
 	}
 	
@@ -99,8 +99,8 @@ public class Class implements Serializable{
 	 * @param name A String containing the class field name.
 	 * @return A boolean true if it is deleted and false if it does not exist.
 	 */
-	public boolean deleteField(String name) {
-		Field f = new Field (name);
+	public boolean deleteField(String type, String name) {
+		Field f = new Field (type, name);
 		return fields.remove(f);
 	}
 	
@@ -158,8 +158,8 @@ public class Class implements Serializable{
 	 * @param newField A String containing the class method name.
 	 * @return A boolean true if it is added and false if it already exists or is not added.
 	 */
-	public boolean addMethod(String newMethod, List<String> newParameters) {
-		Method m = new Method(newMethod, newParameters);
+	public boolean addMethod(String newReturnType,String newMethod,String newParameterType, List<String> newParameters) {
+		Method m = new Method( newReturnType, newMethod, newParameterType, newParameters);
 		return methods.add(m);
 	}
 	
@@ -167,8 +167,8 @@ public class Class implements Serializable{
 	 * @param name A String containing the class method name.
 	 * @return A boolean true if it is deleted and false if it does not exist.
 	 */
-	public boolean deleteMethod(String name, List<String> parameters) {
-		Method m = new Method(name, parameters);
+	public boolean deleteMethod(String returnType,String name,String ParameterType, List<String> parameters) {
+		Method m = new Method(returnType, name,ParameterType,parameters);
 		return methods.remove(m);
 	}
 	
@@ -176,12 +176,12 @@ public class Class implements Serializable{
 	 * @param name A String containing the class method name.
 	 * @return A Method from the methods set returns null if it does not exist in the set.
 	 */
-	public Method getMethod(String name, List<String> parameters) {
+	public Method getMethod(String returnType, String name, String parameterType, List<String> parameters) {
 		 Iterator<Method> it = methods.iterator();
 		 Method m = null;
 		 while (it.hasNext()) {
 			 m = it.next();
-			 if (m.getName().equals(name) && m.getParameters().equals(parameters)) {
+			 if (m.getReturnType().equals(returnType) && m.getName().equals(name) && m.getparametersType().equals(parameterType) && m.getParameters().equals(parameters)) {
 				 break;
 			 }
 			 m = null;
@@ -189,13 +189,14 @@ public class Class implements Serializable{
 		 return m;
 	}
 	
+	
 	/** Checks if the specified method is in the set.
 	 * @param name A String containing the class method name.
 	 * @return Returns true if the method exists.
 	 */
-	public boolean containsMethod(String name, List<String> parameters) {
+	public boolean containsMethod(String returnType, String name, String parameterType, List<String> parameters) {
 		boolean result = false;
-		if (getMethod(name, parameters) != null) {
+		if (getMethod(returnType, name, parameterType, parameters) != null) {
 			result = true;
 		}
 		return result;

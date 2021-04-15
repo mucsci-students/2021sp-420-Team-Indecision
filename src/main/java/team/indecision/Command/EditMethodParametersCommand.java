@@ -11,16 +11,20 @@ public class EditMethodParametersCommand implements Command {
 	Classes model;
 	String className;
 	String methodName;
+	String returnType;
+	String parameterType;
 	List<String> parameters;
 	List<String> newParameters;
 	boolean stateChange;
 	
-	public EditMethodParametersCommand (Classes modelP, String classNameP, String methodNameP, List<String> parametersP, List<String> newParametersP) {
+	public EditMethodParametersCommand (Classes modelP, String classNameP,String returnTypeP, String methodNameP,String parameterTypeP, List<String> parametersP, List<String> newParametersP) {
 		model = modelP;
 		className = classNameP;
 		methodName = methodNameP;
 		parameters = parametersP;
 		newParameters = newParametersP;
+		returnType = returnTypeP;
+		parameterType = parameterTypeP;
 		stateChange = false;
 	}
 	
@@ -29,14 +33,14 @@ public class EditMethodParametersCommand implements Command {
 		String response;
 		if (model.getClasses().containsKey(className)) {
 			Class c = model.getClasses().get(className);
-			if(c.containsMethod(methodName, parameters) && !c.containsMethod(methodName, newParameters)) {
-				Method m = c.getMethod(methodName, parameters);
+			if(c.containsMethod(returnType, methodName, parameterType, parameters) && !c.containsMethod(returnType, methodName, parameterType, newParameters)) {
+				Method m = c.getMethod(returnType, methodName, parameterType, parameters);
 				m.setParameters(newParameters);
 				response = "The method parameters of " + methodName + " has been changed.";
 				stateChange = true;
 			}
 			else {
-				if (c.containsMethod(methodName, newParameters)) {
+				if (c.containsMethod(returnType, methodName, parameterType, newParameters)) {
 					response = "The method " +  methodName + " already exists with the class " + className + " with those parameters.";
 				}
 				else {
@@ -54,4 +58,6 @@ public class EditMethodParametersCommand implements Command {
 	public boolean getStateChange() {
 		return stateChange;
 	}
+	
+
 }

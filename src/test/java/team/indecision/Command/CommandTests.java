@@ -114,7 +114,7 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test", "type", "f");
 		String response = f.execute();
 		assertEquals("The field f has been added to the class test.", response);
 		assertTrue(model.getClasses().get("test").containsField("f"));
@@ -123,7 +123,7 @@ public class CommandTests {
 	@Test
 	public void addFieldCommandClassDoesNotExist() {
 		Classes model = new Classes();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test","type", "f");
 		String response = f.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
@@ -134,9 +134,9 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f1 = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f1 = new AddFieldCommand(model, "test","type", "f");
 		f1.execute();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test", "type", "f");
 		String response = f.execute();
 		assertEquals("The field f already exists with the class test.", response);
 		assertTrue(model.getClasses().get("test").containsField("f"));
@@ -147,9 +147,9 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test","type", "f");
 		f.execute();
-		DeleteFieldCommand f1 = new DeleteFieldCommand(model, "test", "f");
+		DeleteFieldCommand f1 = new DeleteFieldCommand(model, "test","type", "f");
 		String response = f1.execute();
 		assertEquals("The field f has been deleted from class test.", response);
 		assertFalse(model.getClasses().get("test").containsField("f"));
@@ -158,7 +158,7 @@ public class CommandTests {
 	@Test
 	public void deleteFieldCommandClassDoesNotExist() {
 		Classes model = new Classes();
-		DeleteFieldCommand f1 = new DeleteFieldCommand(model, "test", "f");
+		DeleteFieldCommand f1 = new DeleteFieldCommand(model, "test", "type", "f");
 		String response = f1.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
@@ -169,7 +169,7 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		DeleteFieldCommand f1 = new DeleteFieldCommand(model, "test", "f");
+		DeleteFieldCommand f1 = new DeleteFieldCommand(model, "test","type", "f");
 		String response = f1.execute();
 		assertEquals("The field f does not exist with the class test.", response);
 		assertFalse(model.getClasses().get("test").containsField("f"));
@@ -180,7 +180,7 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f1 = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f1 = new AddFieldCommand(model, "test","type", "f");
 		f1.execute();
 		EditFieldNameCommand f = new EditFieldNameCommand(model, "test", "f", "f1");
 		String response = f.execute();
@@ -192,7 +192,7 @@ public class CommandTests {
 	@Test
 	public void editFieldNameCommandClassDoesNotExist() {
 		Classes model = new Classes();
-		AddFieldCommand f1 = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f1 = new AddFieldCommand(model, "test","type", "f");
 		f1.execute();
 		EditFieldNameCommand f = new EditFieldNameCommand(model, "test", "f", "f1");
 		String response = f.execute();
@@ -216,9 +216,9 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f1 = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f1 = new AddFieldCommand(model, "test","type", "f");
 		f1.execute();
-		AddFieldCommand f2 = new AddFieldCommand(model, "test", "f1");
+		AddFieldCommand f2 = new AddFieldCommand(model, "test","type", "f1");
 		f2.execute();
 		EditFieldNameCommand f = new EditFieldNameCommand(model, "test", "f", "f1");
 		String response = f.execute();
@@ -440,157 +440,157 @@ public class CommandTests {
     }
 	
 	@Test
-    public void addMethodCommand() {
+	 public void addMethodCommand() {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth","parameterType", p);
 		String response = d.execute();
 		assertEquals("The method meth has been added to the class test.", response);
-		assertTrue(model.getClasses().get("test").containsMethod("meth", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type", "meth","parameterType", p));
     }
 	
 	@Test
-    public void addMethodCommandClassDoesNotExist() {
+	public void addMethodCommandClassDoesNotExist() {
 		Classes model = new Classes();
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type", "meth","parameterType", p);
 		String response = d.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
     }
 	
 	@Test
-    public void addMethodCommandMethodAlreadyExists() {
+	public void addMethodCommandMethodAlreadyExists() {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");
-		AddMethodCommand d1 = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d1 = new AddMethodCommand(model, "test", "type","meth","parameterType", p);
 		d1.execute();
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth","parameterType", p);
 		String response = d.execute();
 		assertEquals("The method meth already exists with the class test with those parameters.", response);
-		assertTrue(model.getClasses().get("test").containsMethod("meth", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth","parameterType", p));
     }
 	
 	@Test
-    public void deleteMethodCommand() {
+	public void deleteMethodCommand() {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		AddMethodCommand a = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand a = new AddMethodCommand(model, "test", "type", "meth", "parameterType", p);
 		a.execute();
-		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "meth", p);
+		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "type","meth","parameterType", p);
 		String response = d.execute();
 		assertEquals("The method meth has been deleted from class test.", response);
-		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
+		assertFalse(model.getClasses().get("test").containsMethod("type","meth", "parameterType", p));
     }
 	
 	@Test
-    public void deleteMethodCommandClassDoesNotExist() {
+	public void deleteMethodCommandClassDoesNotExist() {
 		Classes model = new Classes();
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		AddMethodCommand a = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand a = new AddMethodCommand(model, "test", "type", "meth","parameterType", p);
 		a.execute();
-		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "meth", p);
+		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "type", "meth","parameterType", p);
 		String response = d.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
     }
 	
 	@Test
-    public void deleteMethodCommandMethodDoesNotExist() {
+	public void deleteMethodCommandMethodDoesNotExist() {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "meth", p);
+		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "type","meth","parameterType", p);
 		String response = d.execute();
 		assertEquals("The method meth does not exist with the class test.", response);
-		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
+		assertFalse(model.getClasses().get("test").containsMethod("type","meth","parameterType", p));
     }
 	
 	@Test
-    public void editMethodNameCommand() {
+	public void editMethodNameCommand() {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth", "parameterType", p);
 		d.execute();
-		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
+		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "type","meth", "parameterType", p, "meth1");
 		String response = e.execute();
 		assertEquals("The method meth has been changed to meth1.", response);
-		assertTrue(model.getClasses().get("test").containsMethod("meth1", p));
-		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth1", "parameterType", p));
+		assertFalse(model.getClasses().get("test").containsMethod("type","meth", "parameterType", p));
     }
 	
 	@Test
-    public void editMethodNameCommandClassDoesNotExist() {
+	public void editMethodNameCommandClassDoesNotExist() {
 		Classes model = new Classes();
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "type","test", "meth", "parameterType",p);
 		d.execute();
-		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
+		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "type","meth", "parameterType", p, "meth1");
 		String response = e.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
     }
 	
 	@Test
-    public void editMethodNameCommandMethodDoesNotExist() {
+	public void editMethodNameCommandMethodDoesNotExist() {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");
-		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
+		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "type","meth", "parameterType", p, "meth1");
 		String response = e.execute();
 		assertEquals("The method meth does not exist with the class test.", response);
-		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
+		assertFalse(model.getClasses().get("test").containsMethod("type","meth","parameterType", p));
     }
 	
 	@Test
-    public void editMethodNameCommandMethodNameAlreadyExists() {
+	public void editMethodNameCommandMethodNameAlreadyExists() {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
 		p.add("String 2");
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth", "parameterType", p);
 		d.execute();
-		AddMethodCommand d1 = new AddMethodCommand(model, "test", "meth1", p);
+		AddMethodCommand d1 = new AddMethodCommand(model, "test", "type","meth1","parameterType", p);
 		d1.execute();
-		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
+		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "type","meth", "parameterType",p, "meth1");
 		String response = e.execute();
 		assertEquals("The method meth1 already exists with the class test with those parameters.", response);
-		assertTrue(model.getClasses().get("test").containsMethod("meth", p));
-		assertTrue(model.getClasses().get("test").containsMethod("meth1", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth", "parameterType", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth1","parameterType", p));
     }
 	
 	@Test
-    public void editMethodParametersCommand() {
+	public void editMethodParametersCommand() {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
@@ -600,17 +600,17 @@ public class CommandTests {
 		List <String> pn = new ArrayList<String>();
 		pn.add("1");
 		pn.add("2");
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth", "parameterType", p);
 		d.execute();
-		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
+		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "type","meth","parameterType", p, pn);
 		String response = e.execute();
 		assertEquals("The method parameters of meth has been changed.", response);
-		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
-		assertTrue(model.getClasses().get("test").containsMethod("meth", pn));
+		assertFalse(model.getClasses().get("test").containsMethod("type","meth", "parameterType", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth", "parameterType", pn));
     }
 	
 	@Test
-    public void editMethodParametersCommandClassDoesNotExist() {
+	public void editMethodParametersCommandClassDoesNotExist() {
 		Classes model = new Classes();
 		List <String> p = new ArrayList<String>();
 		p.add("String 1");
@@ -618,16 +618,16 @@ public class CommandTests {
 		List <String> pn = new ArrayList<String>();
 		pn.add("1");
 		pn.add("2");
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth","parameterType", p);
 		d.execute();
-		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
+		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "type","meth", "parameterType", p, pn);
 		String response = e.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
     }
 	
 	@Test
-    public void editMethodParametersCommandMethodAlreadyExists() {
+	 public void editMethodParametersCommandMethodAlreadyExists() {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
@@ -637,32 +637,79 @@ public class CommandTests {
 		List <String> pn = new ArrayList<String>();
 		pn.add("1");
 		pn.add("2");
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test", "type","meth", "parameterType",p);
 		d.execute();
-		AddMethodCommand d1 = new AddMethodCommand(model, "test", "meth", pn);
+		AddMethodCommand d1 = new AddMethodCommand(model, "test", "type","meth", "parameterType", pn);
 		d1.execute();
-		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
+		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "type","meth", "parameterType", p, pn);
 		String response = e.execute();
 		assertEquals("The method meth already exists with the class test with those parameters.", response);
-		assertTrue(model.getClasses().get("test").containsMethod("meth", p));
-		assertTrue(model.getClasses().get("test").containsMethod("meth", pn));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth", "parameterType", p));
+		assertTrue(model.getClasses().get("test").containsMethod("type","meth", "parameterType",pn));
+	}
+	
+	@Test
+	 public void editMethodParametersCommandMethodDoesNotExist() {
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model,"test");
+		c.execute();
+		List <String> p = new ArrayList<String>();
+		p.add("String 1");
+		p.add("String 2");
+		List <String> pn = new ArrayList<String>();
+		pn.add("1");
+		pn.add("2");
+		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "type","meth", "parameterType",p, pn);
+		String response = e.execute();
+		assertEquals("The method meth does not exist with the class test.", response);
+		assertFalse(model.getClasses().get("test").containsMethod("type","meth", "parameterType", p));
     }
 	
 	@Test
-    public void editMethodParametersCommandMethodDoesNotExist() {
+	public void saveAndLoadFileTest() {
 		Classes model = new Classes();
-		AddClassCommand c = new AddClassCommand(model,"test");
+		AddClassCommand c = new AddClassCommand(model, "test");
 		c.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");
-		List <String> pn = new ArrayList<String>();
-		pn.add("1");
-		pn.add("2");
-		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
-		String response = e.execute();
-		assertEquals("The method meth does not exist with the class test.", response);
-		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
-    }
+		String testFilename = "makeTest.json";
+		SaveJSONCommand testSave = new SaveJSONCommand(model, testFilename);
+		LoadJSONCommand testLoad = new LoadJSONCommand(model, testFilename);
+		assertEquals("Your data has been saved to a JSON file in your program's root directory.", testSave.execute());
+		assertEquals("Your data has been loaded from a JSON file in your program's root directory", testLoad.execute());
+	}
 	
+	@Test
+	public void saveWithInvalidPathTest() {
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model, "test");
+		c.execute();
+		String testFilename = "blah/makeTest.json";
+		SaveJSONCommand testSave = new SaveJSONCommand(model, testFilename);
+		assertEquals("Not a valid path or filename.", testSave.execute());
+	}
+	
+	@Test
+	public void loadNonExistentFile() {
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model, "test");
+		c.execute();
+		String testFilename = "blah.json";
+		LoadJSONCommand testLoad = new LoadJSONCommand(model, testFilename);
+		assertEquals("Not a valid json file or the file does not exist.", testLoad.execute());
+	}
+	
+	@Test
+	public void loadNotValidJsonFile() {
+		//currently accepts all files including pdf's
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model, "test");
+		c.execute();
+		String testFilename = "makeTest.pdf";
+		SaveJSONCommand testSave = new SaveJSONCommand(model, testFilename);
+		LoadJSONCommand testLoad = new LoadJSONCommand(model, testFilename);
+		testSave.execute();
+		assertEquals("Not a valid json file or the file does not exist.", testLoad.execute());
+	}
+	
+	//another test needed for saving invalid filename
+
 }

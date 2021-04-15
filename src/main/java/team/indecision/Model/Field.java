@@ -11,6 +11,7 @@ public class Field implements Comparable<Field>, Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String name;
+	private String type;
 	
 	/** Constructs an uninitialized instance of the object.
 	 * 
@@ -22,10 +23,14 @@ public class Field implements Comparable<Field>, Serializable{
 	/** Constructs a field with a specified name.
 	 * @param nameP A String that represents the field name.
 	 */
-	public Field(String nameP) {
+	public Field(String typeP, String nameP) {
 		name = nameP;
+		type = typeP;
 	}
 	
+	public String getType() {
+		return type;
+	}
 	/** Gets the field's name.
 	 * @return A String representing the field name.
 	 */

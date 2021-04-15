@@ -9,15 +9,18 @@ public class DeleteMethodCommand implements Command {
 	Classes model;
 	String className;
 	String methodName;
+	String parameterType;
 	List<String> parameters;
 	boolean stateChange;
-	
-	public DeleteMethodCommand (Classes modelP, String classNameP, String methodNameP, List<String> parametersP) {
+	String returnType;
+	public DeleteMethodCommand (Classes modelP, String classNameP, String returnTypeP, String methodNameP,String parameterTypeP, List<String> parametersP) {
 		model = modelP;
 		className = classNameP;
 		methodName = methodNameP;
 		parameters = parametersP;
+		parameterType = parameterTypeP;
 		stateChange = false;
+		returnType = returnTypeP;
 	}
 	
 	@Override
@@ -25,8 +28,8 @@ public class DeleteMethodCommand implements Command {
 		String response;
 		if (model.getClasses().containsKey(className)) {
 			Class c = model.getClasses().get(className);
-			if (c.containsMethod(methodName, parameters)) {
-				c.deleteMethod(methodName, parameters);
+			if (c.containsMethod(returnType,methodName,parameterType, parameters)) {
+				c.deleteMethod(returnType, methodName, parameterType,parameters);
 				response = "The method " +  methodName + " has been deleted from class " + className + ".";
 				stateChange = true;
 			}

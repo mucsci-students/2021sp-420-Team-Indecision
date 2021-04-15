@@ -13,14 +13,18 @@ public class EditMethodNameCommand implements Command {
 	List<String> parameters;
 	String newMethodName;
 	boolean stateChange;
+	String returnType;
+	String parameterType;
 	
-	public EditMethodNameCommand (Classes modelP, String classNameP, String methodNameP, List<String> parametersP, String newMethodNameP) {
+	public EditMethodNameCommand (Classes modelP, String classNameP, String returnTypeP, String methodNameP, String parameterTypeP, List<String> parametersP, String newMethodNameP) {
 		model = modelP;
 		className = classNameP;
 		methodName = methodNameP;
 		parameters = parametersP;
 		newMethodName = newMethodNameP;
 		stateChange = false;
+		returnType = returnTypeP;
+		parameterType = parameterTypeP;
 	}
 	
 	@Override
@@ -28,14 +32,14 @@ public class EditMethodNameCommand implements Command {
 		String response;
 		if (model.getClasses().containsKey(className)) {
 			Class c = model.getClasses().get(className);
-			if(c.containsMethod(methodName, parameters) && !c.containsMethod(newMethodName, parameters)) {
-				Method m = c.getMethod(methodName, parameters);
+			if(c.containsMethod(returnType, methodName, parameterType, parameters) && !c.containsMethod(returnType, newMethodName,parameterType, parameters)) {
+				Method m = c.getMethod(returnType, methodName, parameterType, parameters);
 				m.setName(newMethodName);
 				response = "The method " + methodName + " has been changed to " + newMethodName + ".";
 				stateChange = true;
 			}
 			else {
-				if (c.containsMethod(newMethodName, parameters)) {
+				if (c.containsMethod(returnType, newMethodName,parameterType, parameters)) {
 					response = "The method " +  newMethodName + " already exists with the class " + className + " with those parameters.";
 				}
 				else {

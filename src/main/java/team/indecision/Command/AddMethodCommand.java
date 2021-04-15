@@ -9,15 +9,19 @@ public class AddMethodCommand implements Command{
 	Classes model;
 	String className;
 	String methodName;
+	String parameterType;
 	List<String> parameters;
 	boolean stateChange;
+	String returnType;
 	
-	public AddMethodCommand (Classes modelP, String classNameP, String methodNameP, List<String> parametersP) {
+	public AddMethodCommand (Classes modelP, String classNameP, String returnTypeP, String methodNameP, String parameterTypeP, List<String> parametersP) {
 		model = modelP;
 		className = classNameP;
 		methodName = methodNameP;
 		parameters = parametersP;
 		stateChange = false;
+		returnType = returnTypeP;
+		parameterType = parameterTypeP;
 	}
 	
 	@Override
@@ -25,13 +29,13 @@ public class AddMethodCommand implements Command{
 		String response;
 		if (model.getClasses().containsKey(className)) {
 			Class c = model.getClasses().get(className);
-			if (!c.containsMethod(methodName, parameters)) {
-				c.addMethod(methodName, parameters);
-				response = "The method " + methodName + " has been added to the class " + className + ".";
+			if (!c.containsMethod(returnType,methodName,parameterType, parameters)) {
+				c.addMethod(returnType,methodName,parameterType, parameters);
+				response = returnType + " " + methodName + " has been added to " + className + ".";
 				stateChange = true;
 			}
 			else {
-				response = "The method " + methodName + " already exists with the class " + className + " with those parameters.";
+				response = returnType + " " + methodName + " already exists with the class " + className + " with those parameters.";
 			}
 		}
 		else {

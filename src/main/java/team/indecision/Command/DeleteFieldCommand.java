@@ -8,12 +8,15 @@ public class DeleteFieldCommand implements Command {
 	Classes model;
 	String className;
 	String fieldName;
+	String type;
 	boolean stateChange;
 	
-	public DeleteFieldCommand(Classes modelP, String classNameP, String fieldNameP) {
+	
+	public DeleteFieldCommand(Classes modelP, String classNameP, String typeP, String fieldNameP) {
 		model = modelP;
 		className = classNameP;
 		fieldName = fieldNameP;
+		type = typeP;
 		stateChange = false;
 	}
 	
@@ -23,7 +26,7 @@ public class DeleteFieldCommand implements Command {
 		if (model.getClasses().containsKey(className)) {
 			Class c = model.getClasses().get(className);
 			if (c.containsField(fieldName)) {
-				c.deleteField(fieldName);
+				c.deleteField(type,fieldName);
 				response = "The field " +  fieldName + " has been deleted from class " + className + ".";
 				stateChange = true;
 			}

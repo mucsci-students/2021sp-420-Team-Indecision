@@ -8,12 +8,14 @@ public class AddFieldCommand implements Command {
 	private Classes model;
 	private String className;
 	private String fieldName;
+	private String type; 
 	boolean stateChange;
 	
-	public AddFieldCommand(Classes modelP, String classNameP, String fieldNameP) {
+	public AddFieldCommand(Classes modelP, String classNameP, String typeP, String fieldNameP) {
 		model = modelP;
 		className = classNameP;
 		fieldName = fieldNameP;
+		type = typeP;
 		stateChange = false;
 	}
 	
@@ -23,7 +25,7 @@ public class AddFieldCommand implements Command {
 		if (model.getClasses().containsKey(className)) {
 			Class c = model.getClasses().get(className);
 			if (!c.containsField(fieldName)) {
-				c.addField(fieldName);
+				c.addField(type,fieldName);
 				response = "The field " + fieldName + " has been added to the class " + className + ".";
 				stateChange = true;
 			}
