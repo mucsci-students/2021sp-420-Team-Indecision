@@ -15,7 +15,7 @@ import org.junit.Test;
 public class ModelTests {
 
 	@Test
-	public void RelationshipTest() {
+	public void Relationship() {
 		Relationship r = new Relationship("test","composition");
 		assertEquals("test",r.getDestination());
 		assertEquals("composition",r.getType());
@@ -31,7 +31,7 @@ public class ModelTests {
 	}
 	
 	@Test
-	public void FieldTest() {
+	public void Field() {
 		Field f = new Field("test");
 		assertEquals("test",f.getName());
 		f.setName("test1");
@@ -44,7 +44,7 @@ public class ModelTests {
 	}
 	
 	@Test
-	public void MethodTest() {
+	public void Method() {
 		List<String> p = new ArrayList<String>();
 		p.add("x");
 		p.add("y");
@@ -67,7 +67,7 @@ public class ModelTests {
 	}
 	
 	@Test
-	public void ClassTest() {
+	public void Class() {
 		Class c = new Class("test");
 		assertEquals("test",c.getName());
 		List<String> p1 = new ArrayList<String>();
@@ -143,7 +143,7 @@ public class ModelTests {
 	}
 	
 	@Test
-	public void ClassesTest() {
+	public void Classes() {
 		Class c = new Class("test");
 		List<String> p1 = new ArrayList<String>();
 		p1.add("a");

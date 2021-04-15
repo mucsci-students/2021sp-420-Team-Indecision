@@ -43,6 +43,12 @@ public class History {
         }
 	}
 	
+	/** Uninitialized History object.
+	 */
+	public History () {
+		
+	}
+	
 	/** Pushes a new pair onto the undoHistory stack.
 	 */
 	public void pushUndo(Command c, Memento m) {
