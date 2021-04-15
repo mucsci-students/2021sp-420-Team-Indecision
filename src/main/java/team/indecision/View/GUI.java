@@ -44,7 +44,12 @@ public class GUI extends JPanel{
 	private static final long serialVersionUID = 1L;
 	public JFrame frame;
 	private JMenuBar menuBar;
-	private Classes model;
+	private GUIController controller;
+
+
+	public void setController (GUIController controllerP){
+		controller = controllerP;
+	}
 	
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -57,16 +62,28 @@ public class GUI extends JPanel{
  
         //g2d.drawLine(120, 50, 360, 50);
 		//controller.printLine();
-		List<Component> list = getAllComponents(this);
+		List<Component> componentList = getAllComponents(this);
 		//System.out.println(list.toString());
 
-		for (Component component : list) {
+
+
+		for (int i = 0; i < componentList.size(); i = i + 2) {
+			componentList.get(i).setSize(componentList.get(i + 1).getWidth(), componentList.get(i + 1).getHeight());
+			revalidate();
+			repaint();
+		}
+
+		
+
+
+
+		for (Component component : componentList) {
 			//System.out.println(component.getBounds().toString());
 			//System.out.println(component.toString());
 			//System.out.println(entry.getBounds());
 			//component.repaint();
 		}
-		for (Entry<String, team.indecision.Model.Class> entry : model.getClasses().entrySet()) {
+		for (Entry<String, team.indecision.Model.Class> entry : controller.getModel().getClasses().entrySet()) {
 			if(entry.getValue().getRelationships() != null){
 				//System.out.println(entry.getValue().getRelationships().toString());
 
@@ -80,8 +97,8 @@ public class GUI extends JPanel{
 					//System.out.println(r.getDestination());
 					int entryX = entry.getValue().getXLocation();
 					int entryY = entry.getValue().getYLocation();
-					int destinationX = model.getClasses().get(r.getDestination()).getXLocation();
-					int destinationY = model.getClasses().get(r.getDestination()).getYLocation();
+					int destinationX = controller.getModel().getClasses().get(r.getDestination()).getXLocation();
+					int destinationY = controller.getModel().getClasses().get(r.getDestination()).getYLocation();
 					//System.out.println("entryX: " + entryX + "entryY: " + entryY);
 					//System.out.println("destinationX: " + destinationX + "destinationY: " + destinationY);
 
@@ -97,7 +114,7 @@ public class GUI extends JPanel{
 			
 					Polygon triangle = new Polygon(xPoly, yPoly, xPoly.length);
 					g.drawPolygon(triangle);
-					g.fillPolygon(triangle);
+					//g.fillPolygon(triangle);
 					}
 				
 			}
@@ -123,7 +140,6 @@ public class GUI extends JPanel{
 		//controller = controllerP;
 		//List<Component> list = getAllComponents(this);
 		//System.out.println(list.toString());
-		model = modelP;
 		
 		frame = new JFrame("UML - Team Indecision");
 		setLayout(null); 

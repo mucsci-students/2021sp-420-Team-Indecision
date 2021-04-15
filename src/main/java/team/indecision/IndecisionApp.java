@@ -17,7 +17,6 @@ public final class IndecisionApp {
 			@SuppressWarnings("unused")
 			CLIController controller = new CLIController(model, view);
 		}else if (args.length == 0){
-			
 			GUI view = new GUI(model);
 			@SuppressWarnings("unused")
 			GUIController controller = new GUIController(model, view);

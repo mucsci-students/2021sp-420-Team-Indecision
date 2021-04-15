@@ -84,10 +84,20 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         view.addActionListener(this.loadJSONListener(), 4, 1);
         view.addActionListener(this.undoListener(), 5, 0);
         view.addActionListener(this.redoListener(), 5, 1);
+
+        view.setController(this);
+
     }
-    public void printLine (){
-        System.out.println("hello");
+
+    public Classes getModel(){
+        return model;
     }
+
+    public HashMap<String, JPanel> getCustomJPanels () {
+        return customJPanels;
+    }
+
+
     private String executeCommand(Command command) {
         Classes deepCopy = (Classes) org.apache.commons.lang.SerializationUtils.clone(model);
         model.setBackup(deepCopy.getClasses());
@@ -789,20 +799,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             
         }
     }
-    public void paintComponent(Graphics g)
-    {
-        //Here we call the parent to setout our paint component from given
-        //graphics g and we establish our 2D graphics variable g2d also based
-        //upon graphics g.
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        System.out.println("Hello");
 
-        //loop through and draw each shape in the shapes arraylist and draw
-        //them according to g2d.
-
-        }
-        
     
     /**
      * Removes all the elements from the frame and adds them back with updated data.
@@ -813,7 +810,6 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         if(!(customJPanels.isEmpty())) {
             customJPanels.clear();
         }
-        int i = 0;
         for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
             Border emptyborder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 
@@ -836,12 +832,15 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
 
 
 
+
             panel.add(label);
             panel.addMouseListener(this);
             panel.addMouseMotionListener(this);
             customJPanels.put(entry.getValue().getName(), panel);
 
             view.frame.pack();
+            System.out.println(label.getBounds().toString());
+
         }
         placeJPanels();
     }
@@ -850,11 +849,17 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         view.repaint();
         for(Map.Entry<String, JPanel> entry : customJPanels.entrySet()) {
             JPanel panel = entry.getValue();
+            //System.out.println(panel.getAccessibleContext().toString());
+            //System.out.println(panel.getComponent(0));
+
             panel.setBounds(model.getClasses().get(entry.getKey()).getXLocation(), model.getClasses().get(entry.getKey()).getYLocation(), 200,  200);
+
             view.add(panel); 
         }
         view.revalidate();
         view.repaint();
+
+
     }
 
 	@Override
