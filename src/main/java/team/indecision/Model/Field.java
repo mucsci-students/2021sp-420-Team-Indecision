@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class Field implements Comparable<Field>, Serializable{
 
 	private static final long serialVersionUID = 1L;
+	//Stores the field name.
 	private String name;
 	
 	/** Constructs an uninitialized instance of the object.
