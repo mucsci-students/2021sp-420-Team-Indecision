@@ -11,9 +11,9 @@ import java.util.List;
 public class Method implements Comparable<Method>, Serializable{
 
 	private static final long serialVersionUID = 1L;
-	// stores the method name.
+	//Stores the method name.
 	private String name;
-	// stores the methods parameter list.
+	//Stores the methods parameter list.
 	private List<String> parameters;
 	
 	/** Constructs an uninitialized instance of the object.
