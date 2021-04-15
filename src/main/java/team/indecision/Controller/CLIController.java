@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import team.indecision.Command.*;
 import team.indecision.Memento.History;
 import team.indecision.Memento.Memento;
-import team.indecision.Model.Classes;
+import team.indecision.Model.*;
 import team.indecision.View.CLI;
 
 /** This class represents the controller for the CLI application.

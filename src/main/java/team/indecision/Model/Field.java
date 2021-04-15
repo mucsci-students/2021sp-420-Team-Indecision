@@ -52,7 +52,7 @@ public class Field implements Comparable<Field>, Serializable{
 	 * @param classObject A Class that will be compared to this class. 
 	 * @return A boolean if the classes equal each other false if not.
 	 */
-	public boolean equals(Method classObject) {
+	public boolean equals(Field classObject) {
         boolean result = false;
         if (classObject.getName().equals(this.getName())) {
             result = true;
