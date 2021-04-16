@@ -11,9 +11,6 @@ import java.util.TreeMap;
  */
 public class Classes implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	// stores a SortedMap of class objects.
 	private SortedMap<String, Class> classes = new TreeMap<String, Class>();
