@@ -135,7 +135,7 @@ public class GUI extends JPanel {
 							}
 						else if (r.getType().equals("Realization")){
 							// Main Line
-							g2d.setStroke(new BasicStroke(5));
+							g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0));
 							int xLinePoly[] = {entryX + panel.getWidth(), entryX + 10 + panel.getWidth(), destinationX - 30, destinationX - 10 };
 							int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2 };
 							g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
@@ -143,8 +143,12 @@ public class GUI extends JPanel {
 							int xTrianglePoly[] = { destinationX - 5, destinationX - 10 - 5, destinationX - 10 - 5};
 							int yTrianglePoly[] = { destinationY + panelDestination.getHeight() / 2, destinationY - 5 + panelDestination.getHeight() / 2, destinationY + 5 + panelDestination.getHeight() / 2 };
 							Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
-							g2d.drawPolygon(triangle);
+							g2d.setStroke(new BasicStroke(5));
 
+							g2d.drawPolygon(triangle);
+							g2d.setColor(new Color(255, 255, 255));
+							g2d.fillPolygon(triangle);
+							g2d.setColor(new Color(0, 0, 0));
 							}
 						
 					}
