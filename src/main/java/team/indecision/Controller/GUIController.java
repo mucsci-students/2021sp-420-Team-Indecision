@@ -48,15 +48,27 @@ import java.awt.geom.*;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+/** This class represents the controller for the GUI application.
+ * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
+ * @version 1.0
+ * @since 1.0
+ */
 public class GUIController extends JPanel implements  MouseListener, MouseMotionListener{
-    private Classes model;
+   
+	private static final long serialVersionUID = 1L;
+	//Stores the model that the controller will act on.
+	private Classes model;
+	//Stores the view that the controller will update.
     private GUI view;
+  //Stores the history object that the controller uses to perform undo and redo.
     private History history;
     private int previousX;
     private int previousY;
 
     private HashMap<String, JPanel> customJPanels = new HashMap<String, JPanel>();
 
+    /** Constructs an uninitialized controller.
+	 */
     public GUIController() {
 
     }
@@ -89,6 +101,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
 
     }
 
+
     public Classes getModel(){
         return model;
     }
@@ -97,6 +110,10 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return customJPanels;
     }
 
+
+    /** Executes a command object. This method also creates a deep copy and saves it to the backup field of the model and pushes the Command and a Memento onto the History stack.
+	 * @return A string that represents the outcome of the execution.
+	 */
 
     private String executeCommand(Command command) {
         Classes deepCopy = (Classes) org.apache.commons.lang.SerializationUtils.clone(model);
@@ -108,6 +125,8 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return response;
     }
 
+    /** Undoes the most recent command if their is a command to undo by converting to the backup state in the model.
+	 */
     private String undo() {
         String response = "You can no longer undo.";
         if (!history.isEmptyUndo()) {
@@ -117,6 +136,8 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return response;
     }
 
+    /** Redoes the most recent command if their is a command to redo.
+	 */
     private String redo() {
         String response = "You can no longer redo.";
         if (!history.isEmptyRedo()) {

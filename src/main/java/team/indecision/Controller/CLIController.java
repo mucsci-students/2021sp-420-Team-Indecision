@@ -6,14 +6,27 @@ import org.apache.commons.lang3.StringUtils;
 import team.indecision.Command.*;
 import team.indecision.Memento.History;
 import team.indecision.Memento.Memento;
-import team.indecision.Model.Classes;
+import team.indecision.Model.*;
 import team.indecision.View.CLI;
 
+/** This class represents the controller for the CLI application.
+ * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
+ * @version 1.0
+ * @since 1.0
+ */
 public class CLIController {
+
+	//Stores the model that the controller will act on.
 	private Classes model;
+	//Stores the view that the controller will update.
 	private CLI view;
+	//Stores the history object that the controller uses to perform undo and redo.
 	private History history;
 	
+	/** Constructs a CLI controller. Listens for and parses user input and then runs commands based on the user input.
+	 * @param modelP The model to be acted on
+	 * @param viewP The view to be updated.
+	 */
 	public CLIController(Classes modelP, CLI viewP) {
 		model = modelP;
 		view = viewP;
@@ -153,6 +166,9 @@ public class CLIController {
 		
 	}
 	
+	/** Executes a command object. This method also creates a deep copy and saves it to the backup field of the model and pushes the Command and a Memento onto the History stack.
+	 * @return A string that represents the outcome of the execution.
+	 */
 	private String executeCommand(Command command) {
 		Classes deepCopy = (Classes) org.apache.commons.lang.SerializationUtils.clone(model);
 		model.setBackup(deepCopy.getClasses());
@@ -163,15 +179,19 @@ public class CLIController {
 		return response;
 	}
 	
+	/** Undoes the most recent command if their is a command to undo by converting to the backup state in the model.
+	 */
 	private String undo() {
 		String response = "You can no longer undo.";
 		if (!history.isEmptyUndo()) {
 			history.undo();
-			response = "The last command that changed the state has been undone.";
+			response = "The last action has been undone.";
 		}
 		return response;
 	}
 	
+	/** Redoes the most recent command if their is a command to redo.
+	 */
 	private String redo() {
 		String response = "You can no longer redo.";
 		if (!history.isEmptyRedo()) {
