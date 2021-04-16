@@ -114,7 +114,7 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test", "int", "f");
 		String response = f.execute();
 		assertEquals("The field f has been added to the class test.", response);
 		assertTrue(model.getClasses().get("test").containsField("f"));
@@ -123,7 +123,7 @@ public class CommandTests {
 	@Test
 	public void addFieldCommandClassDoesNotExist() {
 		Classes model = new Classes();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test", "int", "f");
 		String response = f.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
@@ -134,9 +134,9 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f1 = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f1 = new AddFieldCommand(model, "test", "int", "f");
 		f1.execute();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test", "int", "f");
 		String response = f.execute();
 		assertEquals("The field f already exists with the class test.", response);
 		assertTrue(model.getClasses().get("test").containsField("f"));
@@ -147,7 +147,7 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test", "int", "f");
 		f.execute();
 		DeleteFieldCommand f1 = new DeleteFieldCommand(model, "test", "f");
 		String response = f1.execute();
@@ -180,7 +180,7 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f1 = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f1 = new AddFieldCommand(model, "test", "int", "f");
 		f1.execute();
 		EditFieldNameCommand f = new EditFieldNameCommand(model, "test", "f", "f1");
 		String response = f.execute();
@@ -192,7 +192,7 @@ public class CommandTests {
 	@Test
 	public void editFieldNameCommandClassDoesNotExist() {
 		Classes model = new Classes();
-		AddFieldCommand f1 = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f1 = new AddFieldCommand(model, "test", "int", "f");
 		f1.execute();
 		EditFieldNameCommand f = new EditFieldNameCommand(model, "test", "f", "f1");
 		String response = f.execute();
@@ -216,15 +216,50 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f1 = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f1 = new AddFieldCommand(model, "test", "int", "f");
 		f1.execute();
-		AddFieldCommand f2 = new AddFieldCommand(model, "test", "f1");
+		AddFieldCommand f2 = new AddFieldCommand(model, "test", "int", "f1");
 		f2.execute();
 		EditFieldNameCommand f = new EditFieldNameCommand(model, "test", "f", "f1");
 		String response = f.execute();
 		assertEquals("The field f1 already exists with the class test.", response);
 		assertTrue(model.getClasses().get("test").containsField("f"));
 		assertTrue(model.getClasses().get("test").containsField("f1"));
+	}
+	
+	@Test
+	public void editFieldTypeCommand() {
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model,"test");
+		c.execute();
+		AddFieldCommand f1 = new AddFieldCommand(model, "test", "int", "f");
+		f1.execute();
+		EditFieldTypeCommand f = new EditFieldTypeCommand(model, "test", "f", "int");
+		String response = f.execute();
+		assertEquals("The field f has had its type changed to int.", response);
+		assertTrue(model.getClasses().get("test").getField("f").getType().equals("int"));
+	}
+	
+	@Test
+	public void editFieldTypeCommandClassDoesNotExist() {
+		Classes model = new Classes();
+		AddFieldCommand f1 = new AddFieldCommand(model, "test", "int", "f");
+		f1.execute();
+		EditFieldTypeCommand f = new EditFieldTypeCommand(model, "test", "f", "int");
+		String response = f.execute();
+		assertEquals("The class test does not exist.", response);
+		assertFalse(model.getClasses().containsKey("test"));
+	}
+	
+	@Test
+	public void editFieldTypeCommandFieldDoesNotExist() {
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model,"test");
+		c.execute();
+		EditFieldTypeCommand f = new EditFieldTypeCommand(model, "test", "f", "int");
+		String response = f.execute();
+		assertEquals("The field f does not exist with the class test.", response);
+		assertFalse(model.getClasses().get("test").containsField("f"));
 	}
 	
 	@Test

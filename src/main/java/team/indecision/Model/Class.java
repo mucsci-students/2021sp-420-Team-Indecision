@@ -91,8 +91,8 @@ public class Class implements Serializable{
 	 * @param newField A String containing the class field name.
 	 * @return A boolean true if it is added and false if it already exists or is not added.
 	 */
-	public boolean addField(String newField) {
-		Field f = new Field (newField);
+	public boolean addField(String newFieldType, String newFieldName) {
+		Field f = new Field (newFieldType, newFieldName);
 		return fields.add(f);
 	}
 	
@@ -101,7 +101,7 @@ public class Class implements Serializable{
 	 * @return A boolean true if it is deleted and false if it does not exist.
 	 */
 	public boolean deleteField(String name) {
-		Field f = new Field (name);
+		Field f = getField(name);
 		return fields.remove(f);
 	}
 	

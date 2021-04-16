@@ -16,7 +16,7 @@ public class MementoTests {
 		c.execute();
 		AddClassCommand c1 = new AddClassCommand(model,"test1");
 		c1.execute();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test", "int", "f");
 		f.execute();
 		AddRelationshipCommand r = new AddRelationshipCommand(model, "test", "test1", "Composition");
 		r.execute();
@@ -39,7 +39,7 @@ public class MementoTests {
 		c.execute();
 		AddClassCommand c1 = new AddClassCommand(model,"test1");
 		c1.execute();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test", "int", "f");
 		f.execute();
 		AddRelationshipCommand r = new AddRelationshipCommand(model, "test", "test1", "Composition");
 		r.execute();

@@ -32,13 +32,16 @@ public class ModelTests {
 	
 	@Test
 	public void Field() {
-		Field f = new Field("test");
+		Field f = new Field("string","test");
 		assertEquals("test",f.getName());
+		assertEquals("string",f.getType());
 		f.setName("test1");
+		f.setType("int");
 		assertEquals("test1",f.getName());
-		assertEquals("test1", f.toString());
-		Field f1 = new Field("test1");
-		assertEquals("test1",f1.getName());
+		assertEquals("int",f.getType());
+		assertEquals("int test1", f.toString());
+		Field f1 = new Field("int","test1");
+		assertTrue(f.equals(f1));
 		f1.setName("test2");
 		assertFalse(f.equals(f1));
 	}
@@ -76,7 +79,7 @@ public class ModelTests {
 		Method m = new Method("method",p1);
 		SortedSet<Method> methods = new TreeSet<Method>();
 		methods.add(m);
-		Field f = new Field("f1");
+		Field f = new Field("int","f1");
 		SortedSet<Field> fields = new TreeSet<Field>();
 		fields.add(f);
 		Relationship r = new Relationship("rel","agg");
@@ -89,7 +92,7 @@ public class ModelTests {
 		assertTrue(c1.getRelationships().equals(relationships));
 		assertTrue(c1.getName().equals("test1"));
 		
-		Field f1 = new Field("f2");
+		Field f1 = new Field("int","f2");
 		Relationship r1 = new Relationship("rel1","agg");
 		Method m1 = new Method("method1",p1);
 		
@@ -118,7 +121,7 @@ public class ModelTests {
 		assertEquals(true,c1.containsMethod("method1",p1));
 		assertEquals(true,c1.containsRelationship("rel1"));
 		
-		c1.addField("f3");
+		c1.addField("int","f3");
 		assertEquals(true,c1.containsField("f3"));
 		c1.addMethod("m3", p1);
 		assertEquals(true,c1.containsMethod("m3",p1));
@@ -132,10 +135,10 @@ public class ModelTests {
 		assertEquals(false,c1.containsMethod("m3",p1));
 		assertEquals(false,c1.containsRelationship("rel3"));
 		
-		assertEquals("[f1, f2]",c1.printFields());
+		assertEquals("[int f1, int f2]",c1.printFields());
 		assertEquals("[method [a, z], method1 [a, z]]",c1.printMethods());
 		assertEquals("[rel agg, rel1 agg]",c1.printRelationships());
-		assertEquals("test2 [f1, f2] [method [a, z], method1 [a, z]] [rel agg, rel1 agg]",c1.toString());
+		assertEquals("test2 [int f1, int f2] [method [a, z], method1 [a, z]] [rel agg, rel1 agg]",c1.toString());
 		
 		Class c2 = new Class("test2",c1.getFields(),c1.getMethods(),c1.getRelationships(), 0, 0);;
 		assertTrue(c1.equals(c2));
@@ -151,7 +154,7 @@ public class ModelTests {
 		Method m = new Method("method",p1);
 		SortedSet<Method> methods = new TreeSet<Method>();
 		methods.add(m);
-		Field f = new Field("f1");
+		Field f = new Field("int","f1");
 		SortedSet<Field> fields = new TreeSet<Field>();
 		fields.add(f);
 		Relationship r = new Relationship("rel","agg");

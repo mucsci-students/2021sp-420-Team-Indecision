@@ -296,6 +296,9 @@ public class GUI extends JPanel {
 
 		JMenuItem editFieldNameItem = new JMenuItem("Edit Field Name");
 		fieldMenu.add(editFieldNameItem);
+		
+		JMenuItem editFieldTypeItem = new JMenuItem("Edit Field Type");
+		fieldMenu.add(editFieldTypeItem);
 
 		//////////////////////////// JMenueBar
 		//////////////////////////// Methods//////////////////////////////////////

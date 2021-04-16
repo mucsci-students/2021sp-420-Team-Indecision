@@ -43,8 +43,8 @@ public class CLIController {
 				String response = executeCommand(new AddClassCommand(model, parsedChoice[2]));
 				view.update(response);
 			}
-			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("field"))) {
-				String response = executeCommand(new AddFieldCommand(model, parsedChoice[2], parsedChoice[3]));
+			else if (parsedChoice.length == 5 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("field"))) {
+				String response = executeCommand(new AddFieldCommand(model, parsedChoice[2], parsedChoice[3], parsedChoice[4]));
 				view.update(response);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("method"))) {
@@ -85,8 +85,12 @@ public class CLIController {
 				String response = executeCommand(new EditClassNameCommand(model, parsedChoice[2], parsedChoice[3]));
 				view.update(response);
 			}
-			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("field"))) {
-				String response = executeCommand(new EditFieldNameCommand(model, parsedChoice[2], parsedChoice[3], parsedChoice[4]));
+			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("field")) &&  (parsedChoice[2].equals("name"))) {
+				String response = executeCommand(new EditFieldNameCommand(model, parsedChoice[3], parsedChoice[4], parsedChoice[5]));
+				view.update(response);
+			}
+			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("field")) &&  (parsedChoice[2].equals("type"))) {
+				String response = executeCommand(new EditFieldTypeCommand(model, parsedChoice[3], parsedChoice[4], parsedChoice[5]));
 				view.update(response);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method")) && (parsedChoice[2].equals("name"))) {

@@ -85,6 +85,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         view.addActionListener(this.addFieldListener(), 1, 0);
         view.addActionListener(this.deleteFieldListener(), 1, 1);
         view.addActionListener(this.editFieldNameListener(), 1, 2);
+        view.addActionListener(this.editFieldTypeListener(), 1, 3);
         view.addActionListener(this.addMethodListener(), 2, 0);
         view.addActionListener(this.deleteMethodListener(), 2, 1);
         view.addActionListener(this.editMethodNameListener(), 2, 2);
@@ -244,17 +245,24 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             public void actionPerformed(ActionEvent e) {
                 String className = promptClassDropDown("Select the class where the field will be added.");
                 if (className != null) {
-                    String fieldName = promptInput("Enter new field name.");
-                    if (fieldName != null) {
-                        String response = executeCommand(new AddFieldCommand(model, className, fieldName));
-                        JOptionPane.showMessageDialog(view.frame, response);
-                        refreshJFrame();
+                	String fieldType = promptInput("Enter new field type.");
+                	if (fieldType != null) {
+                		String fieldName = promptInput("Enter new field name.");
+                        if (fieldName != null) {
+                            String response = executeCommand(new AddFieldCommand(model, className, fieldType, fieldName));
+                            JOptionPane.showMessageDialog(view.frame, response);
+                            refreshJFrame();
+                        }
+                        else {
+                        	JOptionPane.showMessageDialog(view.frame, "No field name was entered.", "Error", JOptionPane.ERROR_MESSAGE); 
+                        }
                     }
                     else {
-                        JOptionPane.showMessageDialog(view.frame, "No field name was entered.", "Error", JOptionPane.ERROR_MESSAGE);                    }
+                        JOptionPane.showMessageDialog(view.frame, "No field type was entered.", "Error", JOptionPane.ERROR_MESSAGE);                    }
                 }
                 else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
+                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                
+                }
             }
         };
     }
@@ -310,6 +318,39 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         }
                         else {
                             JOptionPane.showMessageDialog(view.frame, "No field name was entered.", "Error", JOptionPane.ERROR_MESSAGE);                        }
+                    }
+                    else { 
+                        JOptionPane.showMessageDialog(view.frame, "No field was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
+            }
+        };
+    }
+    
+    /**
+     * When the retype field button is pushed this function is called to get info
+     * from the user.
+     * 
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+     */
+    public ActionListener editFieldTypeListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String className = promptClassDropDown("Select the class where the field will hav its type changed.");
+                if (className != null) {
+                    Field original = promptFieldDropDown(className, "Select the field you want to change the type of.");
+                    if (original != null) {
+                        String newType = promptInput("Enter the new type of the field.");
+                        if (newType != null) {
+                            String response = executeCommand(
+                                    new EditFieldTypeCommand(model, className, original.getName(), newType));
+                            JOptionPane.showMessageDialog(view.frame, response);
+                            refreshJFrame();
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(view.frame, "No field type was entered.", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
                     else { 
                         JOptionPane.showMessageDialog(view.frame, "No field was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
