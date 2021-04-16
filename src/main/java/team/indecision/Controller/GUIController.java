@@ -610,11 +610,22 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String fileName = promptInput("Enter file name to save.");
-                if (fileName != null) {
-                    String response = executeCommand(new SaveJSONCommand(model, fileName));
-                    JOptionPane.showMessageDialog(view.frame, response);
-                }
+             	JFileChooser fileChooser = new JFileChooser();
+            	fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+            	int result = fileChooser.showOpenDialog(view.frame);
+            	if (result == JFileChooser.APPROVE_OPTION) {
+            	    File selectedFile = fileChooser.getSelectedFile();
+            	    String response = executeCommand(new SaveJSONCommand(model, selectedFile));
+            	    if(response.equals("Your data has been saved to a JSON file.")) {
+            	    	refreshJFrame();
+            	    } 
+            	    else {
+            	    	JOptionPane.showMessageDialog(view.frame, response, "Error", JOptionPane.ERROR_MESSAGE);
+            	    }
+            	}
+            	else {
+            		JOptionPane.showMessageDialog(view.frame, "No selection made.", "Error", JOptionPane.ERROR_MESSAGE);
+            	}
             }
         };
     }
@@ -629,12 +640,22 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String fileName = promptInput("Enter file name to load.");
-                if (fileName != null) {
-                    String response = executeCommand(new LoadJSONCommand(model, fileName));
-                    JOptionPane.showMessageDialog(view.frame, response);
-                    refreshJFrame();
-                }
+            	JFileChooser fileChooser = new JFileChooser();
+            	fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+            	int result = fileChooser.showOpenDialog(view.frame);
+            	if (result == JFileChooser.APPROVE_OPTION) {
+            	    File selectedFile = fileChooser.getSelectedFile();
+            	    String response = executeCommand(new LoadJSONCommand(model, selectedFile));
+            	    if(response.equals("Your data has been loaded from a JSON file.")) {
+            	    	refreshJFrame();
+            	    } 
+            	    else {
+            	    	JOptionPane.showMessageDialog(view.frame, response, "Error", JOptionPane.ERROR_MESSAGE);
+            	    }
+            	}
+            	else {
+            		JOptionPane.showMessageDialog(view.frame, "No selection made.", "Error", JOptionPane.ERROR_MESSAGE);
+            	}
             }
         };
     }
