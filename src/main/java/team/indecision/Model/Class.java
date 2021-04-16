@@ -150,7 +150,7 @@ public class Class implements Serializable{
 			 String result = "";
 			 while (it.hasNext()) {
 				 Field f = it.next();
-				 result += "<br/>     " + f.toString();
+				 result += "<br/>&nbsp;&nbsp;&nbsp;&nbsp;" + f.toString();
 			 }
 			 return result;
 
@@ -229,7 +229,7 @@ public class Class implements Serializable{
 		 String result = "";
 		 while (it.hasNext()) {
 			 Method m = it.next();
-			 result += "<br/>     " + m.toString();
+			 result += "<br/>&nbsp;&nbsp;&nbsp;&nbsp;" + m.toString();
 		 }
 		 return result;
 
@@ -316,7 +316,7 @@ public class Class implements Serializable{
 	 * @return A String containing this class.
 	 */
 	public String toStringGUI() {
-		String result = "<html>" + this.getName() + "<hr/> Fields:" + this.printFieldsGUI() + " <hr/> Methods:" + this.printMethodsGUI() + "<hr/> Relationships:" + this.printRelationships() + "</html>"; 
+		String result = "<html><b>" + this.getName() + "</b><hr/><b>&nbsp;&nbsp; Fields:</b>" + this.printFieldsGUI() + "<hr/>&nbsp;&nbsp; <b>Methods:</b>" + this.printMethodsGUI() + "</html>"; 
         return result;
 	}
 
