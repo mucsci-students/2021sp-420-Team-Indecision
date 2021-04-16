@@ -33,6 +33,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -41,6 +43,8 @@ import java.util.Random;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -94,6 +98,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         view.addActionListener(this.editRelationshipTypeListener(), 3, 3);
         view.addActionListener(this.saveJSONListener(), 4, 0);
         view.addActionListener(this.loadJSONListener(), 4, 1);
+        view.addActionListener(this.imageExportListener(), 4, 2);
         view.addActionListener(this.undoListener(), 5, 0);
         view.addActionListener(this.redoListener(), 5, 1);
 
@@ -632,7 +637,50 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             }
         };
     }
+    
+    public ActionListener imageExportListener() {
+    	JFrame f = view.frame;
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	BufferedImage img = getScreenShot(
+                        f.getContentPane() );
+                      JOptionPane.showMessageDialog(
+                        null,
+                        new JLabel(
+                          new ImageIcon(
+                            img.getScaledInstance(
+                              img.getWidth(null)/2,
+                              img.getHeight(null)/2,
+                              Image.SCALE_SMOOTH )
+                            )));
+                      try {
+                          // write the image as a PNG
+                          ImageIO.write(
+                            img,
+                            "png",
+                            new File("screenshot.png"));
+                        } catch(Exception e1) {
+                          e1.printStackTrace();
+                        }
+                
+            }
+        };
+    }
 
+    public static BufferedImage getScreenShot(
+    	    Component component) {
+
+    	    BufferedImage image = new BufferedImage(
+    	      component.getWidth(),
+    	      component.getHeight(),
+    	      BufferedImage.TYPE_INT_RGB
+    	      );
+    	    // call the Component's paint method, using
+    	    // the Graphics object of the image.
+    	    component.paint( image.getGraphics() ); // alternately use .printAll(..)
+    	    return image;
+    	  }
     //////////////////////////// Undo and Redo
     //////////////////////////// ActionListeners///////////////////////////////////////
 

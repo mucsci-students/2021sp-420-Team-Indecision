@@ -336,7 +336,7 @@ public class GUI extends JPanel {
 		//////////////////////////// JMenueBar Save and
 		//////////////////////////// Load////////////////////////////////
 
-		JMenu saveAndLoadMenu = new JMenu("Save and Load");
+		JMenu saveAndLoadMenu = new JMenu("File");
 		menuBar.add(saveAndLoadMenu);
 
 		JMenuItem saveItem = new JMenuItem("Save");
@@ -344,6 +344,9 @@ public class GUI extends JPanel {
 
 		JMenuItem loadItem = new JMenuItem("Load");
 		saveAndLoadMenu.add(loadItem);
+		
+		JMenuItem imgItem = new JMenuItem("Export as Image");
+		saveAndLoadMenu.add(imgItem);
 
 		//////////////////////////// JMenueBar Save and
 		//////////////////////////// Load//////////////////////////////////////
