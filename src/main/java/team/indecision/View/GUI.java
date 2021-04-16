@@ -83,30 +83,67 @@ public class GUI extends JPanel {
 						}
 					}
 
-					if (panel != null && panelDestination != null) {
-
-						
+					if (panel != null && panelDestination != null) {						
 						if (r.getType().equals("Aggregation")){
-							// Main Line
-							g2d.setStroke(new BasicStroke(5));
-							int xLinePoly[] = {entryX + panel.getWidth(), entryX + 10 + panel.getWidth(), destinationX - 36, destinationX - 26 };
-							int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2 };
-							g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
+							
+							if(entry.getValue().getName().equals(r.getDestination())){
+								// Main Line
+								g2d.setStroke(new BasicStroke(5));
+								int xLinePoly[] = {entryX + panel.getWidth(), entryX + 40 + panel.getWidth(), entryX + 40 + panel.getWidth(), entryX + panel.getWidth() + 25};
+								int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, entryY + 5, entryY + 5};
+								g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
 
-							// Arrow Point 
-							int xTrianglePoly[] = { destinationX - 5, destinationX - 10 - 5, destinationX - 20 - 5, destinationX - 10 - 5};
-							int yTrianglePoly[] = { destinationY + panelDestination.getHeight() / 2, destinationY - 5 + panelDestination.getHeight() / 2, destinationY + panelDestination.getHeight() / 2, destinationY + 5 + panelDestination.getHeight() / 2 };
-							Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
-							g2d.drawPolygon(triangle);
-							g2d.setColor(new Color(255, 255, 255));
-							g2d.fillPolygon(triangle);
-							g2d.setColor(new Color(0, 0, 0));
+
+								int xTrianglePoly[] = {entryX + panel.getWidth() + 5, entryX + panel.getWidth() + 10 + 5, entryX + panel.getWidth() + 20 + 5, entryX + panel.getWidth() + 10 + 5};
+								int yTrianglePoly[] = {destinationY + 5, destinationY - 5 + 5, destinationY + 5, destinationY + 5 + 5};
+								Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
+								g2d.drawPolygon(triangle);
+								g2d.setColor(new Color(255, 255, 255));
+								g2d.fillPolygon(triangle);
+								g2d.setColor(new Color(0, 0, 0));
+							}
+							
+							else {
+							
+								// Main Line
+								g2d.setStroke(new BasicStroke(5));
+								int xLinePoly[] = {entryX + panel.getWidth(), entryX + 40 + panel.getWidth(), destinationX - 36, destinationX - 26 };
+								int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2 };
+								g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
+
+								// Arrow Point 
+								int xTrianglePoly[] = {destinationX - 5, destinationX - 10 - 5, destinationX - 20 - 5, destinationX - 10 - 5};
+								int yTrianglePoly[] = {destinationY + panelDestination.getHeight() / 2, destinationY - 5 + panelDestination.getHeight() / 2, destinationY + panelDestination.getHeight() / 2, destinationY + 5 + panelDestination.getHeight() / 2 };
+								Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
+								g2d.drawPolygon(triangle);
+								g2d.setColor(new Color(255, 255, 255));
+								g2d.fillPolygon(triangle);
+								g2d.setColor(new Color(0, 0, 0));
+							}
+
 							}
 							
 						else if (r.getType().equals("Composition")){
+
+							if(entry.getValue().getName().equals(r.getDestination())){
+								// Main Line
+								g2d.setStroke(new BasicStroke(5));
+								int xLinePoly[] = {entryX + panel.getWidth(), entryX + 40 + panel.getWidth(), entryX + 40 + panel.getWidth(), entryX + panel.getWidth() + 25};
+								int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, entryY + 5, entryY + 5};
+								g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
+
+
+								int xTrianglePoly[] = {entryX + panel.getWidth() + 5, entryX + panel.getWidth() + 10 + 5, entryX + panel.getWidth() + 20 + 5, entryX + panel.getWidth() + 10 + 5};
+								int yTrianglePoly[] = {destinationY + 5, destinationY - 5 + 5, destinationY + 5, destinationY + 5 + 5};
+								Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
+								g2d.drawPolygon(triangle);
+								g2d.fillPolygon(triangle);
+							}
+							
+							else {
 							// Main Line
 							g2d.setStroke(new BasicStroke(5));
-							int xLinePoly[] = {entryX + panel.getWidth(), entryX + 10 + panel.getWidth(), destinationX - 36, destinationX - 26 };
+							int xLinePoly[] = {entryX + panel.getWidth(), entryX + 40 + panel.getWidth(), destinationX - 36, destinationX - 26 };
 							int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2 };
 							g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
 
@@ -117,39 +154,81 @@ public class GUI extends JPanel {
 							g2d.drawPolygon(triangle);
 							g2d.fillPolygon(triangle);							
 						}
+					}
 						else if (r.getType().equals("Inheritance")){
-							// Main Line
-							g2d.setStroke(new BasicStroke(5));
-							int xLinePoly[] = {entryX + panel.getWidth(), entryX + 10 + panel.getWidth(), destinationX - 30, destinationX - 10 };
-							int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2 };
-							g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
 
-							// Arrow Point 
-							int xTrianglePoly[] = { destinationX - 5, destinationX - 10 - 5, destinationX - 10 - 5};
-							int yTrianglePoly[] = { destinationY + panelDestination.getHeight() / 2, destinationY - 5 + panelDestination.getHeight() / 2, destinationY + 5 + panelDestination.getHeight() / 2 };
-							Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
-							g2d.drawPolygon(triangle);
-							g2d.setColor(new Color(255, 255, 255));
-							g2d.fillPolygon(triangle);
-							g2d.setColor(new Color(0, 0, 0));
+							if(entry.getValue().getName().equals(r.getDestination())){
+								// Main Line
+								g2d.setStroke(new BasicStroke(5));
+								int xLinePoly[] = {entryX + panel.getWidth(), entryX + 40 + panel.getWidth(), entryX + 40 + panel.getWidth(), entryX + panel.getWidth() + 20};
+								int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, entryY + 10, entryY + 10};
+								g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
+
+
+								int xTrianglePoly[] = {entryX + panel.getWidth() + 5, entryX + panel.getWidth() + 10 + 5, entryX + panel.getWidth() + 5 + 10};
+								int yTrianglePoly[] = {destinationY + 10, destinationY - 5 + 10, destinationY + 10 + 5};
+								Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
+								g2d.drawPolygon(triangle);
+								g2d.setColor(new Color(255, 255, 255));
+								g2d.fillPolygon(triangle);
+								g2d.setColor(new Color(0, 0, 0));
 							}
-						else if (r.getType().equals("Realization")){
-							// Main Line
-							g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0));
-							int xLinePoly[] = {entryX + panel.getWidth(), entryX + 10 + panel.getWidth(), destinationX - 30, destinationX - 10 };
-							int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2 };
-							g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
+							
+							else {
+								// Main Line
+								g2d.setStroke(new BasicStroke(5));
+								int xLinePoly[] = {entryX + panel.getWidth(), entryX + 40 + panel.getWidth(), destinationX - 30, destinationX - 10 };
+								int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2 };
+								g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
+
 								// Arrow Point 
-							int xTrianglePoly[] = { destinationX - 5, destinationX - 10 - 5, destinationX - 10 - 5};
-							int yTrianglePoly[] = { destinationY + panelDestination.getHeight() / 2, destinationY - 5 + panelDestination.getHeight() / 2, destinationY + 5 + panelDestination.getHeight() / 2 };
-							Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
-							g2d.setStroke(new BasicStroke(5));
-
-							g2d.drawPolygon(triangle);
-							g2d.setColor(new Color(255, 255, 255));
-							g2d.fillPolygon(triangle);
-							g2d.setColor(new Color(0, 0, 0));
+								int xTrianglePoly[] = { destinationX - 5, destinationX - 10 - 5, destinationX - 10 - 5};
+								int yTrianglePoly[] = { destinationY + panelDestination.getHeight() / 2, destinationY - 5 + panelDestination.getHeight() / 2, destinationY + 5 + panelDestination.getHeight() / 2 };
+								Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
+								g2d.drawPolygon(triangle);
+								g2d.setColor(new Color(255, 255, 255));
+								g2d.fillPolygon(triangle);
+								g2d.setColor(new Color(0, 0, 0));
 							}
+						}
+						else if (r.getType().equals("Realization")){
+							if(entry.getValue().getName().equals(r.getDestination())){
+								// Main Line
+								g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0));
+								int xLinePoly[] = {entryX + panel.getWidth(), entryX + 40 + panel.getWidth(), entryX + 40 + panel.getWidth(), entryX + panel.getWidth() + 20};
+								int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, entryY + 10, entryY + 10};
+								g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
+
+
+								int xTrianglePoly[] = {entryX + panel.getWidth() + 5, entryX + panel.getWidth() + 10 + 5, entryX + panel.getWidth() + 5 + 10};
+								int yTrianglePoly[] = {destinationY + 10, destinationY - 5 + 10, destinationY + 10 + 5};
+								Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
+								g2d.setStroke(new BasicStroke(5));
+
+								g2d.drawPolygon(triangle);
+								g2d.setColor(new Color(255, 255, 255));
+								g2d.fillPolygon(triangle);
+								g2d.setColor(new Color(0, 0, 0));
+							}
+							
+							else {
+								// Main Line
+								g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0));
+								int xLinePoly[] = {entryX + panel.getWidth(), entryX + 40 + panel.getWidth(), destinationX - 30, destinationX - 10 };
+								int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2 };
+								g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
+								// Arrow Point 
+								int xTrianglePoly[] = { destinationX - 5, destinationX - 10 - 5, destinationX - 10 - 5};
+								int yTrianglePoly[] = { destinationY + panelDestination.getHeight() / 2, destinationY - 5 + panelDestination.getHeight() / 2, destinationY + 5 + panelDestination.getHeight() / 2 };
+								Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
+								g2d.setStroke(new BasicStroke(5));
+
+								g2d.drawPolygon(triangle);
+								g2d.setColor(new Color(255, 255, 255));
+								g2d.fillPolygon(triangle);
+								g2d.setColor(new Color(0, 0, 0));
+							}
+						}
 						
 					}
 				}
