@@ -23,9 +23,9 @@ public class Class implements Serializable{
 	private SortedSet<Method> methods = new TreeSet<Method>();
 	//Stores the relationships for the class.
 	private SortedSet<Relationship> relationships = new TreeSet<Relationship>();
-	//Stores GUI location data.
+	//Stores GUI location data
 	private int x;
-	//Stores GUI location data.
+	//Stores GUI location data
 	private int y;
 	
 	/** Constructs an uninitialized instance of the object.
@@ -47,8 +47,8 @@ public class Class implements Serializable{
 	 * @param fieldsP The class fields name.
 	 * @param methodsP The class methods name.
 	 * @param relationshipsP The class relationships name.
-	 * @param xP GUI location data.
-	 * @param yP GUI location data.
+	 * @param xP 
+	 * @param yP 
 	 */
 	public Class(String nameP, SortedSet<Field> fieldsP, SortedSet<Method> methodsP, SortedSet<Relationship> relationshipsP, int xP, int yP) {
 		name = nameP;
@@ -333,30 +333,19 @@ public class Class implements Serializable{
         return result;
     }
 	
-	/** Gets the class's X location.
-	 * @return An int representation of the location.
-	 */
+	
 	public int getXLocation() {
 		return x;
 	}
 	
-	/** Gets the class's Y location.
-	 * @return An int representation of the location.
-	 */
 	public int getYLocation() {
 		return y;
 	}
 	
-	/** Sets the class's X location
-	 * @param xP An int representing the x location.
-	 */
 	public void setXLocation(int xP) {
 		x = xP;
 	}
 	
-	/** Sets the class's Y location
-	 * @param yP An int representing the Y location.
-	 */
 	public void setYLocation(int yP) {
 		y = yP;
 	}

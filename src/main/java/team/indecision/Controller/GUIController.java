@@ -41,6 +41,8 @@ import java.util.Random;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -48,27 +50,15 @@ import java.awt.geom.*;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-/** This class represents the controller for the GUI application.
- * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
- * @version 1.0
- * @since 1.0
- */
 public class GUIController extends JPanel implements  MouseListener, MouseMotionListener{
-   
-	private static final long serialVersionUID = 1L;
-	//Stores the model that the controller will act on.
-	private Classes model;
-	//Stores the view that the controller will update.
+    private Classes model;
     private GUI view;
-  //Stores the history object that the controller uses to perform undo and redo.
     private History history;
     private int previousX;
     private int previousY;
 
     private HashMap<String, JPanel> customJPanels = new HashMap<String, JPanel>();
 
-    /** Constructs an uninitialized controller.
-	 */
     public GUIController() {
 
     }
@@ -94,13 +84,11 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         view.addActionListener(this.editRelationshipTypeListener(), 3, 3);
         view.addActionListener(this.saveJSONListener(), 4, 0);
         view.addActionListener(this.loadJSONListener(), 4, 1);
+        view.addActionListener(this.screenshotListener(), 4, 2);
         view.addActionListener(this.undoListener(), 5, 0);
         view.addActionListener(this.redoListener(), 5, 1);
     }
 
-    /** Executes a command object. This method also creates a deep copy and saves it to the backup field of the model and pushes the Command and a Memento onto the History stack.
-	 * @return A string that represents the outcome of the execution.
-	 */
     private String executeCommand(Command command) {
         Classes deepCopy = (Classes) org.apache.commons.lang.SerializationUtils.clone(model);
         model.setBackup(deepCopy.getClasses());
@@ -111,8 +99,6 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return response;
     }
 
-    /** Undoes the most recent command if their is a command to undo by converting to the backup state in the model.
-	 */
     private String undo() {
         String response = "You can no longer undo.";
         if (!history.isEmptyUndo()) {
@@ -122,8 +108,6 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return response;
     }
 
-    /** Redoes the most recent command if their is a command to redo.
-	 */
     private String redo() {
         String response = "You can no longer redo.";
         if (!history.isEmptyRedo()) {
@@ -152,9 +136,6 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     JOptionPane.showMessageDialog(view.frame, response);
                     refreshJFrame();
                 }
-                else {
-                    JOptionPane.showMessageDialog(view.frame,  "No class was added.", "Error",  JOptionPane.ERROR_MESSAGE);
-                }
             }
         };
     }
@@ -169,14 +150,11 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String deletedClass = promptClassDropDown("Select the class to be deleted.");
+                String deletedClass = promptClassDropDown("Enter the class name to be deleted.");
                 if (deletedClass != null) {
                     String response = executeCommand(new DeleteClassCommand(model, deletedClass));
                     JOptionPane.showMessageDialog(view.frame, response);
                     refreshJFrame();
-                }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         };
@@ -188,12 +166,28 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      * 
      * @return An ActionListener is sent back to the GUI so the data is passed back.
      */
+    public ActionListener renameClassListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String original = promptClassDropDown("Enter the class you want to rename.");
+                if (original != null) {
+                    String newClassName = promptInput("Enter the new name of the class.");
+                    if (newClassName != null) {
+                        String response = executeCommand(new EditClassNameCommand(model, original, newClassName));
+                        JOptionPane.showMessageDialog(view.frame, response);
+                        refreshJFrame();
+                    }
+                }
+            }
+        };
+    }
 
     public ActionListener editClassNameListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String className = promptInput("Select the class you want to rename.");
+                String className = promptInput("Enter the class you want to rename.");
                 if (className != null) {
                     String newClassName = promptInput("Enter the new name of the class.");
                     if (newClassName != null) {
@@ -201,12 +195,6 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No new class name was selected.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         };
@@ -227,7 +215,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String className = promptClassDropDown("Select the class where the field will be added.");
+                String className = promptClassDropDown("Enter the class name where the field will be added.");
                 if (className != null) {
                     String fieldName = promptInput("Enter new field name.");
                     if (fieldName != null) {
@@ -235,11 +223,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No field name was entered.", "Error", JOptionPane.ERROR_MESSAGE);                    }
                 }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
             }
         };
     }
@@ -254,20 +238,16 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String className = promptClassDropDown("Select the class where the field will be deleted.");
+                String className = promptClassDropDown("Enter the class name where the field will be deleted.");
                 if (className != null) {
-                    Field deletedField = promptFieldDropDown(className, "Select the field to be deleted.");
+                    Field deletedField = promptFieldDropDown(className, "Enter the field name to be deleted.");
                     if (deletedField != null) {
-                        String response = executeCommand(new DeleteFieldCommand(model, className, deletedField.getName()));
+                        String response = executeCommand(
+                                new DeleteFieldCommand(model, className, deletedField.getName()));
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No field was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
                 }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
-
             }
         };
     }
@@ -282,9 +262,9 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String className = promptClassDropDown("Select the class where the field will be added renamed.");
+                String className = promptClassDropDown("Enter the class name where the field will be added renamed.");
                 if (className != null) {
-                    Field original = promptFieldDropDown(className, "Select the field you want to rename.");
+                    Field original = promptFieldDropDown(className, "Enter the field you want to rename.");
                     if (original != null) {
                         String newName = promptInput("Enter the new name of the field.");
                         if (newName != null) {
@@ -293,14 +273,8 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
-                        else {
-                            JOptionPane.showMessageDialog(view.frame, "No field name was entered.", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
-                    else { 
-                        JOptionPane.showMessageDialog(view.frame, "No field was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
                 }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
             }
         };
     }
@@ -320,7 +294,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String className = promptClassDropDown("Select the class where the method will be added.");
+                String className = promptClassDropDown("Enter the class name where the method will be added.");
                 if (className != null) {
                     String methodName = promptInput("Enter new method name.");
                     if (methodName != null) {
@@ -331,14 +305,8 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
-                        else {
-                            JOptionPane.showMessageDialog(view.frame, "No parameters were entered.", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No method was entered.", "Error", JOptionPane.ERROR_MESSAGE);                    }
                 }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
             }
         };
     }
@@ -353,20 +321,16 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String className = promptClassDropDown("Select the class where the method will be deleted.");
+                String className = promptClassDropDown("Enter the class name where the method will be deleted.");
                 if (className != null) {
-                    Method methodAndParams = prompMethodDropDown(className, "Choose the method to delete");
+                    Method methodAndParams = prompMethodDropDown(className, "Choose method to delete");
                     if (methodAndParams != null) {
                         String response = executeCommand(new DeleteMethodCommand(model, className,
                                 methodAndParams.getName(), methodAndParams.getParameters()));
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No method was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
                 }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
             }
         };
     }
@@ -381,7 +345,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String className = promptClassDropDown("Select the class with the method you want to change.");
+                String className = promptClassDropDown("Enter the class name where the methods name will be changed.");
                 if (className != null) {
                     Method methodToChange = prompMethodDropDown(className,
                             "Choose the method you want to change the name of.");
@@ -393,14 +357,8 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
-                        else {
-                            JOptionPane.showMessageDialog(view.frame, "No new method name was entered.", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No method was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
                 }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
             }
         };
     }
@@ -416,7 +374,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             @Override
             public void actionPerformed(ActionEvent e) {
                 String className = promptClassDropDown(
-                        "Select the class name where the methods parameters will be changed.");
+                        "Enter the class name where the methods parameters will be changed.");
                 if (className != null) {
                     Method methodToChange = prompMethodDropDown(className,
                             "Select the method you want to change parametes of.");
@@ -428,14 +386,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
-                        else {
-                            JOptionPane.showMessageDialog(view.frame, "No parameters were entered.", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No method was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
-                }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         };
@@ -456,25 +407,19 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String className = promptClassDropDown("Select the class where the relationship will be added.");
+                String className = promptClassDropDown("Enter the class name where the relationship will be added.");
                 if (className != null) {
-                    String relationshipName = promptClassDropDown("Select the relationship destination.");
+                    String relationshipName = promptClassDropDown("Enter relationship destination.");
                     if (relationshipName != null) {
-                        String relationshipType = promptRelationshipTypeDropDown("Select the new relationship type.");
+                        String relationshipType = promptRelationshipTypeDropDown("Enter new relationship type.");
                         if (relationshipType != null) {
                             String response = executeCommand(
                                     new AddRelationshipCommand(model, className, relationshipName, relationshipType));
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
-                        else {
-                            JOptionPane.showMessageDialog(view.frame, "No relatioship type was selected.", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No relationship destination was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
                 }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
             }
         };
     }
@@ -499,11 +444,8 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No relationship was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
+
                 }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
             }
         };
     }
@@ -519,25 +461,19 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             @Override
             public void actionPerformed(ActionEvent e) {
                 String className = promptInput(
-                        "Select the class where the relationship will have its destination changed.");
+                        "Enter the class name where the relationship will have its destination changed.");
                 if (className != null) {
-                    String relationshipDestination = promptInput("Select relationship.");
+                    String relationshipDestination = promptInput("Enter old relationship destination.");
                     if (relationshipDestination != null) {
-                        String newRelationshipDestination = promptInput("Select new relationship destination.");
+                        String newRelationshipDestination = promptInput("Enter new relationship destination.");
                         if (newRelationshipDestination != null) {
                             String response = executeCommand(new EditRelationshipDestinationCommand(model, className,
                                     relationshipDestination, newRelationshipDestination));
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
-                        else {
-                            JOptionPane.showMessageDialog(view.frame, "No new relationship destination was selected.", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No relationship was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
                 }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
             }
         };
     }
@@ -553,31 +489,25 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             @Override
             public void actionPerformed(ActionEvent e) {
                 String className = promptClassDropDown(
-                        "Select the class where the relationship will have its type changed.");
+                        "Enter the class name where the relationship will have its type changed.");
                 if (className != null) {
                     Relationship relationship = promptRelationshipDropDown(className,
-                            "Select the relationship you want to change.");
+                            "Choose the relationship you want to change.");
                     if (relationship != null) {
-                        String relationshipNewType = promptRelationshipTypeDropDown("Select new relationship type.");
+                        String relationshipNewType = promptRelationshipTypeDropDown("Enter new relationship type.");
                         if (relationshipNewType != null) {
                             String response = executeCommand(new EditRelationshipTypeCommand(model, className,
                                     relationship.getDestination(), relationshipNewType));
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
-                        else {
-                            JOptionPane.showMessageDialog(view.frame, "No relationship type was selected.", "Error", JOptionPane.ERROR_MESSAGE);                        }
                     }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No relationship was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
                 }
-                else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
             }
         };
     }
 
-    //////////////////////////// Save and load
+    /////////////////////////////       File      ///////////////////////////////////////
     //////////////////////////// ActionListeners///////////////////////////////////////
 
     /**
@@ -590,15 +520,28 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String fileName = promptInput("Enter file name to save.");
-                if (fileName != null) {
-                    String response = executeCommand(new SaveJSONCommand(model, fileName));
-                    JOptionPane.showMessageDialog(view.frame, response);
-                }
+             	JFileChooser fileChooser = new JFileChooser();
+            	fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+            	int result = fileChooser.showOpenDialog(view.frame);
+            	if (result == JFileChooser.APPROVE_OPTION) {
+            	    File selectedFile = fileChooser.getSelectedFile();
+            	    String response = executeCommand(new SaveJSONCommand(model, selectedFile));
+            	    if(response.isEmpty()) {
+            	    	refreshJFrame();
+            	    } 
+            	    else {
+            	    	JOptionPane.showMessageDialog(view.frame, response, "Error", JOptionPane.ERROR_MESSAGE);
+            	    }
+            	}
+            	else {
+            		JOptionPane.showMessageDialog(view.frame, "No selection made.", "Error", JOptionPane.ERROR_MESSAGE);
+            	}
             }
         };
     }
 
+    
+    
     /**
      * When the load button is pushed this function is called to get info from the
      * user and load the JSON file into the environment.
@@ -609,12 +552,39 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String fileName = promptInput("Enter file name to load.");
-                if (fileName != null) {
-                    String response = executeCommand(new LoadJSONCommand(model, fileName));
-                    JOptionPane.showMessageDialog(view.frame, response);
-                    refreshJFrame();
-                }
+            	JFileChooser fileChooser = new JFileChooser();
+            	fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+            	int result = fileChooser.showOpenDialog(view.frame);
+            	if (result == JFileChooser.APPROVE_OPTION) {
+            	    File selectedFile = fileChooser.getSelectedFile();
+            	    String response = executeCommand(new LoadJSONCommand(model, selectedFile));
+            	    if(response.isEmpty()) {
+            	    	refreshJFrame();
+            	    } 
+            	    else {
+            	    	JOptionPane.showMessageDialog(view.frame, response, "Error", JOptionPane.ERROR_MESSAGE);
+            	    }
+            	}
+            	else {
+            		JOptionPane.showMessageDialog(view.frame, "No selection made.", "Error", JOptionPane.ERROR_MESSAGE);
+            	}
+            }
+        };
+    }
+    
+    public ActionListener screenshotListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	try {
+                    Robot rbt = new Robot();
+                    Toolkit tk = Toolkit.getDefaultToolkit();
+                    Dimension dim = tk.getScreenSize();
+                    BufferedImage background = rbt.createScreenCapture(new Rectangle(0, 1, (int) dim.getWidth(), (int) dim.getHeight()));
+                  }
+                  catch (Exception ex) {
+                    ex.printStackTrace();
+                  }
             }
         };
     }
