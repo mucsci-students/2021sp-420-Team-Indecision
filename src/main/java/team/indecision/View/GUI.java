@@ -33,95 +33,127 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import javax.swing.*;
 
-
-
-public class GUI extends JPanel{
-
-
-
-	// Add mouse listeners here or in controller 
-	
+public class GUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 	public JFrame frame;
 	private JMenuBar menuBar;
 	private GUIController controller;
 
-
-	public void setController (GUIController controllerP){
+	public void setController(GUIController controllerP) {
 		controller = controllerP;
 	}
-	
+
 	public void paint(Graphics g) {
 		super.paint(g);
-        Graphics2D g2d = (Graphics2D) g;
+		Graphics2D g2d = (Graphics2D) g;
 
-
-
-
-
- 
-        //g2d.drawLine(120, 50, 360, 50);
-		//controller.printLine();
 		List<Component> componentList = getAllComponents(this);
-		//System.out.println(list.toString());
-
-
 
 		for (int i = 0; i < componentList.size(); i = i + 2) {
+			Dimension d = new Dimension(100, 100);
 			componentList.get(i).setSize(componentList.get(i + 1).getWidth(), componentList.get(i + 1).getHeight());
+			// System.out.println(componentList.get(i).getX());
+
 			revalidate();
 			repaint();
 		}
 
-		
-
-
-
-		for (Component component : componentList) {
-			//System.out.println(component.getBounds().toString());
-			//System.out.println(component.toString());
-			//System.out.println(entry.getBounds());
-			//component.repaint();
-		}
 		for (Entry<String, team.indecision.Model.Class> entry : controller.getModel().getClasses().entrySet()) {
-			if(entry.getValue().getRelationships() != null){
-				//System.out.println(entry.getValue().getRelationships().toString());
 
-
+			if (entry.getValue().getRelationships() != null) {
 
 				SortedSet<Relationship> relationships = entry.getValue().getRelationships();
 				Iterator<Relationship> it = relationships.iterator();
 				Relationship r = null;
 				while (it.hasNext()) {
 					r = it.next();
-					//System.out.println(r.getDestination());
 					int entryX = entry.getValue().getXLocation();
 					int entryY = entry.getValue().getYLocation();
 					int destinationX = controller.getModel().getClasses().get(r.getDestination()).getXLocation();
 					int destinationY = controller.getModel().getClasses().get(r.getDestination()).getYLocation();
-					//System.out.println("entryX: " + entryX + "entryY: " + entryY);
-					//System.out.println("destinationX: " + destinationX + "destinationY: " + destinationY);
 
-					Graphics2D g2 = (Graphics2D) g;
-					g2.setStroke(new BasicStroke(5));
-					
-					g2.drawLine(entryX + 100 , entryY + 100, destinationX + 100, destinationY + 100);
-					
-					int xPoly[] = {destinationX + 100, destinationX - 10 + 100, destinationX - 10 + 100};
-					int yPoly[] = {destinationY + 100, destinationY - 10 + 100, destinationY + 10 + 100};
-
-					//System.out.println("x " + xPoly.toString() + "\n" + "y " + yPoly.toString());
-			
-					Polygon triangle = new Polygon(xPoly, yPoly, xPoly.length);
-					g.drawPolygon(triangle);
-					//g.fillPolygon(triangle);
+					JPanel panel = null;
+					JPanel panelDestination = null;
+					for (int i = 0; i < componentList.size(); i++) {
+						if (componentList.get(i).getName().equals(r.getDestination() + "Panel")) {
+							panelDestination = (JPanel) componentList.get(i);
+						}
+						if (componentList.get(i).getName().equals(entry.getValue().getName() + "Panel")) {
+							panel = (JPanel) componentList.get(i);
+						}
 					}
-				
+
+					if (panel != null && panelDestination != null) {
+
+						
+						if (r.getType().equals("Aggregation")){
+							// Main Line
+							g2d.setStroke(new BasicStroke(5));
+							int xLinePoly[] = {entryX + panel.getWidth(), entryX + 10 + panel.getWidth(), destinationX - 36, destinationX - 26 };
+							int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2 };
+							g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
+
+							// Arrow Point 
+							int xTrianglePoly[] = { destinationX - 5, destinationX - 10 - 5, destinationX - 20 - 5, destinationX - 10 - 5};
+							int yTrianglePoly[] = { destinationY + panelDestination.getHeight() / 2, destinationY - 5 + panelDestination.getHeight() / 2, destinationY + panelDestination.getHeight() / 2, destinationY + 5 + panelDestination.getHeight() / 2 };
+							Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
+							g2d.drawPolygon(triangle);
+							g2d.setColor(new Color(255, 255, 255));
+							g2d.fillPolygon(triangle);
+							g2d.setColor(new Color(0, 0, 0));
+							}
+							
+						else if (r.getType().equals("Composition")){
+							// Main Line
+							g2d.setStroke(new BasicStroke(5));
+							int xLinePoly[] = {entryX + panel.getWidth(), entryX + 10 + panel.getWidth(), destinationX - 36, destinationX - 26 };
+							int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2 };
+							g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
+
+							// Arrow Point 
+							int xTrianglePoly[] = { destinationX - 5, destinationX - 10 - 5, destinationX - 20 - 5, destinationX - 10 - 5};
+							int yTrianglePoly[] = { destinationY + panelDestination.getHeight() / 2, destinationY - 5 + panelDestination.getHeight() / 2, destinationY + panelDestination.getHeight() / 2, destinationY + 5 + panelDestination.getHeight() / 2 };
+							Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
+							g2d.drawPolygon(triangle);
+							g2d.fillPolygon(triangle);							
+						}
+						else if (r.getType().equals("Inheritance")){
+							// Main Line
+							g2d.setStroke(new BasicStroke(5));
+							int xLinePoly[] = {entryX + panel.getWidth(), entryX + 10 + panel.getWidth(), destinationX - 30, destinationX - 10 };
+							int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2 };
+							g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
+
+							// Arrow Point 
+							int xTrianglePoly[] = { destinationX - 5, destinationX - 10 - 5, destinationX - 10 - 5};
+							int yTrianglePoly[] = { destinationY + panelDestination.getHeight() / 2, destinationY - 5 + panelDestination.getHeight() / 2, destinationY + 5 + panelDestination.getHeight() / 2 };
+							Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
+							g2d.drawPolygon(triangle);
+							g2d.setColor(new Color(255, 255, 255));
+							g2d.fillPolygon(triangle);
+							g2d.setColor(new Color(0, 0, 0));
+							}
+						else if (r.getType().equals("Realization")){
+							// Main Line
+							g2d.setStroke(new BasicStroke(5));
+							int xLinePoly[] = {entryX + panel.getWidth(), entryX + 10 + panel.getWidth(), destinationX - 30, destinationX - 10 };
+							int yLinePoly[] = {entryY + panel.getHeight() / 2, entryY + panel.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2, destinationY +  panelDestination.getHeight() / 2 };
+							g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
+								// Arrow Point 
+							int xTrianglePoly[] = { destinationX - 5, destinationX - 10 - 5, destinationX - 10 - 5};
+							int yTrianglePoly[] = { destinationY + panelDestination.getHeight() / 2, destinationY - 5 + panelDestination.getHeight() / 2, destinationY + 5 + panelDestination.getHeight() / 2 };
+							Polygon triangle = new Polygon(xTrianglePoly, yTrianglePoly, xTrianglePoly.length);
+							g2d.drawPolygon(triangle);
+
+							}
+						
+					}
+				}
+
 			}
 		}
- 
-    }
-	
+
+	}
 
 	public static List<Component> getAllComponents(final Container c) {
 		Component[] comps = c.getComponents();
@@ -134,33 +166,30 @@ public class GUI extends JPanel{
 		return compList;
 	}
 
-
-
 	public GUI(Classes modelP) {
-		//controller = controllerP;
-		//List<Component> list = getAllComponents(this);
-		//System.out.println(list.toString());
-		
+		// controller = controllerP;
+		// List<Component> list = getAllComponents(this);
+		// System.out.println(list.toString());
+
 		frame = new JFrame("UML - Team Indecision");
-		setLayout(null); 
+		setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(1280, 720));
 
 		try {
-         	UIManager.setLookAndFeel(
-            	UIManager.getSystemLookAndFeelClassName());
-    	} 
-   	 	catch (Exception e) {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
 			System.out.println("Look and feel not set on this system.");
 		}
 
 		menuBar = new JMenuBar();
-		
-		////////////////////////////JMenueBar Classes//////////////////////////////////////
+
+		//////////////////////////// JMenueBar
+		//////////////////////////// Classes//////////////////////////////////////
 
 		JMenu classMenu = new JMenu("Class");
 		menuBar.add(classMenu);
-		
+
 		JMenuItem addClassItem = new JMenuItem("Add Class");
 		classMenu.add(addClassItem);
 
@@ -169,12 +198,13 @@ public class GUI extends JPanel{
 
 		JMenuItem editClassNameItem = new JMenuItem("Edit Class Name");
 		classMenu.add(editClassNameItem);
-		
-		////////////////////////////JMenueBar Fields///////////////////////////////////////
-		
+
+		//////////////////////////// JMenueBar
+		//////////////////////////// Fields///////////////////////////////////////
+
 		JMenu fieldMenu = new JMenu("Field");
 		menuBar.add(fieldMenu);
-		
+
 		JMenuItem addFieldItem = new JMenuItem("Add Field");
 		fieldMenu.add(addFieldItem);
 
@@ -184,11 +214,12 @@ public class GUI extends JPanel{
 		JMenuItem editFieldNameItem = new JMenuItem("Edit Field Name");
 		fieldMenu.add(editFieldNameItem);
 
-		////////////////////////////JMenueBar Methods//////////////////////////////////////
-		
+		//////////////////////////// JMenueBar
+		//////////////////////////// Methods//////////////////////////////////////
+
 		JMenu methodMenu = new JMenu("Method");
 		menuBar.add(methodMenu);
-		
+
 		JMenuItem addMethodItem = new JMenuItem("Add Method");
 		methodMenu.add(addMethodItem);
 
@@ -200,53 +231,56 @@ public class GUI extends JPanel{
 
 		JMenuItem editMethodParametersItem = new JMenuItem("Edit Method Parameters");
 		methodMenu.add(editMethodParametersItem);
-			
-		////////////////////////////JMenueBar Relationships////////////////////////////////
-		
+
+		//////////////////////////// JMenueBar
+		//////////////////////////// Relationships////////////////////////////////
+
 		JMenu relationshipMenu = new JMenu("Relationship");
 		menuBar.add(relationshipMenu);
-		
+
 		JMenuItem addRelationshipItem = new JMenuItem("Add Relationship");
 		relationshipMenu.add(addRelationshipItem);
-		
+
 		JMenuItem deleteRelationshipItem = new JMenuItem("Delete Relationship");
 		relationshipMenu.add(deleteRelationshipItem);
-		
+
 		JMenuItem editRelationshipDestinationItem = new JMenuItem("Edit Relationship Destination");
 		relationshipMenu.add(editRelationshipDestinationItem);
-		
+
 		JMenuItem editRelationshipTypeItem = new JMenuItem("Edit Relationship Type");
 		relationshipMenu.add(editRelationshipTypeItem);
-		
-		////////////////////////////JMenueBar Save and Load////////////////////////////////
-		
+
+		//////////////////////////// JMenueBar Save and
+		//////////////////////////// Load////////////////////////////////
+
 		JMenu saveAndLoadMenu = new JMenu("Save and Load");
 		menuBar.add(saveAndLoadMenu);
-				
+
 		JMenuItem saveItem = new JMenuItem("Save");
 		saveAndLoadMenu.add(saveItem);
-				
+
 		JMenuItem loadItem = new JMenuItem("Load");
 		saveAndLoadMenu.add(loadItem);
-		
-		////////////////////////////JMenueBar Save and Load//////////////////////////////////////
+
+		//////////////////////////// JMenueBar Save and
+		//////////////////////////// Load//////////////////////////////////////
 		JMenu undoAndRedoMenu = new JMenu("Undo and Redo");
 		menuBar.add(undoAndRedoMenu);
-		
+
 		JMenuItem undoItem = new JMenuItem("Undo");
 		undoAndRedoMenu.add(undoItem);
-		
+
 		JMenuItem redoItem = new JMenuItem("Redo");
 		undoAndRedoMenu.add(redoItem);
-				
+
 		frame.setJMenuBar(menuBar);
 		frame.add(this);
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
-	public void addActionListener (ActionListener listener, int menuPosition, int menuItemPosition) {
-		
+
+	public void addActionListener(ActionListener listener, int menuPosition, int menuItemPosition) {
+
 		menuBar.getMenu(menuPosition).getItem(menuItemPosition).addActionListener(listener);
 	}
 }

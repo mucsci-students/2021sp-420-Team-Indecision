@@ -830,6 +830,9 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
 
             panel.setLayout(new GridBagLayout());
 
+            panel.setName(entry.getValue().getName() + "Panel");
+
+            label.setName(entry.getValue().getName() + "Label");
 
 
 
@@ -839,7 +842,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             customJPanels.put(entry.getValue().getName(), panel);
 
             view.frame.pack();
-            System.out.println(label.getBounds().toString());
+            //System.out.println(label.getBounds().toString());
 
         }
         placeJPanels();
