@@ -1,5 +1,6 @@
 package team.indecision.Command;
 
+import java.io.File;
 import java.nio.file.Paths;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import team.indecision.Model.Classes;
@@ -15,14 +16,26 @@ public class SaveJSONCommand implements Command {
 	Classes model;
 	//Stores the file name of the file that will be loaded.
 	String fileName;
+	//Stores the file to be loaded this will be null if the cli controller is calling this command
+	File file;
 	//Stores whether or not the state of the model has changed. True if the state has changed false if not.
 	boolean stateChange;
+	
+	/** Constructs a Save JSON command with the desired model and file.
+	 */
+	public SaveJSONCommand (Classes modelP, File fileP) {
+		model = modelP;
+		fileName = null;
+		file = fileP;
+		stateChange = false;
+	}
 	
 	/** Constructs a Save JSON command with the desired model and file name.
 	 */
 	public SaveJSONCommand (Classes modelP, String fileNameP) {
 		model = modelP;
 		fileName = fileNameP;
+		file = null;
 		stateChange = false;
 	}
 	
@@ -30,19 +43,25 @@ public class SaveJSONCommand implements Command {
 	 * @return A string that represents the outcome of the execution.
 	 */
 	@Override
-	public String execute() {
-		String response;
-		fileName = fileName.concat(".json");
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.writeValue(Paths.get(fileName).toFile(), model.getClasses());
-			response = "Your data has been saved to a JSON file in your program's root directory.";
-		} catch (Exception ex) {
-			System.out.println("Not a valid file name.");
-			response = "Not a valid file name.";
-		}	
-		return response;
-	}
+    public String execute() {
+        String response;
+        try {
+        	if (file == null ) {
+        		File f = new File(fileName);
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.writeValue(f, model.getClasses());
+        	}
+        	else {
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.writeValue(file, model.getClasses());
+        	}
+                
+                response = "Your data has been saved to a JSON file.";
+        } catch (Exception ex) {
+            response = "Not a valid path or filename.";
+        }
+        return response;
+    }
 
 	/** Gets the stateChange field.
 	 * @return A boolean that represents whether or not the state has changed.

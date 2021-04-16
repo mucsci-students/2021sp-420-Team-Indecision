@@ -665,4 +665,36 @@ public class CommandTests {
 		assertFalse(model.getClasses().get("test").containsMethod("meth", p));
     }
 	
+	@Test
+    public void saveAndLoadFileTest() {
+        Classes model = new Classes();
+        AddClassCommand c = new AddClassCommand(model, "test");
+        c.execute();
+        String testFilename = "makeTest.json";
+        SaveJSONCommand testSave = new SaveJSONCommand(model, testFilename);
+        LoadJSONCommand testLoad = new LoadJSONCommand(model, testFilename);
+        assertEquals("Your data has been saved to a JSON file.", testSave.execute());
+        assertEquals("Your data has been loaded from a JSON file.", testLoad.execute());
+    }
+
+    @Test
+    public void saveWithInvalidPathTest() {
+        Classes model = new Classes();
+        AddClassCommand c = new AddClassCommand(model, "test");
+        c.execute();
+        String testFilename = "blah/makeTest.json";
+        SaveJSONCommand testSave = new SaveJSONCommand(model, testFilename);
+        assertEquals("Not a valid path or filename.", testSave.execute());
+    }
+
+    @Test
+    public void loadNonExistentFile() {
+        Classes model = new Classes();
+        AddClassCommand c = new AddClassCommand(model, "test");
+        c.execute();
+        String testFilename = "blah.json";
+        LoadJSONCommand testLoad = new LoadJSONCommand(model, testFilename);
+        assertEquals("Not a valid json file or the file does not exist.", testLoad.execute());
+    }
+	
 }
