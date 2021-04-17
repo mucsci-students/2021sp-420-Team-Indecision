@@ -1,1 +1,1 @@
-{"a":{"name":"a","fields":[],"methods":[],"relationships":[{"destination":"b","type":"Aggregation"}],"ylocation":120,"xlocation":127},"b":{"name":"b","fields":[],"methods":[],"relationships":[],"ylocation":121,"xlocation":602}}
+{"a":{"name":"a","fields":[],"methods":[],"relationships":[{"destination":"b","type":"Aggregation"}],"ylocation":284,"xlocation":442},"b":{"name":"b","fields":[],"methods":[],"relationships":[],"ylocation":121,"xlocation":602}}
