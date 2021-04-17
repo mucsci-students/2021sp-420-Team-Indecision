@@ -486,7 +486,7 @@ public class CommandTests {
 		SortedSet<Parameter> p = new TreeSet<Parameter>();
 		p.add(new Parameter ("int", "p1"));
 		p.add(new Parameter ("int", "p2"));	
-		AddMethodCommand d = new AddMethodCommand(model,"int","test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model,"test","int", "meth", p);
 		String response = d.execute();
 		assertEquals("The method meth has been added to the class test.", response);
 		assertTrue(model.getClasses().get("test").containsMethod("meth", p));
@@ -498,7 +498,7 @@ public class CommandTests {
 		SortedSet<Parameter> p = new TreeSet<Parameter>();
 		p.add(new Parameter ("int", "p1"));
 		p.add(new Parameter ("int", "p2"));
-		AddMethodCommand d = new AddMethodCommand(model, "int","test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model,"test","int", "meth", p);
 		String response = d.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
@@ -512,9 +512,9 @@ public class CommandTests {
 		SortedSet<Parameter> p = new TreeSet<Parameter>();
 		p.add(new Parameter ("int", "p1"));
 		p.add(new Parameter ("int", "p2"));
-		AddMethodCommand d1 = new AddMethodCommand(model, "int","test", "meth", p);
+		AddMethodCommand d1 = new AddMethodCommand(model,"test","int", "meth", p);
 		d1.execute();
-		AddMethodCommand d = new AddMethodCommand(model, "int","test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model,"test","int", "meth", p);
 		String response = d.execute();
 		assertEquals("The method meth already exists with the class test with those parameters.", response);
 		assertTrue(model.getClasses().get("test").containsMethod("meth", p));
@@ -528,7 +528,7 @@ public class CommandTests {
 		SortedSet<Parameter> p = new TreeSet<Parameter>();
 		p.add(new Parameter ("int", "p1"));
 		p.add(new Parameter ("int", "p2"));
-		AddMethodCommand a = new AddMethodCommand(model, "int","test", "meth", p);
+		AddMethodCommand a = new AddMethodCommand(model, "test","int", "meth", p);
 		a.execute();
 		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "meth", p);
 		String response = d.execute();
@@ -542,7 +542,7 @@ public class CommandTests {
 		SortedSet<Parameter> p = new TreeSet<Parameter>();
 		p.add(new Parameter ("int", "p1"));
 		p.add(new Parameter ("int", "p2"));
-		AddMethodCommand a = new AddMethodCommand(model, "int","test", "meth", p);
+		AddMethodCommand a = new AddMethodCommand(model, "test","int", "meth", p);
 		a.execute();
 		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "meth", p);
 		String response = d.execute();
@@ -572,7 +572,7 @@ public class CommandTests {
 		SortedSet<Parameter> p = new TreeSet<Parameter>();
 		p.add(new Parameter ("int", "p1"));
 		p.add(new Parameter ("int", "p2"));	
-		AddMethodCommand d = new AddMethodCommand(model, "int", "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test","int", "meth", p);
 		d.execute();
 		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
 		String response = e.execute();
@@ -617,9 +617,9 @@ public class CommandTests {
 		SortedSet<Parameter> p = new TreeSet<Parameter>();
 		p.add(new Parameter ("int", "p1"));
 		p.add(new Parameter ("int", "p2"));
-		AddMethodCommand d = new AddMethodCommand(model, "int", "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test","int", "meth", p);
 		d.execute();
-		AddMethodCommand d1 = new AddMethodCommand(model, "int", "test", "meth1", p);
+		AddMethodCommand d1 = new AddMethodCommand(model, "test","int", "meth1", p);
 		d1.execute();
 		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
 		String response = e.execute();
@@ -636,7 +636,7 @@ public class CommandTests {
 		SortedSet<Parameter> p = new TreeSet<Parameter>();
 		p.add(new Parameter ("int", "p1"));
 		p.add(new Parameter ("int", "p2"));	
-		AddMethodCommand d = new AddMethodCommand(model, "int", "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test","int", "meth", p);
 		d.execute();
 		EditMethodTypeCommand e = new EditMethodTypeCommand(model, "test", "meth", p, "string");
 		String response = e.execute();
@@ -683,7 +683,7 @@ public class CommandTests {
 		SortedSet<Parameter> pn = new TreeSet<Parameter>();
 		p.add(new Parameter ("int", "p"));
 		p.add(new Parameter ("int", "p3"));
-		AddMethodCommand d = new AddMethodCommand(model, "int","test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model, "test","int", "meth", p);
 		d.execute();
 		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
 		String response = e.execute();
@@ -720,9 +720,9 @@ public class CommandTests {
 		SortedSet<Parameter> pn = new TreeSet<Parameter>();
 		p.add(new Parameter ("int", "p"));
 		p.add(new Parameter ("int", "p3"));
-		AddMethodCommand d = new AddMethodCommand(model, "int","test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model,"test","int", "meth", p);
 		d.execute();
-		AddMethodCommand d1 = new AddMethodCommand(model, "int","test", "meth", pn);
+		AddMethodCommand d1 = new AddMethodCommand(model, "test","int","meth", pn);
 		d1.execute();
 		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
 		String response = e.execute();
