@@ -35,8 +35,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -45,7 +43,6 @@ import java.util.Random;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.awt.*;
 import java.awt.event.*;
@@ -83,27 +80,25 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         model = modelP;
         view = viewP;
         history = new History();
-        
-        
-        view.addActionListener(this.saveJSONListener(), 0, 0);
-        view.addActionListener(this.loadJSONListener(), 0, 1);
-        view.addActionListener(this.imageExportListener(), 0, 2);
-        view.addActionListener(this.addClassListener(), 1, 0);
-        view.addActionListener(this.deleteClassListener(), 1, 1);
-        view.addActionListener(this.editClassNameListener(), 1, 2);
-        view.addActionListener(this.addFieldListener(), 2, 0);
-        view.addActionListener(this.deleteFieldListener(), 2, 1);
-        view.addActionListener(this.editFieldNameListener(), 2, 2);
-        view.addActionListener(this.editFieldTypeListener(), 2, 3);
-        view.addActionListener(this.addMethodListener(), 3, 0);
-        view.addActionListener(this.deleteMethodListener(), 3, 1);
-        view.addActionListener(this.editMethodNameListener(), 3, 2);
-        view.addActionListener(this.editMethodParametersListener(), 3, 3);
-        view.addActionListener(this.editMethodTypeListener(), 3, 4);
-        view.addActionListener(this.addRelationshipListener(), 4, 0);
-        view.addActionListener(this.deleteRelationshipListener(), 4, 1);
-        view.addActionListener(this.editRelationshipDestinationListener(), 4, 2);
-        view.addActionListener(this.editRelationshipTypeListener(), 4, 3);
+
+        view.addActionListener(this.addClassListener(), 0, 0);
+        view.addActionListener(this.deleteClassListener(), 0, 1);
+        view.addActionListener(this.editClassNameListener(), 0, 2);
+        view.addActionListener(this.addFieldListener(), 1, 0);
+        view.addActionListener(this.deleteFieldListener(), 1, 1);
+        view.addActionListener(this.editFieldNameListener(), 1, 2);
+        view.addActionListener(this.editFieldTypeListener(), 1, 3);
+        view.addActionListener(this.addMethodListener(), 2, 0);
+        view.addActionListener(this.deleteMethodListener(), 2, 1);
+        view.addActionListener(this.editMethodNameListener(), 2, 2);
+        view.addActionListener(this.editMethodParametersListener(), 2, 3);
+        view.addActionListener(this.editMethodTypeListener(), 2, 4);
+        view.addActionListener(this.addRelationshipListener(), 3, 0);
+        view.addActionListener(this.deleteRelationshipListener(), 3, 1);
+        view.addActionListener(this.editRelationshipDestinationListener(), 3, 2);
+        view.addActionListener(this.editRelationshipTypeListener(), 3, 3);
+        view.addActionListener(this.saveJSONListener(), 4, 0);
+        view.addActionListener(this.loadJSONListener(), 4, 1);
         view.addActionListener(this.undoListener(), 5, 0);
         view.addActionListener(this.redoListener(), 5, 1);
 
@@ -745,66 +740,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             }
         };
     }
-    
-    public ActionListener imageExportListener() {
-    	JFrame f = view.frame;
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	BufferedImage img = getScreenShot(
-                        f.getContentPane() );
-                      JOptionPane.showMessageDialog(
-                        null,
-                        new JLabel(
-                          new ImageIcon(
-                            img.getScaledInstance(
-                              img.getWidth(null)/2,
-                              img.getHeight(null)/2,
-                              Image.SCALE_SMOOTH )
-                            )));
-                      try {
-                          // write the image as a PNG
-                          ImageIO.write(
-                            img,
-                            "png",
-                            new File("screenshot.png"));
-                        } catch(Exception e1) {
-                          e1.printStackTrace();
-                        }
-                
-            }
-        };
-    }
 
-    
-    public static BufferedImage getScreenShot(
-    	    Component component) {
-
-    	    BufferedImage image = new BufferedImage(
-    	      component.getWidth(),
-    	      component.getHeight(),
-    	      BufferedImage.TYPE_INT_RGB
-    	      );
-    	    // call the Component's paint method, using
-    	    // the Graphics object of the image.
-    	    component.paint( image.getGraphics() ); // alternately use .printAll(..)
-    	    return image;
-    	  }
-
-
-    public static BufferedImage getScreenShot(
-    	    Component component) {
-
-    	    BufferedImage image = new BufferedImage(
-    	      component.getWidth(),
-    	      component.getHeight(),
-    	      BufferedImage.TYPE_INT_RGB
-    	      );
-    	    // call the Component's paint method, using
-    	    // the Graphics object of the image.
-    	    component.paint( image.getGraphics() ); // alternately use .printAll(..)
-    	    return image;
-    	  }
     //////////////////////////// Undo and Redo
     //////////////////////////// ActionListeners///////////////////////////////////////
 

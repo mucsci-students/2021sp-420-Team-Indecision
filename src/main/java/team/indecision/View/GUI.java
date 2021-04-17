@@ -267,22 +267,6 @@ public class GUI extends JPanel {
 
 		menuBar = new JMenuBar();
 
-		
-		//////////////////////////// JMenueBar Save and
-		//////////////////////////// Load////////////////////////////////
-
-		JMenu saveAndLoadMenu = new JMenu("File");
-		menuBar.add(saveAndLoadMenu);
-
-		JMenuItem saveItem = new JMenuItem("Save");
-		saveAndLoadMenu.add(saveItem);
-
-		JMenuItem loadItem = new JMenuItem("Load");
-		saveAndLoadMenu.add(loadItem);
-		
-		JMenuItem imgItem = new JMenuItem("Export as Image");
-		saveAndLoadMenu.add(imgItem);
-		
 		//////////////////////////// JMenueBar
 		//////////////////////////// Classes//////////////////////////////////////
 
@@ -312,9 +296,6 @@ public class GUI extends JPanel {
 
 		JMenuItem editFieldNameItem = new JMenuItem("Edit Field Name");
 		fieldMenu.add(editFieldNameItem);
-		
-		JMenuItem editFieldTypeItem = new JMenuItem("Edit Field Type");
-		fieldMenu.add(editFieldTypeItem);
 
 		//////////////////////////// JMenueBar
 		//////////////////////////// Methods//////////////////////////////////////
@@ -333,9 +314,6 @@ public class GUI extends JPanel {
 
 		JMenuItem editMethodParametersItem = new JMenuItem("Edit Method Parameters");
 		methodMenu.add(editMethodParametersItem);
-		
-		JMenuItem editMethodTypeItem = new JMenuItem("Edit Method Return Type Parameters");
-		methodMenu.add(editMethodTypeItem);
 
 		//////////////////////////// JMenueBar
 		//////////////////////////// Relationships////////////////////////////////
@@ -355,8 +333,20 @@ public class GUI extends JPanel {
 		JMenuItem editRelationshipTypeItem = new JMenuItem("Edit Relationship Type");
 		relationshipMenu.add(editRelationshipTypeItem);
 
+		//////////////////////////// JMenueBar Save and
+		//////////////////////////// Load////////////////////////////////
 
-		//////////////////////////// Undo and REDO //////////////////////////////////////
+		JMenu saveAndLoadMenu = new JMenu("Save and Load");
+		menuBar.add(saveAndLoadMenu);
+
+		JMenuItem saveItem = new JMenuItem("Save");
+		saveAndLoadMenu.add(saveItem);
+
+		JMenuItem loadItem = new JMenuItem("Load");
+		saveAndLoadMenu.add(loadItem);
+
+		//////////////////////////// JMenueBar Save and
+		//////////////////////////// Load//////////////////////////////////////
 		JMenu undoAndRedoMenu = new JMenu("Undo and Redo");
 		menuBar.add(undoAndRedoMenu);
 
