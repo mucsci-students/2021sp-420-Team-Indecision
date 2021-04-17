@@ -17,6 +17,8 @@ import org.jline.reader.impl.completer.StringsCompleter;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
+import team.indecision.Model.Classes;
+
 
 /** A text-based REPL program for creating UML models.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
@@ -28,18 +30,19 @@ public class CLI {
 	private class TabCompleter implements Completer { //gives us dynamic access to the completer through the setCompleter
 		RegexCompleter c;
 
-		public  TabCompleter (RegexCompleter completer) {
+		public  TabCompleter() {
 			
 			Map<String, Completer> comp = new HashMap<>();
 			comp.put("C1", new StringsCompleter("add class"));
-			comp.put("C11", new StringsCompleter("t1", "t2"));
 			comp.put("C2", new StringsCompleter("add field"));
 			comp.put("C21", new StringsCompleter("f1", "f2"));
-			comp.put("C22", new StringsCompleter("arg21", "arg22", "arg23"));			
+			comp.put("C3", new StringsCompleter("add rel"));
+			comp.put("C31", new StringsCompleter(""));
+			comp.put("C31", new StringsCompleter(""));
+			comp.put("C32", new StringsCompleter("Composition", "Aggregation"));
 			
-			RegexCompleter completer = new Completers.RegexCompleter("C1 C11 | C2 C21", comp::get);
+			c = new Completers.RegexCompleter("C1 | C2 C21 | C3 C31 C32", comp::get);
 			
-			c = completer;
 		}
 		
 	    @Override
@@ -47,8 +50,19 @@ public class CLI {
 	        c.complete(reader, line, candidates);
 	    }
 
-	    public void setCompleter(StringsCompleter delegate) {
-	        this.c = delegate;
+	    public void setCompleter(Classes model) {
+	    	
+	    	
+	    	Map<String, Completer> comp = new HashMap<>();
+			comp.put("C1", new StringsCompleter("add class"));
+			comp.put("C2", new StringsCompleter("add field"));
+			comp.put("C21", new StringsCompleter("f1", "f2"));
+			comp.put("C3", new StringsCompleter("add rel"));
+			comp.put("C31", new StringsCompleter(""));
+			comp.put("C31", new StringsCompleter(""));
+			comp.put("C32", new StringsCompleter("Composition", "Aggregation"));
+			
+			c = new Completers.RegexCompleter("C1 | C2 C21 | C3 C31 C32", comp::get);
 	    }
 	}
 
@@ -58,8 +72,7 @@ public class CLI {
 	public CLI() {
 		try {
 			Terminal terminal = TerminalBuilder.terminal();
-			
-			completer = new TabCompleter(new StringsCompleter(candidates));
+			completer = new TabCompleter();
 			lr = LineReaderBuilder.builder().terminal(terminal).completer(completer).build(); //create the line reader pass in compltere and commands for completer
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -70,8 +83,8 @@ public class CLI {
 		return completer;
 	}
 	
-	public void setCompleter(List<String> candidates) { //sets a new completer with new commands
-		completer.setCompleter(new StringsCompleter(candidates));
+	public void setCompleter(Classes model) { //sets a new completer with new commands
+		completer.setCompleter(model);
 	}
 	
 	public void update(String response) {
