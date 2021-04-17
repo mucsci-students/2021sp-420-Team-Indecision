@@ -169,7 +169,7 @@ public class CLI {
 		try {
 			Terminal terminal = TerminalBuilder.terminal();
 			completer = new TabCompleter();
-			lr = LineReaderBuilder.builder().terminal(terminal).completer(completer).build(); //create the line reader pass in compltere and commands for completer
+			lr = LineReaderBuilder.builder().terminal(terminal).completer(completer).build();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -179,7 +179,7 @@ public class CLI {
 		return completer;
 	}
 	
-	public void setCompleter(Classes model) { //sets a new completer with new commands
+	public void setCompleter(Classes model) {
 		completer.setCompleter(model);
 	}
 	
