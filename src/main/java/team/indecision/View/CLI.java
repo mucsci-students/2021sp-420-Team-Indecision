@@ -2,8 +2,12 @@ package team.indecision.View;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.jline.builtins.Completers;
+import org.jline.builtins.Completers.RegexCompleter;
 import org.jline.reader.Candidate;
 import org.jline.reader.Completer;
 import org.jline.reader.LineReader;
@@ -22,9 +26,19 @@ import org.jline.terminal.TerminalBuilder;
 public class CLI {
 	
 	private class TabCompleter implements Completer { //gives us dynamic access to the completer through the setCompleter
-		StringsCompleter c;
+		RegexCompleter c;
 
-		public  TabCompleter (StringsCompleter completer) {
+		public  TabCompleter (RegexCompleter completer) {
+			
+			Map<String, Completer> comp = new HashMap<>();
+			comp.put("C1", new StringsCompleter("add class"));
+			comp.put("C11", new StringsCompleter("t1", "t2"));
+			comp.put("C2", new StringsCompleter("add field"));
+			comp.put("C21", new StringsCompleter("f1", "f2"));
+			comp.put("C22", new StringsCompleter("arg21", "arg22", "arg23"));			
+			
+			RegexCompleter completer = new Completers.RegexCompleter("C1 C11 | C2 C21", comp::get);
+			
 			c = completer;
 		}
 		
@@ -40,30 +54,11 @@ public class CLI {
 
 	private LineReader lr;
 	private TabCompleter completer; //custom completer
-	private List<String> candidates = new ArrayList<String>(); //commands to autocomplete
 	
 	public CLI() {
 		try {
 			Terminal terminal = TerminalBuilder.terminal();
-			candidates.add("add"); 
-			candidates.add("delete");
-			candidates.add("edit");
-			candidates.add("list");
-			candidates.add("save");
-			candidates.add("load");
-			candidates.add("undo");
-			candidates.add("redo");
-			candidates.add("help");
-			candidates.add("exit");
-			candidates.add("class");
-			candidates.add("classes");
-			candidates.add("rel");
-			candidates.add("field");
-			candidates.add("method");
-			candidates.add("name");
-			candidates.add("parameters");
-			candidates.add("dest");
-			candidates.add("type");
+			
 			completer = new TabCompleter(new StringsCompleter(candidates));
 			lr = LineReaderBuilder.builder().terminal(terminal).completer(completer).build(); //create the line reader pass in compltere and commands for completer
 		} catch (IOException e) {
@@ -73,10 +68,6 @@ public class CLI {
 	
 	public TabCompleter getCompleter() {
 		return completer;
-	}
-	
-	public List<String> getCandidates() {
-		return candidates; 
 	}
 	
 	public void setCompleter(List<String> candidates) { //sets a new completer with new commands
