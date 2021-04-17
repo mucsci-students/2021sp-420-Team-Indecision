@@ -296,6 +296,9 @@ public class GUI extends JPanel {
 
 		JMenuItem editFieldNameItem = new JMenuItem("Edit Field Name");
 		fieldMenu.add(editFieldNameItem);
+		
+		JMenuItem editFieldTypeItem = new JMenuItem("Edit Field Type");
+		fieldMenu.add(editFieldTypeItem);
 
 		//////////////////////////// JMenueBar
 		//////////////////////////// Methods//////////////////////////////////////
@@ -314,6 +317,9 @@ public class GUI extends JPanel {
 
 		JMenuItem editMethodParametersItem = new JMenuItem("Edit Method Parameters");
 		methodMenu.add(editMethodParametersItem);
+		
+		JMenuItem editMethodTypeItem = new JMenuItem("Edit Method Return Type");
+		methodMenu.add(editMethodTypeItem);
 
 		//////////////////////////// JMenueBar
 		//////////////////////////// Relationships////////////////////////////////
@@ -346,7 +352,7 @@ public class GUI extends JPanel {
 		saveAndLoadMenu.add(loadItem);
 
 		//////////////////////////// JMenueBar Save and
-		//////////////////////////// Load//////////////////////////////////////
+		//////////////////////////// Undo / Redo//////////////////////////////////////
 		JMenu undoAndRedoMenu = new JMenu("Undo and Redo");
 		menuBar.add(undoAndRedoMenu);
 
