@@ -87,14 +87,78 @@ public class CLI {
 	    	
 	    	Map<String, Completer> comp = new HashMap<>();
 			comp.put("C1", new StringsCompleter("add class"));
+			
 			comp.put("C2", new StringsCompleter("add field"));
 			comp.put("C21", new StringsCompleter(classes));
+			
 			comp.put("C3", new StringsCompleter("add rel"));
 			comp.put("C31", new StringsCompleter(classes));
 			comp.put("C32", new StringsCompleter(classes));
 			comp.put("C33", new StringsCompleter("Composition", "Aggregation"));
 			
-			c = new Completers.RegexCompleter("C1 | C2 C21 | C3 C31 C32 C33", comp::get);
+			comp.put("C4", new StringsCompleter("add method"));
+			comp.put("C41", new StringsCompleter(classes));
+			
+			comp.put("C5", new StringsCompleter("delete class"));
+			comp.put("C51", new StringsCompleter(classes));
+			
+			comp.put("C6", new StringsCompleter("delete field"));
+			comp.put("C61", new StringsCompleter(classes));
+			comp.put("C62", new StringsCompleter(fields));
+			
+			comp.put("C7", new StringsCompleter("delete method"));
+			comp.put("C71", new StringsCompleter(classes));
+			comp.put("C72", new StringsCompleter(methods));
+			
+			comp.put("C8", new StringsCompleter("delete rel"));
+			comp.put("C81", new StringsCompleter(classes));
+			comp.put("C82", new StringsCompleter(relationships));
+			
+			comp.put("C9", new StringsCompleter("edit class"));
+			comp.put("C91", new StringsCompleter(classes));
+			
+			comp.put("C10", new StringsCompleter("edit field name"));
+			comp.put("C101", new StringsCompleter(classes));
+			comp.put("C102", new StringsCompleter(fields));
+			
+			comp.put("C11", new StringsCompleter("edit field type"));
+			comp.put("C111", new StringsCompleter(classes));
+			comp.put("C112", new StringsCompleter(fields));
+			
+			comp.put("C12", new StringsCompleter("edit field type"));
+			comp.put("C121", new StringsCompleter(classes));
+			comp.put("C122", new StringsCompleter(fields));
+			
+			comp.put("C13", new StringsCompleter("edit rel dest"));
+			comp.put("C131", new StringsCompleter(classes));
+			comp.put("C132", new StringsCompleter(relationships));
+			
+			comp.put("C14", new StringsCompleter("edit rel type"));
+			comp.put("C141", new StringsCompleter(classes));
+			comp.put("C142", new StringsCompleter(relationships));
+
+			comp.put("C15", new StringsCompleter("list classes"));
+			
+			comp.put("C16", new StringsCompleter("list class"));
+			comp.put("C161", new StringsCompleter(classes));
+			
+			comp.put("C17", new StringsCompleter("list rel"));
+			
+			comp.put("C18", new StringsCompleter("save"));
+			
+			comp.put("C19", new StringsCompleter("load"));
+			
+			comp.put("C20", new StringsCompleter("undo"));
+			
+			comp.put("C210", new StringsCompleter("redo"));
+			
+			comp.put("C220", new StringsCompleter("help"));
+			
+			comp.put("C230", new StringsCompleter("exit"));
+			
+			
+			
+			c = new Completers.RegexCompleter("C1 | C2 C21 | C3 C31 C32 C33 | C4 C41 | C5 C51 | C6 C61 C62 | C7 C71 C72 | C8 C81 C82 | C9 C91 | C10 C101 C102 | C11 C111 C112 | C12 C121 C122 | C13 C131 C132 | C14 C141 C142 | C15 | C16 C161 | C17 | C18 | C19 | C20 | C210 | C220 | C230", comp::get);
 	    }
 	}
 
