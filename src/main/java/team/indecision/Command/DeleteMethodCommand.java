@@ -1,8 +1,11 @@
 package team.indecision.Command;
 
 import java.util.List;
+import java.util.SortedSet;
+
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
+import team.indecision.Model.Parameter;
 
 /** This class represents the Delete Method command.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
@@ -18,7 +21,7 @@ public class DeleteMethodCommand implements Command {
 	//Stores the desired method name of the method to be deleted from the class.
 	String methodName;
 	//Stores the desired method parameters of the method to be deleted form the class.
-	List<String> parameters;
+	SortedSet<Parameter> parameters;
 	//Stores whether or not the state of the model has changed. True if the state has changed false if not.
 	boolean stateChange;
 	
@@ -28,7 +31,7 @@ public class DeleteMethodCommand implements Command {
 	 * @param paramtersP The parameters.
 	 * @param modelP The model.
 	 */
-	public DeleteMethodCommand (Classes modelP, String classNameP, String methodNameP, List<String> parametersP) {
+	public DeleteMethodCommand (Classes modelP, String classNameP, String methodNameP, SortedSet<Parameter> parametersP) {
 		
 		//Stores the model that the command will be executed against.
 		model = modelP;

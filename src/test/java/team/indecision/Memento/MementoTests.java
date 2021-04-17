@@ -3,6 +3,9 @@ package team.indecision.Memento;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.junit.Test;
 import team.indecision.Command.*;
 import team.indecision.Model.*;
@@ -20,10 +23,10 @@ public class MementoTests {
 		f.execute();
 		AddRelationshipCommand r = new AddRelationshipCommand(model, "test", "test1", "Composition");
 		r.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
+		AddMethodCommand d = new AddMethodCommand(model, "int", "test", "meth", p);
 		d.execute();
 		
 		Memento m = new Memento(model);
@@ -43,10 +46,10 @@ public class MementoTests {
 		f.execute();
 		AddRelationshipCommand r = new AddRelationshipCommand(model, "test", "test1", "Composition");
 		r.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));	
+		AddMethodCommand d = new AddMethodCommand(model, "int", "test", "meth", p);
 		d.execute();
 		
 		History h = new History();

@@ -174,17 +174,37 @@ public class Class implements Serializable{
 	 * @param newField A String containing the class method name.
 	 * @return A boolean true if it is added and false if it already exists or is not added.
 	 */
-	public boolean addMethod(String newMethod, List<String> newParameters) {
-		Method m = new Method(newMethod, newParameters);
+	public boolean addMethod(String newMethod) {
+		Method m = new Method(newMethod);
 		return methods.add(m);
+	}
+	
+	/** Adds a new method to the class.
+	 * @param newField A String containing the class method name.
+	 * @return A boolean true if it is added and false if it already exists or is not added.
+	 */
+	public boolean addMethod(String returnType, String newMethod, SortedSet<Parameter> parameters) {
+		Method m = new Method(returnType, newMethod, parameters);
+		return methods.add(m);
+	}
+	
+	/** Adds a new method parameter to the method.
+	 * @param method A String containing the class method name.
+	 * @param name A String containing the method parameter name.
+	 * @param type A String containing the method parameter name.
+	 * @return 
+	 */
+	public Method addMethodParameter(Method method, String type, String name) {
+		method.addParameter(type, name);
+		return method;
 	}
 	
 	/** Deletes an existing method from the class.
 	 * @param name A String containing the class method name.
 	 * @return A boolean true if it is deleted and false if it does not exist.
 	 */
-	public boolean deleteMethod(String name, List<String> parameters) {
-		Method m = new Method(name, parameters);
+	public boolean deleteMethod(String name, SortedSet<Parameter> parameters) {
+		Method m = getMethod(name, parameters);
 		return methods.remove(m);
 	}
 	
@@ -192,12 +212,12 @@ public class Class implements Serializable{
 	 * @param name A String containing the class method name.
 	 * @return A Method from the methods set returns null if it does not exist in the set.
 	 */
-	public Method getMethod(String name, List<String> parameters) {
+	public Method getMethod(String name, SortedSet<Parameter> parameters) {
 		 Iterator<Method> it = methods.iterator();
 		 Method m = null;
 		 while (it.hasNext()) {
 			 m = it.next();
-			 if (m.getName().equals(name) && m.getParameters().equals(parameters)) {
+			 if (m.getName().equals(name) && (m.getParameters().equals(parameters))) {
 				 break;
 			 }
 			 m = null;
@@ -209,7 +229,7 @@ public class Class implements Serializable{
 	 * @param name A String containing the class method name.
 	 * @return Returns true if the method exists.
 	 */
-	public boolean containsMethod(String name, List<String> parameters) {
+	public boolean containsMethod(String name, SortedSet<Parameter> parameters) {
 		boolean result = false;
 		if (getMethod(name, parameters) != null) {
 			result = true;

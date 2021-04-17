@@ -1,7 +1,11 @@
 package team.indecision.Controller;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.apache.commons.lang3.StringUtils;
 import team.indecision.Command.*;
 import team.indecision.Memento.History;
@@ -47,12 +51,13 @@ public class CLIController {
 				String response = executeCommand(new AddFieldCommand(model, parsedChoice[2], parsedChoice[3], parsedChoice[4]));
 				view.update(response);
 			}
-			else if (parsedChoice.length == 4 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("method"))) {
-				String parameters = view.prompt();
-				String sep = ",";
-				String[] parsedParameters = StringUtils.split(parameters, sep);
-				List<String> parametersList = Arrays.asList(parsedParameters);
-				String response = executeCommand(new AddMethodCommand(model, parsedChoice[2], parsedChoice[3], parametersList));
+			else if (parsedChoice.length >= 5 && !(parsedChoice.length % 2 == 0) && parsedChoice[0].equals("add") && (parsedChoice[1].equals("method"))) {
+				List<String> parametersList = Arrays.asList(parsedChoice);
+				SortedSet<Parameter> parametersSet = new TreeSet<Parameter>();
+				for(int i = 5; i < parametersList.size(); i = i + 2) {
+					parametersSet.add(new Parameter(parametersList.get(i),parametersList.get(i+1)));
+				}
+				String response = executeCommand(new AddMethodCommand(model, parsedChoice[2], parsedChoice[3], parsedChoice[4], parametersSet));
 				view.update(response);
 			}
 			else if (parsedChoice.length == 5 && parsedChoice[0].equals("add") && (parsedChoice[1].equals("rel"))) {
@@ -68,12 +73,13 @@ public class CLIController {
 				String response = executeCommand(new DeleteFieldCommand(model, parsedChoice[2], parsedChoice[3]));
 				view.update(response);
 			}
-			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("method"))) {
-				String parameters = view.prompt();
-				String sep = ",";
-				String[] parsedParameters = StringUtils.split(parameters, sep);
-				List<String> parametersList = Arrays.asList(parsedParameters);
-				String response = executeCommand(new DeleteMethodCommand(model, parsedChoice[2], parsedChoice[3], parametersList));
+			else if (parsedChoice.length >= 4 && (parsedChoice.length % 2 == 0) && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("method"))) {
+				List<String> parametersList = Arrays.asList(parsedChoice);
+				SortedSet<Parameter> parametersSet = new TreeSet<Parameter>();
+				for(int i = 4; i < parametersList.size(); i = i + 2) {
+					parametersSet.add(new Parameter(parametersList.get(i),parametersList.get(i+1)));
+				}
+				String response = executeCommand(new DeleteMethodCommand(model, parsedChoice[2], parsedChoice[3], parametersSet));
 				view.update(response);
 			}
 			else if (parsedChoice.length == 4 && parsedChoice[0].equals("delete") && (parsedChoice[1].equals("rel"))) {
@@ -93,26 +99,55 @@ public class CLIController {
 				String response = executeCommand(new EditFieldTypeCommand(model, parsedChoice[3], parsedChoice[4], parsedChoice[5]));
 				view.update(response);
 			}
-			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method")) && (parsedChoice[2].equals("name"))) {
-				String parameters = view.prompt();
-				String sep = ",";
-				String[] parsedParameters = StringUtils.split(parameters, sep);
-				List<String> parametersList = Arrays.asList(parsedParameters);
-				String methodNameNew = view.prompt();
-				sep = " ";
-				String[] parsedMethodNameNew = StringUtils.split(methodNameNew, sep);
-				String response = executeCommand(new EditMethodNameCommand(model, parsedChoice[3], parsedChoice[4], parametersList, parsedMethodNameNew[0]));
+			else if (parsedChoice.length >= 5 && !(parsedChoice.length % 2 == 0) && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method")) && (parsedChoice[2].equals("name"))) {
+				List<String> parametersList = Arrays.asList(parsedChoice);
+				SortedSet<Parameter> parametersSet = new TreeSet<Parameter>();
+				String newMethodName = "";
+				for(int i = 5; i < parametersList.size(); i = i + 2) {
+					if (parametersList.get(i).equals("/")) {
+						for(i++; i < parametersList.size(); i = i + 2) {
+							   newMethodName = parametersList.get(i);
+							}
+					} 
+					else {
+						parametersSet.add(new Parameter(parametersList.get(i),parametersList.get(i+1)));
+					}
+				}
+				String response = executeCommand(new EditMethodNameCommand(model, parsedChoice[3], parsedChoice[4], parametersSet, newMethodName));
 				view.update(response);
 			}
-			else if (parsedChoice.length == 5 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method")) && (parsedChoice[2].equals("parameters"))) {
-				String parameters = view.prompt();
-				String sep = ",";
-				String[] parsedParameters = StringUtils.split(parameters, sep);
-				List<String> parametersList = Arrays.asList(parsedParameters);
-				String parametersNew = view.prompt();
-				String[] parsedParametersNew = StringUtils.split(parametersNew, sep);
-				List<String> parametersListNew = Arrays.asList(parsedParametersNew);
-				String response = executeCommand(new EditMethodParametersCommand(model, parsedChoice[3], parsedChoice[4], parametersList, parametersListNew));
+			else if (parsedChoice.length >= 5 && !(parsedChoice.length % 2 == 0) && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method")) && (parsedChoice[2].equals("type"))) {
+				List<String> parametersList = Arrays.asList(parsedChoice);
+				SortedSet<Parameter> parametersSet = new TreeSet<Parameter>();
+				String newMethodType = "";
+				for(int i = 5; i < parametersList.size(); i = i + 2) {
+					if (parametersList.get(i).equals("/")) {
+						for(i++; i < parametersList.size(); i = i + 2) {
+							newMethodType = parametersList.get(i);
+							}
+					} 
+					else {
+						parametersSet.add(new Parameter(parametersList.get(i),parametersList.get(i+1)));
+					}
+				}
+				String response = executeCommand(new EditMethodTypeCommand(model, parsedChoice[3], parsedChoice[4], parametersSet, newMethodType));
+				view.update(response);
+			}
+			else if (parsedChoice.length >= 5 && (parsedChoice.length % 2 == 0) && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("method")) && (parsedChoice[2].equals("parameters"))) {
+				List<String> parametersList = Arrays.asList(parsedChoice);
+				SortedSet<Parameter> parametersSet = new TreeSet<Parameter>();
+				SortedSet<Parameter> parametersSetNew = new TreeSet<Parameter>();
+				for(int i = 5; i < parametersList.size(); i = i + 2) {
+					if (parametersList.get(i).equals("/")) {
+						for(i++; i < parametersList.size(); i = i + 2) {
+							   parametersSetNew.add(new Parameter(parametersList.get(i),parametersList.get(i+1)));
+							}
+					} 
+					else {
+						parametersSet.add(new Parameter(parametersList.get(i),parametersList.get(i+1)));
+					}
+				}
+				String response = executeCommand(new EditMethodParametersCommand(model, parsedChoice[3], parsedChoice[4], parametersSet, parametersSetNew));
 				view.update(response);
 			}
 			else if (parsedChoice.length == 6 && parsedChoice[0].equals("edit") && (parsedChoice[1].equals("rel")) && (parsedChoice[2].equals("dest"))) {
