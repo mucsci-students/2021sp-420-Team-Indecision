@@ -3,6 +3,7 @@ package team.indecision.View;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -18,8 +19,10 @@ import org.jline.reader.impl.completer.StringsCompleter;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
-import team.indecision.Model.Classes;
-import team.indecision.Model.Class.*;
+import team.indecision.Model.*;
+import team.indecision.Model.Class;
+
+
 
 /** A text-based REPL program for creating UML models.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
@@ -32,7 +35,6 @@ public class CLI {
 		RegexCompleter c;
 
 		public  TabCompleter() {
-			
 			Map<String, Completer> comp = new HashMap<>();
 			comp.put("C1", new StringsCompleter("add class"));
 			comp.put("C2", new StringsCompleter("add field"));
@@ -52,14 +54,43 @@ public class CLI {
 	    }
 
 	    public void setCompleter(Classes model) {
+	    	List<String> classes = new ArrayList<String>();
+			List<String> fields = new ArrayList<String>();
+			List<String> methods = new ArrayList<String>();
+			List<String> relationships = new ArrayList<String>();
 	    	
+			for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
+		        Class c = entry.getValue();
+		        classes.add(c.getName());
+		        if (!c.getFields().isEmpty()) {
+		        	Iterator<Field> it = c.getFields().iterator();
+			   		 while (it.hasNext()) {
+			   			Field f = it.next();
+			   			fields.add(f.getName());
+			   		 }
+		        }
+		        if (!c.getMethods().isEmpty()) {
+		        	Iterator<Method> it = c.getMethods().iterator();
+			   		 while (it.hasNext()) {
+			   			Method m = it.next();
+			   			methods.add(m.toString());
+			   		 }
+		        }
+				if (!c.getRelationships().isEmpty()) {
+					Iterator<Relationship> it = c.getRelationships().iterator();
+			   		 while (it.hasNext()) {
+			   			Relationship r = it.next();
+			   			relationships.add(r.getDestination());
+			   		 }
+				}
+		    }
 	    	
 	    	Map<String, Completer> comp = new HashMap<>();
 			comp.put("C1", new StringsCompleter("add class"));
 			comp.put("C2", new StringsCompleter("add field"));
-			comp.put("C21", new StringsCompleter("f1", "f2"));
+			comp.put("C21", new StringsCompleter(classes));
 			comp.put("C3", new StringsCompleter("add rel"));
-			comp.put("C31", new StringsCompleter(""));
+			comp.put("C31", new StringsCompleter(classes));
 			comp.put("C31", new StringsCompleter(""));
 			comp.put("C32", new StringsCompleter("Composition", "Aggregation"));
 			
@@ -95,42 +126,4 @@ public class CLI {
     public String prompt() {
         return lr.readLine("UML => ");
     }
-    /*
-    private List<String> getCandidates() {
-		List<String> candidates = new ArrayList<String>();
-		for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
-	        Class c = entry.getValue();
-	        candidates.add(c.getName());
-	        if (!c.getFields().isEmpty()) {
-	        	Iterator<Field> it = c.getFields().iterator();
-		   		 while (it.hasNext()) {
-		   			Field f = it.next();
-		   			candidates.add(f.getName());
-		   		 }
-	        }
-	        if (!c.getMethods().isEmpty()) {
-	        	Iterator<Method> it = c.getMethods().iterator();
-		   		 while (it.hasNext()) {
-		   			Method m = it.next();
-		   			candidates.add(m.getName());
-		   			if (!m.getParameters().isEmpty()) {
-		   				Iterator<String> itm = m.getParameters().iterator();
-				   		 while (itm.hasNext()) {
-				   			String s = itm.next();
-				   			candidates.add(s);
-				   		 }
-		   			}
-		   		 }
-	        }
-			if (!c.getRelationships().isEmpty()) {
-				Iterator<Relationship> it = c.getRelationships().iterator();
-		   		 while (it.hasNext()) {
-		   			Relationship r = it.next();
-		   			candidates.add(r.getDestination());
-		   		 }
-			}
-	    }
-		return candidates;
-	}
-	*/
 }
