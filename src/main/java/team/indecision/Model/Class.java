@@ -188,17 +188,6 @@ public class Class implements Serializable{
 		return methods.add(m);
 	}
 	
-	/** Adds a new method parameter to the method.
-	 * @param method A String containing the class method name.
-	 * @param name A String containing the method parameter name.
-	 * @param type A String containing the method parameter name.
-	 * @return 
-	 */
-	public Method addMethodParameter(Method method, String type, String name) {
-		method.addParameter(type, name);
-		return method;
-	}
-	
 	/** Deletes an existing method from the class.
 	 * @param name A String containing the class method name.
 	 * @return A boolean true if it is deleted and false if it does not exist.

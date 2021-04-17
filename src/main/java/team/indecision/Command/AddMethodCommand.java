@@ -33,7 +33,7 @@ public class AddMethodCommand implements Command{
 	 * @param parametersP the method parameters.
 	 * @param modelP The model.
 	 */
-	public AddMethodCommand (Classes modelP, String returnTypeP, String classNameP, String methodNameP, SortedSet<Parameter> parametersP) {
+	public AddMethodCommand (Classes modelP, String classNameP, String returnTypeP,  String methodNameP, SortedSet<Parameter> parametersP) {
 		model = modelP;
 		className = classNameP;
 		methodName = methodNameP;

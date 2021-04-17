@@ -47,6 +47,22 @@ public class ModelTests {
 	}
 	
 	@Test
+	public void Parameter() {
+		Field f = new Field("string","test");
+		assertEquals("test",f.getName());
+		assertEquals("string",f.getType());
+		f.setName("test1");
+		f.setType("int");
+		assertEquals("test1",f.getName());
+		assertEquals("int",f.getType());
+		assertEquals("int test1", f.toString());
+		Field f1 = new Field("int","test1");
+		assertTrue(f.equals(f1));
+		f1.setName("test2");
+		assertFalse(f.equals(f1));
+	}
+	
+	@Test
 	public void Method() {
 		Method m = new Method("test");
 		m.addParameter("int", "p1");
@@ -122,10 +138,11 @@ public class ModelTests {
 		
 		c1.addField("int","f3");
 		assertEquals(true,c1.containsField("f3"));
-		c1.addMethod("m3");
 		SortedSet<Parameter> p2 = new TreeSet<Parameter>();
-		//p2.add(new Parameter("int", "p1"));
-		Method m3 = c1.addMethodParameter(c1.getMethod("m3",p2),"int","p1");
+		p2.add(new Parameter("int", "p1"));
+		Method m3 = new Method("int","m3", p2);
+		c1.addMethod("int","m3", p2);
+		//Method m3 = c1.addMethodParameter(c1.getMethod("m3",p2),"int","p1");
 
 		assertEquals(true,c1.containsMethod(m3.getName(),m3.getParameters()));
 		

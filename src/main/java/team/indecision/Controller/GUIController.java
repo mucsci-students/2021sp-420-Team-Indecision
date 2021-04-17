@@ -378,23 +378,31 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             public void actionPerformed(ActionEvent e) {
                 String className = promptClassDropDown("Select the class where the method will be added.");
                 if (className != null) {
-                    String methodName = promptInput("Enter new method name.");
-                    if (methodName != null) {
-                        List<String> parameters = promptMultipleInput("Enter new method parameters seperated with commas.");
-                        if (parameters != null) {
-                            String response = executeCommand(
-                                    new AddMethodCommand(model, className, methodName, parameters));
-                            JOptionPane.showMessageDialog(view.frame, response);
-                            refreshJFrame();
+                	String methodReturnType = promptInput("Enter new method return type.");
+                	if (methodReturnType != null) {
+                		String methodName = promptInput("Enter new method name.");
+                        if (methodName != null) {
+                            List<String> parameters = promptMultipleInput("Enter new method parameters seperated with commas.");
+                            if (parameters != null) {
+                                String response = executeCommand(
+                                        new AddMethodCommand(model,className, methodReturnType, methodName, parameters));
+                                JOptionPane.showMessageDialog(view.frame, response);
+                                refreshJFrame();
+                            }
+                            else {
+                                JOptionPane.showMessageDialog(view.frame, "No parameters were entered.", "Error", JOptionPane.ERROR_MESSAGE);                        }
                         }
                         else {
-                            JOptionPane.showMessageDialog(view.frame, "No parameters were entered.", "Error", JOptionPane.ERROR_MESSAGE);                        }
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No method was entered.", "Error", JOptionPane.ERROR_MESSAGE);                    }
+                            JOptionPane.showMessageDialog(view.frame, "No method was entered.", "Error", JOptionPane.ERROR_MESSAGE);                    
+                            }
+                	}
+                	else {
+                		JOptionPane.showMessageDialog(view.frame, "No return type was entered.", "Error", JOptionPane.ERROR_MESSAGE);
+                	} 
                 }
                 else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
+                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                
+                    }
             }
         };
     }
