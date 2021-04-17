@@ -91,10 +91,10 @@ public class CLI {
 			comp.put("C21", new StringsCompleter(classes));
 			comp.put("C3", new StringsCompleter("add rel"));
 			comp.put("C31", new StringsCompleter(classes));
-			comp.put("C31", new StringsCompleter(""));
-			comp.put("C32", new StringsCompleter("Composition", "Aggregation"));
+			comp.put("C32", new StringsCompleter(classes));
+			comp.put("C33", new StringsCompleter("Composition", "Aggregation"));
 			
-			c = new Completers.RegexCompleter("C1 | C2 C21 | C3 C31 C32", comp::get);
+			c = new Completers.RegexCompleter("C1 | C2 C21 | C3 C31 C32 C33", comp::get);
 	    }
 	}
 
