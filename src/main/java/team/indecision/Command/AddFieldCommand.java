@@ -14,6 +14,8 @@ public class AddFieldCommand implements Command {
 	private Classes model;
 	//Stores the desired class name for the field to be created in.
 	private String className;
+	//Stores the desired field type to be used when the field is created.
+	private String fieldType;
 	//Stores the desired field name to be used when the field is created.
 	private String fieldName;
 	//Stores whether or not the state of the model has changed. True if the state has changed false if not.
@@ -24,9 +26,10 @@ public class AddFieldCommand implements Command {
 	 * @param fieldNameP The field name.
 	 * @param modelP The model.
 	 */
-	public AddFieldCommand(Classes modelP, String classNameP, String fieldNameP) {
+	public AddFieldCommand(Classes modelP, String classNameP, String fieldTypeP, String fieldNameP) {
 		model = modelP;
 		className = classNameP;
+		fieldType = fieldTypeP;
 		fieldName = fieldNameP;
 		stateChange = false;
 	}
@@ -40,7 +43,7 @@ public class AddFieldCommand implements Command {
 		if (model.getClasses().containsKey(className)) {
 			Class c = model.getClasses().get(className);
 			if (!c.containsField(fieldName)) {
-				c.addField(fieldName);
+				c.addField(fieldType, fieldName);
 				response = "The field " + fieldName + " has been added to the class " + className + ".";
 				stateChange = true;
 			}

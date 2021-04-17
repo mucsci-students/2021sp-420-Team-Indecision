@@ -1,8 +1,11 @@
 package team.indecision.Command;
 
 import java.util.List;
+import java.util.SortedSet;
+
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
+import team.indecision.Model.Parameter;
 
 /** This class represents the Add Method command.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
@@ -13,12 +16,14 @@ public class AddMethodCommand implements Command{
 
 	//Stores the model that the command will be executed against.
 	Classes model;
-	//Stores the desired class name for the method to be created in.
+	//Stores the desired return type for the method.
+	String returnType;
+	//Stores the desired class name for the method.
 	String className;
 	//Stores the desired method name to be used when the method is created.
 	String methodName;
 	//Stores the desired method parameters to be used when the method is created.
-	List<String> parameters;
+	SortedSet<Parameter> parameters;
 	//Stores whether or not the state of the model has changed. True if the state has changed false if not.
 	boolean stateChange;
 	
@@ -28,11 +33,12 @@ public class AddMethodCommand implements Command{
 	 * @param parametersP the method parameters.
 	 * @param modelP The model.
 	 */
-	public AddMethodCommand (Classes modelP, String classNameP, String methodNameP, List<String> parametersP) {
+	public AddMethodCommand (Classes modelP, String classNameP, String returnTypeP,  String methodNameP, SortedSet<Parameter> parametersP) {
 		model = modelP;
 		className = classNameP;
 		methodName = methodNameP;
 		parameters = parametersP;
+		returnType = returnTypeP;
 		stateChange = false;
 	}
 	
@@ -45,7 +51,7 @@ public class AddMethodCommand implements Command{
 		if (model.getClasses().containsKey(className)) {
 			Class c = model.getClasses().get(className);
 			if (!c.containsMethod(methodName, parameters)) {
-				c.addMethod(methodName, parameters);
+				c.addMethod(returnType, methodName, parameters);
 				response = "The method " + methodName + " has been added to the class " + className + ".";
 				stateChange = true;
 			}

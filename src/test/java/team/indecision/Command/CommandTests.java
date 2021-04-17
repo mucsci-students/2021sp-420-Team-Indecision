@@ -3,8 +3,12 @@ package team.indecision.Command;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.junit.Test;
 import team.indecision.Model.Classes;
+import team.indecision.Model.Parameter;
 
 public class CommandTests {
 	
@@ -114,7 +118,7 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test", "int", "f");
 		String response = f.execute();
 		assertEquals("The field f has been added to the class test.", response);
 		assertTrue(model.getClasses().get("test").containsField("f"));
@@ -123,7 +127,7 @@ public class CommandTests {
 	@Test
 	public void addFieldCommandClassDoesNotExist() {
 		Classes model = new Classes();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test", "int", "f");
 		String response = f.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
@@ -134,9 +138,9 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f1 = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f1 = new AddFieldCommand(model, "test", "int", "f");
 		f1.execute();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test", "int", "f");
 		String response = f.execute();
 		assertEquals("The field f already exists with the class test.", response);
 		assertTrue(model.getClasses().get("test").containsField("f"));
@@ -147,7 +151,7 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f = new AddFieldCommand(model, "test", "int", "f");
 		f.execute();
 		DeleteFieldCommand f1 = new DeleteFieldCommand(model, "test", "f");
 		String response = f1.execute();
@@ -180,7 +184,7 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f1 = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f1 = new AddFieldCommand(model, "test", "int", "f");
 		f1.execute();
 		EditFieldNameCommand f = new EditFieldNameCommand(model, "test", "f", "f1");
 		String response = f.execute();
@@ -192,7 +196,7 @@ public class CommandTests {
 	@Test
 	public void editFieldNameCommandClassDoesNotExist() {
 		Classes model = new Classes();
-		AddFieldCommand f1 = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f1 = new AddFieldCommand(model, "test", "int", "f");
 		f1.execute();
 		EditFieldNameCommand f = new EditFieldNameCommand(model, "test", "f", "f1");
 		String response = f.execute();
@@ -216,15 +220,50 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		AddFieldCommand f1 = new AddFieldCommand(model, "test", "f");
+		AddFieldCommand f1 = new AddFieldCommand(model, "test", "int", "f");
 		f1.execute();
-		AddFieldCommand f2 = new AddFieldCommand(model, "test", "f1");
+		AddFieldCommand f2 = new AddFieldCommand(model, "test", "int", "f1");
 		f2.execute();
 		EditFieldNameCommand f = new EditFieldNameCommand(model, "test", "f", "f1");
 		String response = f.execute();
 		assertEquals("The field f1 already exists with the class test.", response);
 		assertTrue(model.getClasses().get("test").containsField("f"));
 		assertTrue(model.getClasses().get("test").containsField("f1"));
+	}
+	
+	@Test
+	public void editFieldTypeCommand() {
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model,"test");
+		c.execute();
+		AddFieldCommand f1 = new AddFieldCommand(model, "test", "int", "f");
+		f1.execute();
+		EditFieldTypeCommand f = new EditFieldTypeCommand(model, "test", "f", "int");
+		String response = f.execute();
+		assertEquals("The field f has had its type changed to int.", response);
+		assertTrue(model.getClasses().get("test").getField("f").getType().equals("int"));
+	}
+	
+	@Test
+	public void editFieldTypeCommandClassDoesNotExist() {
+		Classes model = new Classes();
+		AddFieldCommand f1 = new AddFieldCommand(model, "test", "int", "f");
+		f1.execute();
+		EditFieldTypeCommand f = new EditFieldTypeCommand(model, "test", "f", "int");
+		String response = f.execute();
+		assertEquals("The class test does not exist.", response);
+		assertFalse(model.getClasses().containsKey("test"));
+	}
+	
+	@Test
+	public void editFieldTypeCommandFieldDoesNotExist() {
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model,"test");
+		c.execute();
+		EditFieldTypeCommand f = new EditFieldTypeCommand(model, "test", "f", "int");
+		String response = f.execute();
+		assertEquals("The field f does not exist with the class test.", response);
+		assertFalse(model.getClasses().get("test").containsField("f"));
 	}
 	
 	@Test
@@ -444,10 +483,10 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));	
+		AddMethodCommand d = new AddMethodCommand(model,"test","int", "meth", p);
 		String response = d.execute();
 		assertEquals("The method meth has been added to the class test.", response);
 		assertTrue(model.getClasses().get("test").containsMethod("meth", p));
@@ -456,10 +495,10 @@ public class CommandTests {
 	@Test
     public void addMethodCommandClassDoesNotExist() {
 		Classes model = new Classes();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
+		AddMethodCommand d = new AddMethodCommand(model,"test","int", "meth", p);
 		String response = d.execute();
 		assertEquals("The class test does not exist.", response);
 		assertFalse(model.getClasses().containsKey("test"));
@@ -470,12 +509,12 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");
-		AddMethodCommand d1 = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
+		AddMethodCommand d1 = new AddMethodCommand(model,"test","int", "meth", p);
 		d1.execute();
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		AddMethodCommand d = new AddMethodCommand(model,"test","int", "meth", p);
 		String response = d.execute();
 		assertEquals("The method meth already exists with the class test with those parameters.", response);
 		assertTrue(model.getClasses().get("test").containsMethod("meth", p));
@@ -486,10 +525,10 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");	
-		AddMethodCommand a = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
+		AddMethodCommand a = new AddMethodCommand(model, "test","int", "meth", p);
 		a.execute();
 		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "meth", p);
 		String response = d.execute();
@@ -500,10 +539,10 @@ public class CommandTests {
 	@Test
     public void deleteMethodCommandClassDoesNotExist() {
 		Classes model = new Classes();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");	
-		AddMethodCommand a = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
+		AddMethodCommand a = new AddMethodCommand(model, "test","int", "meth", p);
 		a.execute();
 		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "meth", p);
 		String response = d.execute();
@@ -516,9 +555,9 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");	
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
 		DeleteMethodCommand d = new DeleteMethodCommand(model, "test", "meth", p);
 		String response = d.execute();
 		assertEquals("The method meth does not exist with the class test.", response);
@@ -530,10 +569,10 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));	
+		AddMethodCommand d = new AddMethodCommand(model, "test","int", "meth", p);
 		d.execute();
 		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
 		String response = e.execute();
@@ -545,10 +584,10 @@ public class CommandTests {
 	@Test
     public void editMethodNameCommandClassDoesNotExist() {
 		Classes model = new Classes();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");	
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
+		AddMethodCommand d = new AddMethodCommand(model, "int", "test", "meth", p);
 		d.execute();
 		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
 		String response = e.execute();
@@ -561,9 +600,9 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
 		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
 		String response = e.execute();
 		assertEquals("The method meth does not exist with the class test.", response);
@@ -575,12 +614,12 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
+		AddMethodCommand d = new AddMethodCommand(model, "test","int", "meth", p);
 		d.execute();
-		AddMethodCommand d1 = new AddMethodCommand(model, "test", "meth1", p);
+		AddMethodCommand d1 = new AddMethodCommand(model, "test","int", "meth1", p);
 		d1.execute();
 		EditMethodNameCommand e = new EditMethodNameCommand(model, "test", "meth", p, "meth1");
 		String response = e.execute();
@@ -590,17 +629,61 @@ public class CommandTests {
     }
 	
 	@Test
+	public void editMethodTypeCommand() {
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model,"test");
+		c.execute();
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));	
+		AddMethodCommand d = new AddMethodCommand(model, "test","int", "meth", p);
+		d.execute();
+		EditMethodTypeCommand e = new EditMethodTypeCommand(model, "test", "meth", p, "string");
+		String response = e.execute();
+		assertEquals("The method type has been changed to string.", response);
+		assertTrue(model.getClasses().get("test").getMethod("meth", p).getType().equals("string"));
+	}
+	
+	@Test
+	public void editMethodTypeCommandMethodDoesNotExist() {
+		Classes model = new Classes();
+		AddClassCommand c = new AddClassCommand(model,"test");
+		c.execute();
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));	
+		EditMethodTypeCommand e = new EditMethodTypeCommand(model, "test", "meth", p, "string");
+		String response = e.execute();
+		assertEquals("The method meth does not exist with the class test.", response);
+		assertTrue(model.getClasses().get("test").getMethod("meth", p) == null);
+	}
+	
+	@Test
+	public void editMethodTypeCommandClassDoesNotExist() {
+		Classes model = new Classes();
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));	
+		AddMethodCommand d = new AddMethodCommand(model, "int", "test", "meth", p);
+		d.execute();
+		EditMethodTypeCommand e = new EditMethodTypeCommand(model, "test", "meth", p, "string");
+		String response = e.execute();
+		assertEquals("The class test does not exist.", response);
+		assertFalse(model.getClasses().containsKey("test"));;
+	}
+	
+	@Test
     public void editMethodParametersCommand() {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");
-		List <String> pn = new ArrayList<String>();
-		pn.add("1");
-		pn.add("2");
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
+		SortedSet<Parameter> pn = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p"));
+		p.add(new Parameter ("int", "p3"));
+		AddMethodCommand d = new AddMethodCommand(model, "test","int", "meth", p);
 		d.execute();
 		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
 		String response = e.execute();
@@ -612,13 +695,13 @@ public class CommandTests {
 	@Test
     public void editMethodParametersCommandClassDoesNotExist() {
 		Classes model = new Classes();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");
-		List <String> pn = new ArrayList<String>();
-		pn.add("1");
-		pn.add("2");
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
+		SortedSet<Parameter> pn = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p"));
+		p.add(new Parameter ("int", "p3"));
+		AddMethodCommand d = new AddMethodCommand(model, "int","test", "meth", p);
 		d.execute();
 		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
 		String response = e.execute();
@@ -631,15 +714,15 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");
-		List <String> pn = new ArrayList<String>();
-		pn.add("1");
-		pn.add("2");
-		AddMethodCommand d = new AddMethodCommand(model, "test", "meth", p);
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
+		SortedSet<Parameter> pn = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p"));
+		p.add(new Parameter ("int", "p3"));
+		AddMethodCommand d = new AddMethodCommand(model,"test","int", "meth", p);
 		d.execute();
-		AddMethodCommand d1 = new AddMethodCommand(model, "test", "meth", pn);
+		AddMethodCommand d1 = new AddMethodCommand(model, "test","int","meth", pn);
 		d1.execute();
 		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
 		String response = e.execute();
@@ -653,12 +736,12 @@ public class CommandTests {
 		Classes model = new Classes();
 		AddClassCommand c = new AddClassCommand(model,"test");
 		c.execute();
-		List <String> p = new ArrayList<String>();
-		p.add("String 1");
-		p.add("String 2");
-		List <String> pn = new ArrayList<String>();
-		pn.add("1");
-		pn.add("2");
+		SortedSet<Parameter> p = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p1"));
+		p.add(new Parameter ("int", "p2"));
+		SortedSet<Parameter> pn = new TreeSet<Parameter>();
+		p.add(new Parameter ("int", "p"));
+		p.add(new Parameter ("int", "p3"));
 		EditMethodParametersCommand e = new EditMethodParametersCommand(model, "test", "meth", p, pn);
 		String response = e.execute();
 		assertEquals("The method meth does not exist with the class test.", response);

@@ -9,6 +9,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeSet;
 import java.awt.event.MouseListener;
 
 
@@ -26,6 +27,7 @@ import team.indecision.Memento.Memento;
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 import team.indecision.Model.Method;
+import team.indecision.Model.Parameter;
 import team.indecision.Model.Relationship;
 import team.indecision.Model.Field;
 import java.util.ArrayList;
@@ -33,8 +35,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -43,7 +43,6 @@ import java.util.Random;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.awt.*;
 import java.awt.event.*;
@@ -81,25 +80,25 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         model = modelP;
         view = viewP;
         history = new History();
-        
-        
-        view.addActionListener(this.saveJSONListener(), 0, 0);
-        view.addActionListener(this.loadJSONListener(), 0, 1);
-        view.addActionListener(this.imageExportListener(), 0, 2);
-        view.addActionListener(this.addClassListener(), 1, 0);
-        view.addActionListener(this.deleteClassListener(), 1, 1);
-        view.addActionListener(this.editClassNameListener(), 1, 2);
-        view.addActionListener(this.addFieldListener(), 2, 0);
-        view.addActionListener(this.deleteFieldListener(), 2, 1);
-        view.addActionListener(this.editFieldNameListener(), 2, 2);
-        view.addActionListener(this.addMethodListener(), 3, 0);
-        view.addActionListener(this.deleteMethodListener(), 3, 1);
-        view.addActionListener(this.editMethodNameListener(), 3, 2);
-        view.addActionListener(this.editMethodParametersListener(), 3, 3);
-        view.addActionListener(this.addRelationshipListener(), 4, 0);
-        view.addActionListener(this.deleteRelationshipListener(), 4, 1);
-        view.addActionListener(this.editRelationshipDestinationListener(), 4, 2);
-        view.addActionListener(this.editRelationshipTypeListener(), 4, 3);
+
+        view.addActionListener(this.addClassListener(), 0, 0);
+        view.addActionListener(this.deleteClassListener(), 0, 1);
+        view.addActionListener(this.editClassNameListener(), 0, 2);
+        view.addActionListener(this.addFieldListener(), 1, 0);
+        view.addActionListener(this.deleteFieldListener(), 1, 1);
+        view.addActionListener(this.editFieldNameListener(), 1, 2);
+        view.addActionListener(this.editFieldTypeListener(), 1, 3);
+        view.addActionListener(this.addMethodListener(), 2, 0);
+        view.addActionListener(this.deleteMethodListener(), 2, 1);
+        view.addActionListener(this.editMethodNameListener(), 2, 2);
+        view.addActionListener(this.editMethodParametersListener(), 2, 3);
+        view.addActionListener(this.editMethodTypeListener(), 2, 4);
+        view.addActionListener(this.addRelationshipListener(), 3, 0);
+        view.addActionListener(this.deleteRelationshipListener(), 3, 1);
+        view.addActionListener(this.editRelationshipDestinationListener(), 3, 2);
+        view.addActionListener(this.editRelationshipTypeListener(), 3, 3);
+        view.addActionListener(this.saveJSONListener(), 4, 0);
+        view.addActionListener(this.loadJSONListener(), 4, 1);
         view.addActionListener(this.undoListener(), 5, 0);
         view.addActionListener(this.redoListener(), 5, 1);
 
@@ -249,17 +248,24 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             public void actionPerformed(ActionEvent e) {
                 String className = promptClassDropDown("Select the class where the field will be added.");
                 if (className != null) {
-                    String fieldName = promptInput("Enter new field name.");
-                    if (fieldName != null) {
-                        String response = executeCommand(new AddFieldCommand(model, className, fieldName));
-                        JOptionPane.showMessageDialog(view.frame, response);
-                        refreshJFrame();
+                	String fieldType = promptInput("Enter new field type.");
+                	if (fieldType != null) {
+                		String fieldName = promptInput("Enter new field name.");
+                        if (fieldName != null) {
+                            String response = executeCommand(new AddFieldCommand(model, className, fieldType, fieldName));
+                            JOptionPane.showMessageDialog(view.frame, response);
+                            refreshJFrame();
+                        }
+                        else {
+                        	JOptionPane.showMessageDialog(view.frame, "No field name was entered.", "Error", JOptionPane.ERROR_MESSAGE); 
+                        }
                     }
                     else {
-                        JOptionPane.showMessageDialog(view.frame, "No field name was entered.", "Error", JOptionPane.ERROR_MESSAGE);                    }
+                        JOptionPane.showMessageDialog(view.frame, "No field type was entered.", "Error", JOptionPane.ERROR_MESSAGE);                    }
                 }
                 else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
+                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                
+                }
             }
         };
     }
@@ -324,6 +330,39 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             }
         };
     }
+    
+    /**
+     * When the retype field button is pushed this function is called to get info
+     * from the user.
+     * 
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+     */
+    public ActionListener editFieldTypeListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String className = promptClassDropDown("Select the class where the field will hav its type changed.");
+                if (className != null) {
+                    Field original = promptFieldDropDown(className, "Select the field you want to change the type of.");
+                    if (original != null) {
+                        String newType = promptInput("Enter the new type of the field.");
+                        if (newType != null) {
+                            String response = executeCommand(
+                                    new EditFieldTypeCommand(model, className, original.getName(), newType));
+                            JOptionPane.showMessageDialog(view.frame, response);
+                            refreshJFrame();
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(view.frame, "No field type was entered.", "Error", JOptionPane.ERROR_MESSAGE);                        }
+                    }
+                    else { 
+                        JOptionPane.showMessageDialog(view.frame, "No field was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
+            }
+        };
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -342,23 +381,31 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             public void actionPerformed(ActionEvent e) {
                 String className = promptClassDropDown("Select the class where the method will be added.");
                 if (className != null) {
-                    String methodName = promptInput("Enter new method name.");
-                    if (methodName != null) {
-                        List<String> parameters = promptMultipleInput("Enter new method parameters seperated with commas.");
-                        if (parameters != null) {
-                            String response = executeCommand(
-                                    new AddMethodCommand(model, className, methodName, parameters));
-                            JOptionPane.showMessageDialog(view.frame, response);
-                            refreshJFrame();
+                	String methodReturnType = promptInput("Enter new method return type.");
+                	if (methodReturnType != null) {
+                		String methodName = promptInput("Enter new method name.");
+                        if (methodName != null) {
+                            SortedSet<Parameter> parameters = promptMultipleInputParameters("Enter new method parameters type first then name seperated by a space and new parameters seperated with commas.");
+                            if (parameters != null) {
+                                String response = executeCommand(
+                                        new AddMethodCommand(model,className, methodReturnType, methodName, parameters));
+                                JOptionPane.showMessageDialog(view.frame, response);
+                                refreshJFrame();
+                            }
+                            else {
+                                JOptionPane.showMessageDialog(view.frame, "No parameters were entered or the parameter format was incorrect.", "Error", JOptionPane.ERROR_MESSAGE);                        }
                         }
                         else {
-                            JOptionPane.showMessageDialog(view.frame, "No parameters were entered.", "Error", JOptionPane.ERROR_MESSAGE);                        }
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(view.frame, "No method was entered.", "Error", JOptionPane.ERROR_MESSAGE);                    }
+                            JOptionPane.showMessageDialog(view.frame, "No method was entered.", "Error", JOptionPane.ERROR_MESSAGE);                    
+                            }
+                	}
+                	else {
+                		JOptionPane.showMessageDialog(view.frame, "No return type was entered.", "Error", JOptionPane.ERROR_MESSAGE);
+                	} 
                 }
                 else {
-                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
+                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                
+                    }
             }
         };
     }
@@ -441,7 +488,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     Method methodToChange = prompMethodDropDown(className,
                             "Select the method you want to change parametes of.");
                     if (methodToChange != null) {
-                        List<String> newParameters = promptMultipleInput("Enter new method parameters seperated with commas.");
+                        SortedSet<Parameter> newParameters = promptMultipleInputParameters("Enter new method parameters type first then name seperated by a space and new parameters seperated with commas.");
                         if (newParameters != null) {
                             String response = executeCommand(new EditMethodParametersCommand(model, className,
                                     methodToChange.getName(), methodToChange.getParameters(), newParameters));
@@ -457,6 +504,40 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                 else {
                     JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        };
+    }
+    
+    /**
+     * When the edit method name button is pushed this function is called to get
+     * info from the user.
+     * 
+     * @return An ActionListener is sent back to the GUI so the data is passed back.
+     */
+    public ActionListener editMethodTypeListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String className = promptClassDropDown("Select the class with the method you want to change.");
+                if (className != null) {
+                    Method methodToChange = prompMethodDropDown(className,
+                            "Choose the method you want to change the type of.");
+                    if (methodToChange != null) {
+                        String methodNewReturnType = promptInput("Enter new method return type.");
+                        if (methodNewReturnType != null) {
+                            String response = executeCommand(new EditMethodTypeCommand(model, className,
+                                    methodToChange.getName(), methodToChange.getParameters(), methodNewReturnType));
+                            JOptionPane.showMessageDialog(view.frame, response);
+                            refreshJFrame();
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(view.frame, "No new method type was entered.", "Error", JOptionPane.ERROR_MESSAGE);                        }
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(view.frame, "No method was selected.", "Error", JOptionPane.ERROR_MESSAGE);                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, "No class was selected.", "Error", JOptionPane.ERROR_MESSAGE);                }
             }
         };
     }
@@ -659,50 +740,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             }
         };
     }
-    
-    public ActionListener imageExportListener() {
-    	JFrame f = view.frame;
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	BufferedImage img = getScreenShot(
-                        f.getContentPane() );
-                      JOptionPane.showMessageDialog(
-                        null,
-                        new JLabel(
-                          new ImageIcon(
-                            img.getScaledInstance(
-                              img.getWidth(null)/2,
-                              img.getHeight(null)/2,
-                              Image.SCALE_SMOOTH )
-                            )));
-                      try {
-                          // write the image as a PNG
-                          ImageIO.write(
-                            img,
-                            "png",
-                            new File("screenshot.png"));
-                        } catch(Exception e1) {
-                          e1.printStackTrace();
-                        }
-                
-            }
-        };
-    }
 
-    public static BufferedImage getScreenShot(
-    	    Component component) {
-
-    	    BufferedImage image = new BufferedImage(
-    	      component.getWidth(),
-    	      component.getHeight(),
-    	      BufferedImage.TYPE_INT_RGB
-    	      );
-    	    // call the Component's paint method, using
-    	    // the Graphics object of the image.
-    	    component.paint( image.getGraphics() ); // alternately use .printAll(..)
-    	    return image;
-    	  }
     //////////////////////////// Undo and Redo
     //////////////////////////// ActionListeners///////////////////////////////////////
 
@@ -774,6 +812,39 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return parameters;
 
         }
+    }
+    
+    /**
+     * Gets multiple input from the user.
+     * 
+     * @param message is the question the user will be prompted with to input data.
+     * @return The list string the user input.
+     */
+    public SortedSet<Parameter> promptMultipleInputParameters(String message) {
+        SortedSet<Parameter> parameters = new TreeSet<Parameter>();
+        
+        String input = JOptionPane.showInputDialog(view.frame, message);
+        if(input.equals(null)){
+            return null;
+        }
+        else {
+	        input.replaceAll("\\s", "");
+	        String[] token = input.split(",");
+	        
+	        for(int i = 0; i < token.length; i++) {
+				String[] token2 = token[i].split(" ");
+				if (token2.length == 2) {
+					parameters.add(new Parameter(token2[0], token2[1]));
+				}
+				else {
+					return null;
+				}
+			}	
+	 
+	        return parameters;
+        }
+
+        
     }
 
     /**

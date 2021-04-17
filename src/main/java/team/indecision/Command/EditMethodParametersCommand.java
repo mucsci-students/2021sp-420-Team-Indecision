@@ -1,10 +1,12 @@
 package team.indecision.Command;
 
 import java.util.List;
+import java.util.SortedSet;
 
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 import team.indecision.Model.Method;
+import team.indecision.Model.Parameter;
 
 /** This class represents the Edit Method Parameters command.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
@@ -20,9 +22,9 @@ public class EditMethodParametersCommand implements Command {
 	//Stores the desired method name of the method to be edited.
 	String methodName;
 	//Stores the desired method parameters of the method to be edited.
-	List<String> parameters;
+	SortedSet<Parameter> parameters;
 	//Stores the new method parameters.
-	List<String> newParameters;
+	SortedSet<Parameter> newParameters;
 	//Stores whether or not the state of the model has changed. True if the state has changed false if not.
 	boolean stateChange;
 	
@@ -33,7 +35,7 @@ public class EditMethodParametersCommand implements Command {
 	 * @param newParametersP The new parameters.
 	 * @param modelP The model.
 	 */
-	public EditMethodParametersCommand (Classes modelP, String classNameP, String methodNameP, List<String> parametersP, List<String> newParametersP) {
+	public EditMethodParametersCommand (Classes modelP, String classNameP, String methodNameP, SortedSet<Parameter> parametersP, SortedSet<Parameter> newParametersP) {
 		model = modelP;
 		className = classNameP;
 		methodName = methodNameP;
