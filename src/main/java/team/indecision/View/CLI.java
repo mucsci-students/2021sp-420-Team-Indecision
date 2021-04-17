@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 
 import org.jline.builtins.Completers;
 import org.jline.builtins.Completers.RegexCompleter;
@@ -18,7 +19,7 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
 import team.indecision.Model.Classes;
-
+import team.indecision.Model.Class.*;
 
 /** A text-based REPL program for creating UML models.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
@@ -38,10 +39,10 @@ public class CLI {
 			comp.put("C21", new StringsCompleter("f1", "f2"));
 			comp.put("C3", new StringsCompleter("add rel"));
 			comp.put("C31", new StringsCompleter(""));
-			comp.put("C31", new StringsCompleter(""));
-			comp.put("C32", new StringsCompleter("Composition", "Aggregation"));
+			comp.put("C32", new StringsCompleter(""));
+			comp.put("C33", new StringsCompleter("Composition", "Aggregation"));
 			
-			c = new Completers.RegexCompleter("C1 | C2 C21 | C3 C31 C32", comp::get);
+			c = new Completers.RegexCompleter("C1 | C2 C21 | C3 C31 C32 C33", comp::get);
 			
 		}
 		
@@ -94,4 +95,42 @@ public class CLI {
     public String prompt() {
         return lr.readLine("UML => ");
     }
+    /*
+    private List<String> getCandidates() {
+		List<String> candidates = new ArrayList<String>();
+		for (SortedMap.Entry<String, Class> entry : model.getClasses().entrySet()) {
+	        Class c = entry.getValue();
+	        candidates.add(c.getName());
+	        if (!c.getFields().isEmpty()) {
+	        	Iterator<Field> it = c.getFields().iterator();
+		   		 while (it.hasNext()) {
+		   			Field f = it.next();
+		   			candidates.add(f.getName());
+		   		 }
+	        }
+	        if (!c.getMethods().isEmpty()) {
+	        	Iterator<Method> it = c.getMethods().iterator();
+		   		 while (it.hasNext()) {
+		   			Method m = it.next();
+		   			candidates.add(m.getName());
+		   			if (!m.getParameters().isEmpty()) {
+		   				Iterator<String> itm = m.getParameters().iterator();
+				   		 while (itm.hasNext()) {
+				   			String s = itm.next();
+				   			candidates.add(s);
+				   		 }
+		   			}
+		   		 }
+	        }
+			if (!c.getRelationships().isEmpty()) {
+				Iterator<Relationship> it = c.getRelationships().iterator();
+		   		 while (it.hasNext()) {
+		   			Relationship r = it.next();
+		   			candidates.add(r.getDestination());
+		   		 }
+			}
+	    }
+		return candidates;
+	}
+	*/
 }
