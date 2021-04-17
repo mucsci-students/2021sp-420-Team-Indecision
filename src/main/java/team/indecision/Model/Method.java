@@ -138,6 +138,21 @@ public class Method implements Comparable<Method>, Serializable{
 		return returnType + " " + name + " " + parameters.toString();
 	}
 	
+	/** Represents this class as a String.
+	 * @return A String containing this class.
+	 */
+	public String toStringTabCompleter() {
+		
+		Iterator<Parameter> it = parameters.iterator();
+		 String result = name;
+		 while (it.hasNext()) {
+			 Parameter p = it.next();
+			 result += " " + p.toString();
+		 }
+		
+		return result.trim();
+	}
+	
 	/** Compares two class objects for equality.
 	 * @param classObject A Class that will be compared to this class. 
 	 * @return A boolean if the classes equal each other false if not.

@@ -214,6 +214,7 @@ public class CLIController {
 		String response = command.execute();
 		if (command.getStateChange()) {
 			history.pushUndo(command, new Memento(model));
+			view.setCompleter(model);
 		}
 		return response;
 	}
@@ -224,6 +225,7 @@ public class CLIController {
 		String response = "You can no longer undo.";
 		if (!history.isEmptyUndo()) {
 			history.undo();
+			view.setCompleter(model);
 			response = "The last action has been undone.";
 		}
 		return response;
