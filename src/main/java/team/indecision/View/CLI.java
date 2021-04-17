@@ -38,15 +38,36 @@ public class CLI {
 
 		public  TabCompleter() {
 			Map<String, Completer> comp = new HashMap<>();
-			comp.put("C1", new StringsCompleter("add class"));
-			comp.put("C2", new StringsCompleter("add field"));
-			comp.put("C21", new StringsCompleter("f1", "f2"));
-			comp.put("C3", new StringsCompleter("add rel"));
-			comp.put("C31", new StringsCompleter(""));
-			comp.put("C32", new StringsCompleter(""));
-			comp.put("C33", new StringsCompleter("Composition", "Aggregation"));
+			comp.put("C0", new StringsCompleter("add"));
+			comp.put("C1", new StringsCompleter("delete"));
+			comp.put("C2", new StringsCompleter("edit"));
+			comp.put("C3", new StringsCompleter("list"));
 			
-			c = new Completers.RegexCompleter("C1 | C2 C21 | C3 C31 C32 C33", comp::get);
+			comp.put("C4", new StringsCompleter("class"));
+			comp.put("C5", new StringsCompleter("field"));
+			comp.put("C6", new StringsCompleter("method"));
+			comp.put("C7", new StringsCompleter("rel"));
+			comp.put("C8", new StringsCompleter("Composition", "Aggregation", "Inheritance", "Realization"));
+			
+			comp.put("C9", new StringsCompleter(""));
+			comp.put("C10", new StringsCompleter(""));
+			comp.put("C11", new StringsCompleter(""));
+			comp.put("C12", new StringsCompleter(""));
+			
+			comp.put("C13", new StringsCompleter("name"));
+			comp.put("C14", new StringsCompleter("type"));
+			comp.put("C15", new StringsCompleter("dest"));
+			comp.put("C16", new StringsCompleter("parameters"));
+			comp.put("C17", new StringsCompleter("classes"));
+			
+			comp.put("C20", new StringsCompleter("save"));
+			comp.put("C21", new StringsCompleter("load"));
+			comp.put("C22", new StringsCompleter("redo"));
+			comp.put("C23", new StringsCompleter("undo"));
+			comp.put("C24", new StringsCompleter("help"));
+			comp.put("C25", new StringsCompleter("exit"));
+			
+			c = new Completers.RegexCompleter("C20 | C21 | C22 | C23 | C24 | C25 | C0 C4 | C0 C5 C9 | C0 C6 C9 | C0 C7 C9 C9 | C1 C4 C9 | C1 C5 C9 C10 | C1 C6 C9 C11 | C1 C7 C9 C12 | C2 C4 C9 | C2 C5 C13 C9 C10 | C2 C5 C14 C9 C10 | C2 C6 C13 C9 C11 | C2 C6 C14 C9 C11 | C2 C6 C16 C9 C11 | C2 C7 C15 C9 C12 | C2 C7 C14 C9 C12 | C3 C17 | C3 C4 C9 | C3 C7", comp::get);
 			
 		}
 		
