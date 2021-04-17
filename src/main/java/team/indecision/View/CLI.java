@@ -33,9 +33,15 @@ import team.indecision.Model.Class;
  */
 public class CLI {
 	
+	/** A custom Completer for the jline3 terminal.
+	 */
 	private class TabCompleter implements Completer { //gives us dynamic access to the completer through the setCompleter
 		RegexCompleter c;
 
+		/** Constructs a custom context and model aware Completer object to be passed into the jline3 terminal.
+		 * @param modelP The model to be acted on
+		 * @param viewP The view to be updated.
+		 */
 		public  TabCompleter() {
 			Map<String, Completer> comp = new HashMap<>();
 			comp.put("C0", new StringsCompleter("add"));
@@ -76,6 +82,9 @@ public class CLI {
 	        c.complete(reader, line, candidates);
 	    }
 
+	    /** Sets a new TabCompleter with updated candidates from the model.
+		 * @param modelP The model to be acted upon.
+		 */
 	    public void setCompleter(Classes model) {
 	    	List<String> classes = new ArrayList<String>();
 			List<String> fields = new ArrayList<String>();
@@ -143,9 +152,13 @@ public class CLI {
 	    }
 	}
 
+	//Stores the jline3 reader object.
 	private LineReader lr;
-	private TabCompleter completer; //custom completer
+	//Stores the custom completer.
+	private TabCompleter completer;
 	
+	/** Constructs a CLI view.
+	 */
 	public CLI() {
 		try {
 			Terminal terminal = TerminalBuilder.terminal();
@@ -158,18 +171,30 @@ public class CLI {
 		}
 	}
 	
+	/** Gets the completer.
+	 * @return The completer.
+	 */
 	public TabCompleter getCompleter() {
 		return completer;
 	}
 	
+	/** Sets the completer.
+	 * @param model The model to be used.
+	 */
 	public void setCompleter(Classes model) {
 		completer.setCompleter(model);
 	}
 	
+	/** Sends a response to the terminal console.
+	 * @param respone A String that represents the response.
+	 */
 	public void update(String response) {
 		System.out.println(response);
 	}
 	
+	/** Prompts for user input
+	 * @param The user input from the terminal.
+	 */
     public String prompt() {
         return lr.readLine("UML => ");
     }
