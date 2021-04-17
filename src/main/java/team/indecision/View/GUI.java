@@ -317,6 +317,9 @@ public class GUI extends JPanel {
 
 		JMenuItem editMethodParametersItem = new JMenuItem("Edit Method Parameters");
 		methodMenu.add(editMethodParametersItem);
+		
+		JMenuItem editMethodTypeItem = new JMenuItem("Edit Method Return Type");
+		methodMenu.add(editMethodTypeItem);
 
 		//////////////////////////// JMenueBar
 		//////////////////////////// Relationships////////////////////////////////
