@@ -41,6 +41,7 @@ public class ListClassesCommand implements Command {
 	        	response += c.toString() + System.lineSeparator();
 	        }
 	        i++;
+	        response += System.lineSeparator();
 	    }
 		return response;
 	}
