@@ -3,10 +3,8 @@ package team.indecision.Command;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.SortedMap;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 

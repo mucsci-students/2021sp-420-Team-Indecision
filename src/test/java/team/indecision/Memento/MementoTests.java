@@ -1,11 +1,9 @@
 package team.indecision.Memento;
 
 import static org.junit.Assert.*;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import org.junit.Test;
 import team.indecision.Command.*;
 import team.indecision.Model.*;

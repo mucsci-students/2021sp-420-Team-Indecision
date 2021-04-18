@@ -2,7 +2,6 @@ package team.indecision.View;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.LayoutManager;
 import java.awt.Polygon;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -10,41 +9,40 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.Map.Entry;
-
-import javax.management.relation.Relation;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-
 import team.indecision.Controller.GUIController;
-import team.indecision.Model.Classes;
 import team.indecision.Model.Relationship;
-
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.awt.*;
-import java.awt.geom.Line2D;
-import javax.swing.*;
 
 public class GUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 	public JFrame frame;
 	private JMenuBar menuBar;
 	private GUIController controller;
-
+	
+	/** 
+	 * @param controllerP to set the global controller. 
+	 */
 	public void setController(GUIController controllerP) {
 		controller = controllerP;
 	}
 
-
+	/** 
+	 * @param panel the panel the arrow will move around. 
+	 * @param panelDest the panel the arrow will go to 
+	 * @return a string that tells where the panelDest panel is in regard to the panel.
+	 */
 	private String  destinationPanelLocation(JPanel panel, JPanel panelDest) {
 	
 		SortedMap<String, Rectangle> rectangles = new TreeMap<String, Rectangle>();
@@ -76,7 +74,9 @@ public class GUI extends JPanel {
 		}
 		return recLocation;
 	}
-
+	/** 
+	 * Gets all the components and paints the arrows onto the screen.
+	 */
 	public void paint(Graphics g) {
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
@@ -730,7 +730,11 @@ public class GUI extends JPanel {
 	}
 	}
 
-
+	/** 
+	 * Gets a list of all the components in the view. 
+	 * @param container the container we are getting the components from.
+	 * @return a list of all the components in the view. 
+	 */
 	public static List<Component> getAllComponents(final Container c) {
 		Component[] comps = c.getComponents();
 		List<Component> compList = new ArrayList<Component>();
@@ -742,9 +746,10 @@ public class GUI extends JPanel {
 		return compList;
 	}
 
+	/** 
+	 * Constructor for the GUI view. 
+	 */
 	public GUI() {
-
-
 		frame = new JFrame("UML - Team Indecision");
 		setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -758,8 +763,7 @@ public class GUI extends JPanel {
 
 		menuBar = new JMenuBar();
 
-		//////////////////////////// JMenueBar
-		//////////////////////////// Classes//////////////////////////////////////
+		//////////////////////////// JMenueBar Classes//////////////////////////////////////
 
 		JMenu classMenu = new JMenu("Class");
 		menuBar.add(classMenu);
@@ -773,8 +777,7 @@ public class GUI extends JPanel {
 		JMenuItem editClassNameItem = new JMenuItem("Edit Class Name");
 		classMenu.add(editClassNameItem);
 
-		//////////////////////////// JMenueBar
-		//////////////////////////// Fields///////////////////////////////////////
+		//////////////////////////// JMenueBar Fields///////////////////////////////////////
 
 		JMenu fieldMenu = new JMenu("Field");
 		menuBar.add(fieldMenu);
@@ -791,8 +794,7 @@ public class GUI extends JPanel {
 		JMenuItem editFieldTypeItem = new JMenuItem("Edit Field Type");
 		fieldMenu.add(editFieldTypeItem);
 
-		//////////////////////////// JMenueBar
-		//////////////////////////// Methods//////////////////////////////////////
+		//////////////////////////// JMenueBarMethods //////////////////////////////////////
 
 		JMenu methodMenu = new JMenu("Method");
 		menuBar.add(methodMenu);
@@ -812,8 +814,7 @@ public class GUI extends JPanel {
 		JMenuItem editMethodTypeItem = new JMenuItem("Edit Method Return Type");
 		methodMenu.add(editMethodTypeItem);
 
-		//////////////////////////// JMenueBar
-		//////////////////////////// Relationships////////////////////////////////
+		//////////////////////////// JMenueBar Relationships////////////////////////////////
 
 		JMenu relationshipMenu = new JMenu("Relationship");
 		menuBar.add(relationshipMenu);
@@ -830,8 +831,7 @@ public class GUI extends JPanel {
 		JMenuItem editRelationshipTypeItem = new JMenuItem("Edit Relationship Type");
 		relationshipMenu.add(editRelationshipTypeItem);
 
-		//////////////////////////// JMenueBar Save and
-		//////////////////////////// Load////////////////////////////////
+		//////////////////////////// JMenueBar Save and Load////////////////////////////////
 
 		JMenu saveAndLoadMenu = new JMenu("Save and Load");
 		menuBar.add(saveAndLoadMenu);
@@ -842,8 +842,7 @@ public class GUI extends JPanel {
 		JMenuItem loadItem = new JMenuItem("Load");
 		saveAndLoadMenu.add(loadItem);
 
-		//////////////////////////// JMenueBar Save and
-		//////////////////////////// Undo / Redo//////////////////////////////////////
+		//////////////////////////// JMenueBar Save and Undo/Redo//////////////////////////////////////
 		JMenu undoAndRedoMenu = new JMenu("Undo and Redo");
 		menuBar.add(undoAndRedoMenu);
 
@@ -858,7 +857,11 @@ public class GUI extends JPanel {
 		frame.pack();
 		frame.setVisible(true);
 	}
-
+	/** 
+	 * @param listener the listener to be added.
+	 * @param menuPosition where the menu is in the ribbon.
+	 * @param menuItemPosition where the item is in the menu. 
+	 */
 	public void addActionListener(ActionListener listener, int menuPosition, int menuItemPosition) {
 
 		menuBar.getMenu(menuPosition).getItem(menuItemPosition).addActionListener(listener);

@@ -1,7 +1,6 @@
 package team.indecision.Command;
 
 import java.util.SortedMap;
-
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 
