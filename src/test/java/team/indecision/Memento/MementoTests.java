@@ -1,7 +1,6 @@
 package team.indecision.Memento;
 
 import static org.junit.Assert.*;
-
 import java.util.SortedSet;
 import java.util.TreeSet;
 import org.junit.Test;
