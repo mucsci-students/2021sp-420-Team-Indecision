@@ -51,7 +51,7 @@ Our GUI comes with all of the same features as the Command Line Interface. All o
 	FILE TAB
 	Save - enter the desired file name. This will then save the file to .json format automatically.
 	Load - enter the desired file name you would like to work on/edit. This file should be in .json format.
-	Export as Image - takes a screenshot of the current program state, and save it as .jpg to the source directory of the code. 
+	Export as Image - takes a screenshot of the current program state, and save it as .png to the source directory of the code. 
 
 	CLASSES TAB
 	Add Class - enter desired class name
