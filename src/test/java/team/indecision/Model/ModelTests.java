@@ -77,7 +77,7 @@ public class ModelTests {
 		m.setType("int");
 		assertEquals("test1",m.getName());
 		assertEquals(parameters,m.getParameters());
-		assertEquals("int test1 [string p2]", m.toString());
+		assertEquals("int test1 string p2", m.toString());
 		
 		Method m1 = new Method("test1");
 		m1.setParameters(parameters);
@@ -155,11 +155,6 @@ public class ModelTests {
 		assertEquals(false,c1.containsField("f3"));
 		assertEquals(false,c1.containsMethod(m3.getName(),m3.getParameters()));
 		assertEquals(false,c1.containsRelationship("rel3"));
-		
-		assertEquals("[int f1, int f2]",c1.printFields());
-		assertEquals("[type method [], type method1 []]",c1.printMethods());
-		assertEquals("[rel agg, rel1 agg]",c1.printRelationships());
-		assertEquals("test2 [int f1, int f2] [type method [], type method1 []] [rel agg, rel1 agg]",c1.toString());
 		
 		Class c2 = new Class("test2",c1.getFields(),c1.getMethods(),c1.getRelationships(), 0, 0);;
 		assertTrue(c1.equals(c2));
