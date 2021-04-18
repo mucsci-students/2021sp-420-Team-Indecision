@@ -1,11 +1,8 @@
 package team.indecision.Command;
 
 import static org.junit.Assert.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import org.junit.Test;
 import team.indecision.Model.Classes;
 import team.indecision.Model.Parameter;

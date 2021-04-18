@@ -1,7 +1,6 @@
 package team.indecision.Command;
 
 import java.util.SortedSet;
-
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
 import team.indecision.Model.Method;
