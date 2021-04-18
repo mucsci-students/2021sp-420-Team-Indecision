@@ -1,4 +1,12 @@
-Iterator
-MVC
-Command
-Memento
+Iterator-Used to list classes
+MVC-code files seperated pertaining to the structure
+Command-Using execute for save and load.
+Memento-object that allows for undo operation
+Builder-class composed of method, parameters, and fields
+Factory-class is created without exposing creation logic to client through interface
+Composite-parameter list containing different parameter types
+Private Class Data-protected data existing under model
+Observer-when method, fields, or parameters are updated then class is updated
+Template-additional classes called under command when changes are made
+Facade-CLI and GUI provide interface to the client so the client can use program
+Visitor-user acts as visitor and gui / cli provides the visitor with their needs
