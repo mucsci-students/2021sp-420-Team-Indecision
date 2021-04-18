@@ -138,7 +138,14 @@ public class Class implements Serializable{
 	 * @return A String containing the class's fields.
 	 */
 	public String printFields() {
-		return fields.toString();
+		String result = "";
+		Iterator<Field> it = fields.iterator(); 
+		while (it.hasNext()) {
+			Field f = it.next();
+			result += System.lineSeparator() + f.toString();
+		}
+		
+		return result;
 	}
 	
 	
@@ -230,7 +237,14 @@ public class Class implements Serializable{
 	 * @return A String containing the class's methods.
 	 */
 	public String printMethods() {
-		return methods.toString();
+		String result = "";
+		Iterator<Method> it = methods.iterator(); 
+		while (it.hasNext()) {
+			Method m = it.next();
+			result += System.lineSeparator() + m.toString();
+		}
+		
+		return result;
 	}
 	
 	public String printMethodsGUI() {
@@ -311,14 +325,21 @@ public class Class implements Serializable{
 	 * @return A String containing the class's relationships.
 	 */
 	public String printRelationships() {
-		return relationships.toString();
+		String result = "";
+		Iterator<Relationship> it = relationships.iterator(); 
+		while (it.hasNext()) {
+			Relationship r = it.next();
+			result += System.lineSeparator() + r.toString();
+		}
+		
+		return result;
 	}
 	
 	/** Represents this class as a String.
 	 * @return A String containing this class.
 	 */
 	public String toString() {
-		String result = this.getName() + " " + this.printFields() + " " + this.printMethods() + " " + this.printRelationships(); 
+		String result = "Name: " +  this.getName() + System.lineSeparator() + "Fields: " + this.printFields() + System.lineSeparator() + "Methods: " + this.printMethods() + System.lineSeparator() + "Relationships: " + this.printRelationships(); 
         return result;
 	}
 	/** Represents this class in a format suitable for the GUI. Swing uses HTML in its panels. 

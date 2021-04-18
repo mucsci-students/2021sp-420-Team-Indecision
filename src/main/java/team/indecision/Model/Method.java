@@ -135,7 +135,15 @@ public class Method implements Comparable<Method>, Serializable{
 	 * @return A String containing this class.
 	 */
 	public String toString() {
-		return returnType + " " + name + " " + parameters.toString();
+		
+		Iterator<Parameter> it = parameters.iterator();
+		 String result = returnType + " " + name;
+		 while (it.hasNext()) {
+			 Parameter p = it.next();
+			 result += " " + p.toString();
+		 }
+		
+		return result.trim();
 	}
 	
 	/** Represents this class as a String.
