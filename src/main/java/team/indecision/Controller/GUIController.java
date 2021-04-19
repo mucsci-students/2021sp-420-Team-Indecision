@@ -11,15 +11,12 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.awt.event.MouseListener;
-
-
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
-
 import team.indecision.View.GUI;
 import team.indecision.Command.*;
 import team.indecision.Memento.History;
@@ -621,15 +618,15 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String className = promptInput(
+                String className = promptClassDropDown(
                         "Select the class where the relationship will have its destination changed.");
                 if (className != null) {
-                    String relationshipDestination = promptInput("Select relationship.");
+                    Relationship relationshipDestination = promptRelationshipDropDown(className, "Select relationship to change its destination.");
                     if (relationshipDestination != null) {
-                        String newRelationshipDestination = promptInput("Select new relationship destination.");
+                        String newRelationshipDestination = promptClassDropDown("Select new relationship destination.");
                         if (newRelationshipDestination != null) {
                             String response = executeCommand(new EditRelationshipDestinationCommand(model, className,
-                                    relationshipDestination, newRelationshipDestination));
+                                    relationshipDestination.getDestination(), newRelationshipDestination));
                             JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
@@ -901,7 +898,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      */
     public String promptClassDropDown(String message) {
         if (model.getClasses().isEmpty()) {
-            JOptionPane.showMessageDialog(view.frame, "There are no classes added.");
+            //JOptionPane.showMessageDialog(view.frame, "There are no classes added.");
             return null;
         } else {
             List<String> optionsList = new ArrayList<String>();
@@ -1042,9 +1039,8 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
 
             label.setName(entry.getValue().getName() + "Label");
 
-
-
             panel.add(label);
+
             panel.addMouseListener(this);
             panel.addMouseMotionListener(this);
             customJPanels.put(entry.getValue().getName(), panel);
