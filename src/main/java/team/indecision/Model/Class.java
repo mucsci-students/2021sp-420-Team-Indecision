@@ -2,7 +2,6 @@ package team.indecision.Model;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -22,9 +21,9 @@ public class Class implements Serializable{
 	private SortedSet<Method> methods = new TreeSet<Method>();
 	//Stores the relationships for the class.
 	private SortedSet<Relationship> relationships = new TreeSet<Relationship>();
-	//Stores GUI location data
+	//Stores GUI location data.
 	private int x;
-	//Stores GUI location data
+	//Stores GUI location data.
 	private int y;
 	
 	/** Constructs an uninitialized instance of the object.
@@ -46,8 +45,8 @@ public class Class implements Serializable{
 	 * @param fieldsP The class fields name.
 	 * @param methodsP The class methods name.
 	 * @param relationshipsP The class relationships name.
-	 * @param xP 
-	 * @param yP 
+	 * @param xP GUI location data.
+	 * @param yP GUI location data.
 	 */
 	public Class(String nameP, SortedSet<Field> fieldsP, SortedSet<Method> methodsP, SortedSet<Relationship> relationshipsP, int xP, int yP) {
 		name = nameP;
@@ -90,8 +89,8 @@ public class Class implements Serializable{
 	 * @param newField A String containing the class field name.
 	 * @return A boolean true if it is added and false if it already exists or is not added.
 	 */
-	public boolean addField(String newField) {
-		Field f = new Field (newField);
+	public boolean addField(String newFieldType, String newFieldName) {
+		Field f = new Field (newFieldType, newFieldName);
 		return fields.add(f);
 	}
 	
@@ -100,7 +99,7 @@ public class Class implements Serializable{
 	 * @return A boolean true if it is deleted and false if it does not exist.
 	 */
 	public boolean deleteField(String name) {
-		Field f = new Field (name);
+		Field f = getField(name);
 		return fields.remove(f);
 	}
 	
@@ -137,7 +136,29 @@ public class Class implements Serializable{
 	 * @return A String containing the class's fields.
 	 */
 	public String printFields() {
-		return fields.toString();
+		String result = "";
+		Iterator<Field> it = fields.iterator(); 
+		while (it.hasNext()) {
+			Field f = it.next();
+			result += System.lineSeparator() + f.toString();
+		}
+		
+		return result;
+	}
+	
+	
+	/** Prints the fields for this class.
+	 * @return A String containing the class's fields.
+	 */
+	public String printFieldsGUI() {
+			 Iterator<Field> it = fields.iterator();
+			 String result = "";
+			 while (it.hasNext()) {
+				 Field f = it.next();
+				 result += "<br/>&nbsp;&nbsp;&nbsp;&nbsp;" + f.toString();
+			 }
+			 return result;
+
 	}
 	
 	/** Gets the class's methods.
@@ -158,8 +179,17 @@ public class Class implements Serializable{
 	 * @param newField A String containing the class method name.
 	 * @return A boolean true if it is added and false if it already exists or is not added.
 	 */
-	public boolean addMethod(String newMethod, List<String> newParameters) {
-		Method m = new Method(newMethod, newParameters);
+	public boolean addMethod(String newMethod) {
+		Method m = new Method(newMethod);
+		return methods.add(m);
+	}
+	
+	/** Adds a new method to the class.
+	 * @param newField A String containing the class method name.
+	 * @return A boolean true if it is added and false if it already exists or is not added.
+	 */
+	public boolean addMethod(String returnType, String newMethod, SortedSet<Parameter> parameters) {
+		Method m = new Method(returnType, newMethod, parameters);
 		return methods.add(m);
 	}
 	
@@ -167,8 +197,8 @@ public class Class implements Serializable{
 	 * @param name A String containing the class method name.
 	 * @return A boolean true if it is deleted and false if it does not exist.
 	 */
-	public boolean deleteMethod(String name, List<String> parameters) {
-		Method m = new Method(name, parameters);
+	public boolean deleteMethod(String name, SortedSet<Parameter> parameters) {
+		Method m = getMethod(name, parameters);
 		return methods.remove(m);
 	}
 	
@@ -176,12 +206,12 @@ public class Class implements Serializable{
 	 * @param name A String containing the class method name.
 	 * @return A Method from the methods set returns null if it does not exist in the set.
 	 */
-	public Method getMethod(String name, List<String> parameters) {
+	public Method getMethod(String name, SortedSet<Parameter> parameters) {
 		 Iterator<Method> it = methods.iterator();
 		 Method m = null;
 		 while (it.hasNext()) {
 			 m = it.next();
-			 if (m.getName().equals(name) && m.getParameters().equals(parameters)) {
+			 if (m.getName().equals(name) && (m.getParameters().equals(parameters))) {
 				 break;
 			 }
 			 m = null;
@@ -193,7 +223,7 @@ public class Class implements Serializable{
 	 * @param name A String containing the class method name.
 	 * @return Returns true if the method exists.
 	 */
-	public boolean containsMethod(String name, List<String> parameters) {
+	public boolean containsMethod(String name, SortedSet<Parameter> parameters) {
 		boolean result = false;
 		if (getMethod(name, parameters) != null) {
 			result = true;
@@ -205,8 +235,26 @@ public class Class implements Serializable{
 	 * @return A String containing the class's methods.
 	 */
 	public String printMethods() {
-		return methods.toString();
+		String result = "";
+		Iterator<Method> it = methods.iterator(); 
+		while (it.hasNext()) {
+			Method m = it.next();
+			result += System.lineSeparator() + m.toString();
+		}
+		
+		return result;
 	}
+	
+	public String printMethodsGUI() {
+		 Iterator<Method> it = methods.iterator();
+		 String result = "";
+		 while (it.hasNext()) {
+			 Method m = it.next();
+			 result += "<br/>&nbsp;&nbsp;&nbsp;&nbsp;" + m.toString();
+		 }
+		 return result;
+
+}
 	
 	/** Gets the class's relationships.
 	 * @return A SortedMap that stores the class relationships.
@@ -275,19 +323,28 @@ public class Class implements Serializable{
 	 * @return A String containing the class's relationships.
 	 */
 	public String printRelationships() {
-		return relationships.toString();
+		String result = "";
+		Iterator<Relationship> it = relationships.iterator(); 
+		while (it.hasNext()) {
+			Relationship r = it.next();
+			result += System.lineSeparator() + r.toString();
+		}
+		
+		return result;
 	}
 	
 	/** Represents this class as a String.
 	 * @return A String containing this class.
 	 */
 	public String toString() {
-		String result = this.getName() + " " + this.printFields() + " " + this.printMethods() + " " + this.printRelationships(); 
+		String result = "Name: " +  this.getName() + System.lineSeparator() + "Fields: " + this.printFields() + System.lineSeparator() + "Methods: " + this.printMethods() + System.lineSeparator() + "Relationships: " + this.printRelationships(); 
         return result;
 	}
-	
+	/** Represents this class in a format suitable for the GUI. Swing uses HTML in its panels. 
+	 * @return A String containing this class.
+	 */
 	public String toStringGUI() {
-		String result = "<html>" + this.getName() + "<hr/> Fields:" + this.printFields() + " <hr/> Methods:" + this.printMethods() + "<hr/> Relationships:" + this.printRelationships() + "</html>"; 
+		String result = "<html><b>" + this.getName() + "</b><hr/><b>&nbsp;&nbsp; Fields:</b>" + this.printFieldsGUI() + "<hr/>&nbsp;&nbsp; <b>Methods:</b>" + this.printMethodsGUI() + "</html>"; 
         return result;
 	}
 
@@ -304,19 +361,30 @@ public class Class implements Serializable{
         return result;
     }
 	
-	
+	/** Gets the class's X location.
+	 * @return An int representation of the location.
+	 */
 	public int getXLocation() {
 		return x;
 	}
 	
+	/** Gets the class's Y location.
+	 * @return An int representation of the location.
+	 */
 	public int getYLocation() {
 		return y;
 	}
 	
+	/** Sets the class's X location
+	 * @param xP An int representing the x location.
+	 */
 	public void setXLocation(int xP) {
 		x = xP;
 	}
 	
+	/** Sets the class's Y location
+	 * @param yP An int representing the Y location.
+	 */
 	public void setYLocation(int yP) {
 		y = yP;
 	}

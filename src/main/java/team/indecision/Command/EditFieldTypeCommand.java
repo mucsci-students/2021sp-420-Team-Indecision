@@ -2,36 +2,41 @@ package team.indecision.Command;
 
 import team.indecision.Model.Class;
 import team.indecision.Model.Classes;
+import team.indecision.Model.Field;
 
-/** This class represents the Delete Field command.
+/** This class represents the Edit Field Type command.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
  * @version 1.0
  * @since 1.0
  */
-public class DeleteFieldCommand implements Command {
-
+public class EditFieldTypeCommand implements Command {
+	
 	//Stores the model that the command will be executed against.
 	Classes model;
-	//Stores the desired class name of the class to be deleted from the model.
+	//Stores the desired class name of the class in which the field exists.
 	String className;
-	//Stores the desired field name of the field to be deleted from the class.
+	//Stores the desired field name of the field to edited.
 	String fieldName;
+	//Stores the new field Type.
+	String newFieldType;
 	//Stores whether or not the state of the model has changed. True if the state has changed false if not.
 	boolean stateChange;
 	
-	/** Constructs a Delete Field command with the desired model, class name and field name.
+	/** Constructs an Edit Field Type command with the desired model, class name, field name, and new field type.
 	 * @param classNameP The class name.
 	 * @param fieldNameP The field name.
+	 * @param newFieldTypeP The new field type.
 	 * @param modelP The model.
 	 */
-	public DeleteFieldCommand(Classes modelP, String classNameP, String fieldNameP) {
+	public EditFieldTypeCommand (Classes modelP, String classNameP, String fieldNameP, String newFieldTypeP) {
 		model = modelP;
 		className = classNameP;
 		fieldName = fieldNameP;
+		newFieldType = newFieldTypeP;
 		stateChange = false;
 	}
-	
-	/** Executes the command. This command deletes a field from the model. The class and field must exist.
+
+	/** Executes the command. This command edits the field type of an existing field in a class. The class and field must exist.
 	 * @return A string that represents the outcome of the execution.
 	 */
 	@Override
@@ -39,9 +44,10 @@ public class DeleteFieldCommand implements Command {
 		String response;
 		if (model.getClasses().containsKey(className)) {
 			Class c = model.getClasses().get(className);
-			if (c.containsField(fieldName)) {
-				c.deleteField(fieldName);
-				response = "The field " +  fieldName + " has been deleted from class " + className + ".";
+			if(c.containsField(fieldName)) {
+				Field f = c.getField(fieldName);
+				f.setType(newFieldType);
+				response = "The field " + fieldName + " has had its type changed to " + newFieldType + ".";
 				stateChange = true;
 			}
 			else {
@@ -53,12 +59,13 @@ public class DeleteFieldCommand implements Command {
 		}
 		return response;
 	}
-	
+
 	/** Gets the stateChange field.
-	 * @return A boolean that represents whether or not the state haas changed.
+	 * @return A boolean that represents whether or not the state has changed.
 	 */
 	@Override
 	public boolean getStateChange() {
 		return stateChange;
 	}
+
 }

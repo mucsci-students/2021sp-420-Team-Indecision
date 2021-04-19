@@ -10,9 +10,9 @@ import java.io.Serializable;
 public class Relationship implements Comparable<Relationship>, Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	// stores the relationship destination
+	//Stores the relationship destination.
 	private String destination;
-	// stores the relationship type
+	//Stores the relationship type.
 	private String type;
 	
 	/** Constructs an uninitialized instance of the object.
