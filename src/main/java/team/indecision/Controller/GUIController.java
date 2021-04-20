@@ -874,16 +874,18 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
 	        input.replaceAll("\\s", "");
 	        String[] token = input.split(",");
 	        
-	        for(int i = 0; i < token.length; i++) {
-				String[] token2 = token[i].split(" ");
-				if (token2.length == 2) {
-					parameters.add(new Parameter(token2[0], token2[1]));
-				}
-				else {
-					return null;
-				}
-			}	
-	 
+	        if (token.length != 1) {
+	        	for(int i = 0; i < token.length; i++) {
+					String[] token2 = token[i].split(" ");
+					if (token2.length == 2) {
+						parameters.add(new Parameter(token2[0], token2[1]));
+					}
+					else {
+						return null;
+					}
+				}	
+	        }
+	        
 	        return parameters;
         }
 
