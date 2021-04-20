@@ -1,1 +1,1 @@
-{"a":{"name":"a","fields":[],"methods":[],"relationships":[{"destination":"b","type":"Inheritance"}],"ylocation":154,"xlocation":208},"b":{"name":"b","fields":[],"methods":[],"relationships":[],"ylocation":155,"xlocation":491}}
+{"a":{"name":"a","fields":[],"methods":[],"relationships":[{"destination":"b","type":"Inheritance"}],"xlocation":737,"ylocation":154},"b":{"name":"b","fields":[],"methods":[],"relationships":[],"xlocation":491,"ylocation":155}}

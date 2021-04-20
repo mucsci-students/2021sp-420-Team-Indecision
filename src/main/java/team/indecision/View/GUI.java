@@ -9,7 +9,6 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.Map.Entry;
-
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -559,7 +558,7 @@ public class GUI extends JPanel {
 										else if (destinationPanelLocation.equals("leftMid")){
 											// Main Line
 											g2d.setStroke(new BasicStroke(5));
-											int xLinePoly[] = {panel.getX() , panel.getX() - 20, panelDest.getX() + panelDest.getWidth() + 36,  panelDest.getX() + panelDest.getWidth() + 26};
+											int xLinePoly[] = {panel.getX() , panel.getX() - 20, panelDest.getX() + panelDest.getWidth() + 36,  panelDest.getX() + panelDest.getWidth() + 10};
 											int yLinePoly[] = {panel.getY() + panel.getHeight() / 2, panel.getY() + panel.getHeight() / 2, panelDest.getY() + panelDest.getHeight()/2, panelDest.getY() + panelDest.getHeight()/2 };
 											g2d.drawPolyline(xLinePoly, yLinePoly, xLinePoly.length);
 
