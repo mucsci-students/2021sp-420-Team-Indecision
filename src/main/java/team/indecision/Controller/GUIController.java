@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -32,24 +31,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Random;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
- 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 /** This class represents the controller for the GUI application.
  * @author Connor Nissley, Ian Reger, Alex Stone, Araselli Morales, Rohama Getachew 
@@ -167,7 +154,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                 String newClassName = promptInput("Enter the new class name.");
                 if (newClassName != null) {
                     String response = executeCommand(new AddClassCommand(model, newClassName));
-                    JOptionPane.showMessageDialog(view.frame, response);
+                    //JOptionPane.showMessageDialog(view.frame, response);
                     refreshJFrame();
                 }
                 else {
@@ -190,7 +177,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                 String deletedClass = promptClassDropDown("Select the class to be deleted.");
                 if (deletedClass != null) {
                     String response = executeCommand(new DeleteClassCommand(model, deletedClass));
-                    JOptionPane.showMessageDialog(view.frame, response);
+                    //JOptionPane.showMessageDialog(view.frame, response);
                     refreshJFrame();
                 }
                 else {
@@ -216,7 +203,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     String newClassName = promptInput("Enter the new name of the class.");
                     if (newClassName != null) {
                         String response = executeCommand(new EditClassNameCommand(model, className, newClassName));
-                        JOptionPane.showMessageDialog(view.frame, response);
+                        //JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
                     else {
@@ -252,7 +239,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                 		String fieldName = promptInput("Enter new field name.");
                         if (fieldName != null) {
                             String response = executeCommand(new AddFieldCommand(model, className, fieldType, fieldName));
-                            JOptionPane.showMessageDialog(view.frame, response);
+                            //JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                         else {
@@ -284,7 +271,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     Field deletedField = promptFieldDropDown(className, "Select the field to be deleted.");
                     if (deletedField != null) {
                         String response = executeCommand(new DeleteFieldCommand(model, className, deletedField.getName()));
-                        JOptionPane.showMessageDialog(view.frame, response);
+                        //JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
                     else {
@@ -313,9 +300,8 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     if (original != null) {
                         String newName = promptInput("Enter the new name of the field.");
                         if (newName != null) {
-                            String response = executeCommand(
-                                    new EditFieldNameCommand(model, className, original.getName(), newName));
-                            JOptionPane.showMessageDialog(view.frame, response);
+                            String response = executeCommand(new EditFieldNameCommand(model, className, original.getName(), newName));
+                            //JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                         else {
@@ -348,7 +334,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         if (newType != null) {
                             String response = executeCommand(
                                     new EditFieldTypeCommand(model, className, original.getName(), newType));
-                            JOptionPane.showMessageDialog(view.frame, response);
+                            //JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                         else {
@@ -388,7 +374,8 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             if (parameters != null) {
                                 String response = executeCommand(
                                         new AddMethodCommand(model,className, methodReturnType, methodName, parameters));
-                                JOptionPane.showMessageDialog(view.frame, response);
+                                    System.out.println(response);
+                                //JOptionPane.showMessageDialog(view.frame, response);
                                 refreshJFrame();
                             }
                             else {
@@ -425,7 +412,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     if (methodAndParams != null) {
                         String response = executeCommand(new DeleteMethodCommand(model, className,
                                 methodAndParams.getName(), methodAndParams.getParameters()));
-                        JOptionPane.showMessageDialog(view.frame, response);
+                        //JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
                     else {
@@ -456,7 +443,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         if (methodNewName != null) {
                             String response = executeCommand(new EditMethodNameCommand(model, className,
                                     methodToChange.getName(), methodToChange.getParameters(), methodNewName));
-                            JOptionPane.showMessageDialog(view.frame, response);
+                            //JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                         else {
@@ -491,7 +478,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         if (newParameters != null) {
                             String response = executeCommand(new EditMethodParametersCommand(model, className,
                                     methodToChange.getName(), methodToChange.getParameters(), newParameters));
-                            JOptionPane.showMessageDialog(view.frame, response);
+                            //JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                         else {
@@ -526,7 +513,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         if (methodNewReturnType != null) {
                             String response = executeCommand(new EditMethodTypeCommand(model, className,
                                     methodToChange.getName(), methodToChange.getParameters(), methodNewReturnType));
-                            JOptionPane.showMessageDialog(view.frame, response);
+                            //JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                         else {
@@ -564,7 +551,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         if (relationshipType != null) {
                             String response = executeCommand(
                                     new AddRelationshipCommand(model, className, relationshipName, relationshipType));
-                            JOptionPane.showMessageDialog(view.frame, response);
+                            //JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                         else {
@@ -596,7 +583,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                     if (relationship != null) {
                         String response = executeCommand(
                                 new DeleteRelationshipCommand(model, className, relationship.getDestination()));
-                        JOptionPane.showMessageDialog(view.frame, response);
+                        //JOptionPane.showMessageDialog(view.frame, response);
                         refreshJFrame();
                     }
                     else {
@@ -627,7 +614,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         if (newRelationshipDestination != null) {
                             String response = executeCommand(new EditRelationshipDestinationCommand(model, className,
                                     relationshipDestination.getDestination(), newRelationshipDestination));
-                            JOptionPane.showMessageDialog(view.frame, response);
+                            //JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                         else {
@@ -662,7 +649,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                         if (relationshipNewType != null) {
                             String response = executeCommand(new EditRelationshipTypeCommand(model, className,
                                     relationship.getDestination(), relationshipNewType));
-                            JOptionPane.showMessageDialog(view.frame, response);
+                            //JOptionPane.showMessageDialog(view.frame, response);
                             refreshJFrame();
                         }
                         else {
@@ -798,8 +785,14 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             @Override
             public void actionPerformed(ActionEvent e) {
                 String response = undo();
-                JOptionPane.showMessageDialog(view.frame, response);
+                if(response.equals("The last command that changed the state has been undone.")){
+                    refreshJFrame();
+                }
+                else {
+                    JOptionPane.showMessageDialog(view.frame, response);
+                }
                 refreshJFrame();
+
             }
         };
     }
@@ -815,7 +808,9 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             @Override
             public void actionPerformed(ActionEvent e) {
                 String response = redo();
-                JOptionPane.showMessageDialog(view.frame, response);
+                if(response.equals("You can no longer redo.")){
+                    JOptionPane.showMessageDialog(view.frame, response);
+                }
                 refreshJFrame();
             }
         };
@@ -898,7 +893,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      */
     public String promptClassDropDown(String message) {
         if (model.getClasses().isEmpty()) {
-            //JOptionPane.showMessageDialog(view.frame, "There are no classes added.");
+            JOptionPane.showMessageDialog(view.frame, "There are no classes added.");
             return null;
         } else {
             List<String> optionsList = new ArrayList<String>();
