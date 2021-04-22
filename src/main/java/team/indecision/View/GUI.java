@@ -81,21 +81,15 @@ public class GUI extends JPanel {
 	 */
 	public void paintComponent(Graphics g) {
 
-
-		
-
-
-
-
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		List<Component> componentList = getAllComponents(this);
 		// This sets the jpanel height and width to the labels height and width. 
 		for (int i = 0; i < componentList.size(); i = i + 2) {
-			componentList.get(i).setSize(componentList.get(i + 1).getWidth(), componentList.get(i + 1).getHeight());
+			componentList.get(i + 1).setSize(componentList.get(i + 1).getPreferredSize().width + 10, componentList.get(i + 1).getPreferredSize().height + 10);
 
-			((JComponent) componentList.get(i)).setBorder(BorderFactory.createMatteBorder(100, 100, 100, 100, new Color(3,3,3)));
+			componentList.get(i).setSize(componentList.get(i + 1).getWidth(), componentList.get(i + 1).getHeight());
 
 
 

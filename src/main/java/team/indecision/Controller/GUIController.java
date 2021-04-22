@@ -885,9 +885,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
 			}	
 	 
 	        return parameters;
-        }
-
-        
+        }        
     }
 
     /**
@@ -1030,7 +1028,6 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             label.setBackground(Color.LIGHT_GRAY);
             //panel.setBackground(Color.GREEN);
             label.setOpaque(true);
-            //label.setPreferredSize(new Dimension(100,100));
             panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             panel.setLayout(new GridBagLayout());
