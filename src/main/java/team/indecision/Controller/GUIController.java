@@ -732,6 +732,10 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String fileName = promptInput("Enter the name of the image(stored in /2021sp-420-Team-Indecision/ folder):");
+                while (fileName.equals(null) || fileName.equals("")) {
+                	fileName = promptInput("You must enter a name for the image:");
+                }
             	BufferedImage img = getScreenShot(
                         f.getContentPane() );
                       JOptionPane.showMessageDialog(
@@ -748,7 +752,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                           ImageIO.write(
                             img,
                             "png",
-                            new File("screenshot.png"));
+                            new File(fileName + ".png"));
                         } catch(Exception e1) {
                           e1.printStackTrace();
                         }
