@@ -679,7 +679,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             public void actionPerformed(ActionEvent e) {
              	JFileChooser fileChooser = new JFileChooser();
             	fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-            	int result = fileChooser.showOpenDialog(view.frame);
+            	int result = fileChooser.showSaveDialog(view.frame);
             	if (result == JFileChooser.APPROVE_OPTION) {
             	    File selectedFile = fileChooser.getSelectedFile();
             	    String response = executeCommand(new SaveJSONCommand(model, selectedFile));
