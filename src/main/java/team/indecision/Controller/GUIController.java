@@ -884,11 +884,8 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
 					}
 				}	
 	        }
-	        
 	        return parameters;
         }
-
-        
     }
 
     /**
@@ -899,7 +896,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      */
     public String promptClassDropDown(String message) {
         if (model.getClasses().isEmpty()) {
-            JOptionPane.showMessageDialog(view.frame, "There are no classes added.");
+            //JOptionPane.showMessageDialog(view.frame, "There are no classes added.");
             return null;
         } else {
             List<String> optionsList = new ArrayList<String>();
@@ -927,7 +924,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      */
     public Field promptFieldDropDown(String className, String message) {
         if (model.getClasses().get(className).getFields().isEmpty()) {
-            JOptionPane.showMessageDialog(view.frame, "There are no fields added.");
+            //JOptionPane.showMessageDialog(view.frame, "There are no fields added.");
             return null;
         } else {
             SortedSet<Field> fields = model.getClasses().get(className).getFields();
@@ -964,7 +961,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      */
     public Relationship promptRelationshipDropDown(String className, String message) {
         if (model.getClasses().get(className).getRelationships().isEmpty()) {
-            JOptionPane.showMessageDialog(view.frame, "There are no relationships added.");
+            //JOptionPane.showMessageDialog(view.frame, "There are no relationships added.");
             return null;
         } else {
             SortedSet<Relationship> relationships = model.getClasses().get(className).getRelationships();
@@ -989,7 +986,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      */
     public Method prompMethodDropDown(String className, String message) {
         if (model.getClasses().get(className).getMethods().isEmpty()) {
-            JOptionPane.showMessageDialog(view.frame, "There are no methods added.");
+            //JOptionPane.showMessageDialog(view.frame, "There are no methods added.");
             return null;
         } else {
             SortedSet<Method> methods = model.getClasses().get(className).getMethods();
