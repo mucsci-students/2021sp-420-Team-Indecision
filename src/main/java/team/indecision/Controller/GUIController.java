@@ -198,7 +198,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String className = promptInput("Select the class you want to rename.");
+                String className = promptClassDropDown("Select the class you want to rename.");
                 if (className != null) {
                     String newClassName = promptInput("Enter the new name of the class.");
                     if (newClassName != null) {
