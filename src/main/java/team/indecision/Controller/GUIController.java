@@ -856,7 +856,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
         }
     }
     
-    /**
+/**
      * Gets multiple input from the user.
      * 
      * @param message is the question the user will be prompted with to input data.
@@ -864,31 +864,31 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
      */
     public SortedSet<Parameter> promptMultipleInputParameters(String message) {
         SortedSet<Parameter> parameters = new TreeSet<Parameter>();
-        
+
         String input = JOptionPane.showInputDialog(view.frame, message);
         if(input.equals(null)){
             return null;
         }
         else {
-	        input.replaceAll("\\s", "");
-	        String[] token = input.split(",");
-	        
-	        if (token.length != 1) {
-	        	for(int i = 0; i < token.length; i++) {
-					String[] token2 = token[i].split(" ");
-					if (token2.length == 2) {
-						parameters.add(new Parameter(token2[0], token2[1]));
-					}
-					else {
-						return null;
-					}
-				}	
-	        }
-	        
-	        return parameters;
+            input.replaceAll("\s", "");
+            String[] token = input.split(",");
+
+            if (!input.isEmpty()) {
+                for(int i = 0; i < token.length; i++) {
+                    String[] token2 = token[i].split(" ");
+                    if (token2.length == 2) {
+                        parameters.add(new Parameter(token2[0], token2[1]));
+                    }
+                    else {
+                        return null;
+                    }
+                }
+            }
+
+            return parameters;
         }
 
-        
+
     }
 
     /**
