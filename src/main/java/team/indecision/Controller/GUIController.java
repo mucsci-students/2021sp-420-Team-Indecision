@@ -374,7 +374,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
                             if (parameters != null) {
                                 String response = executeCommand(
                                         new AddMethodCommand(model,className, methodReturnType, methodName, parameters));
-                                    System.out.println(response);
+                                    //System.out.println(response);
                                 //JOptionPane.showMessageDialog(view.frame, response);
                                 refreshJFrame();
                             }
