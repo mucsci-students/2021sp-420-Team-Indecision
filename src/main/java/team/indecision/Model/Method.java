@@ -144,6 +144,26 @@ public class Method implements Comparable<Method>, Serializable{
 		
 		return result.trim();
 	}
+
+		/** Represents this class as a String.
+	 * @return A String containing this class.
+	 */
+	public String toStringGUI() {
+		Iterator<Parameter> it = parameters.iterator();
+		 String result = returnType + " " + name + "(";
+		 while (it.hasNext()) {
+			 Parameter p = it.next();
+			 if (it.hasNext()){
+				result +=  p.toString() + ", ";
+			 }
+			 else {
+			 result += "" + p.toString();
+			 }
+		 }
+		 result += ")";
+		
+		return result.trim();
+	}
 	
 	/** Represents this class as a String.
 	 * @return A String containing this class.
