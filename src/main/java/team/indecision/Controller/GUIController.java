@@ -1095,8 +1095,6 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             Border emptyborder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 
             JPanel panel = new JPanel();
-            //panel.setSize(new Dimension(100, 100));
-            //panel.setBounds(200, 200, 200, 200);
             JLabel label = new JLabel();
 
             panel.setOpaque(true);
@@ -1104,9 +1102,7 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             label.setText(entry.getValue().toStringGUI());
             label.setBorder(emptyborder);
             label.setBackground(Color.LIGHT_GRAY);
-            //panel.setBackground(Color.GREEN);
             label.setOpaque(true);
-            //label.setPreferredSize(new Dimension(100,100));
             panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             panel.setLayout(new GridBagLayout());
@@ -1121,8 +1117,10 @@ public class GUIController extends JPanel implements  MouseListener, MouseMotion
             panel.addMouseMotionListener(this);
             customJPanels.put(entry.getValue().getName(), panel);
 
+            Dimension d = new Dimension((view.frame.getWidth()),(view.frame.getHeight()));
+            view.frame.setPreferredSize(d);
+
             view.frame.pack();
-            //System.out.println(label.getBounds().toString());
 
         }
         placeJPanels();
