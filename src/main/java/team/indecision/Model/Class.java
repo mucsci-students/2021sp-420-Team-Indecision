@@ -250,7 +250,7 @@ public class Class implements Serializable{
 		 String result = "";
 		 while (it.hasNext()) {
 			 Method m = it.next();
-			 result += "<br/>&nbsp;&nbsp;&nbsp;&nbsp;" + m.toString();
+			 result += "<br/>&nbsp;&nbsp;&nbsp;&nbsp;" + m.toStringGUI();
 		 }
 		 return result;
 
